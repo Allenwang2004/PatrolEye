@@ -1,0 +1,187 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Patrol Cam</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Barlow:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #E4E7E9;         /* concrete floor */
+  --panel: #F7F8F9;
+  --ink: #0F1A22;
+  --muted: #5B6770;
+  --line: #C5CCD1;
+  --signal: #FF6B1A;     /* safety orange: where the camera looks, actions in progress */
+  --ok: #1E8E5A;
+  --alert: #D12F2F;
+  --unsure: #C98A0B;
+  --ui: "Barlow", system-ui, sans-serif;
+  --num: "Barlow Condensed", "Barlow", sans-serif;
+}
+* { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { background: var(--bg); }
+body { margin: 0; background: var(--bg); color: var(--ink); font: 400 15px/1.55 var(--ui); -webkit-font-smoothing: antialiased; }
+a { color: inherit; }
+button { font: inherit; color: inherit; cursor: pointer; }
+:focus-visible { outline: 3px solid var(--signal); outline-offset: 2px; }
+.empty { color: var(--muted); }
+
+.bar { display: flex; align-items: center; gap: 16px; padding: 12px 20px; background: var(--ink); color: #fff; }
+.bar h1 { margin: 0; font: 700 24px/1 var(--num); letter-spacing: .03em; }
+.bar h1 small { font: 500 14px/1 var(--ui); color: #9fb0bb; margin-left: 10px; letter-spacing: 0; }
+.status { margin: 0 0 0 auto; font-size: 14px; display: flex; align-items: center; gap: 8px; color: #cfd8de; }
+.status::before { content: ""; width: 9px; height: 9px; border-radius: 2px; background: #6b7a84; }
+.status[data-ok="1"]::before { background: #3ad38a; }
+.switch { font-size: 14px; color: #cfd8de; text-decoration: none; border: 1px solid #3a4852; border-radius: 4px; padding: 3px 10px; }
+
+.grid { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(320px, 1fr); gap: 16px; padding: 16px 20px 28px; max-width: 1500px; margin: 0 auto; }
+@media (max-width: 900px) { .grid { grid-template-columns: 1fr; padding: 12px 16px 24px; } }
+.panel { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; }
+h2 { margin: 0 0 10px; font: 600 20px/1.2 var(--num); letter-spacing: .02em; display: flex; justify-content: space-between; align-items: baseline; }
+h2 span { font: 400 13px/1 var(--ui); color: var(--muted); }
+
+.live { position: relative; aspect-ratio: 16 / 9; background: #1c262d; border-radius: 4px; overflow: hidden; }
+.live img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.live-tag { position: absolute; left: 10px; top: 10px; background: var(--signal); color: var(--ink); font-weight: 700; font-size: 14px; padding: 2px 10px; border-radius: 3px; }
+
+.map-scroll { overflow-x: auto; margin-top: 14px; }
+.map { position: relative; width: max(100%, 640px); overflow: hidden; border-radius: 4px; background: #1c262d; }
+.map img { display: block; width: 100%; }
+.beam { position: absolute; pointer-events: none; transition: left .7s ease, top .7s ease;
+  box-shadow: 0 0 0 9999px rgba(15,26,34,.5);
+  background:
+    linear-gradient(var(--signal), var(--signal)) top left / 18px 3px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) top left / 3px 18px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) top right / 18px 3px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) top right / 3px 18px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) bottom left / 18px 3px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) bottom left / 3px 18px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) bottom right / 18px 3px no-repeat,
+    linear-gradient(var(--signal), var(--signal)) bottom right / 3px 18px no-repeat; }
+.pin { position: absolute; transform: translate(-50%, -50%); background: none; border: 0; padding: 4px; display: flex; align-items: center; gap: 4px; }
+.pin-dot { width: 12px; height: 12px; background: var(--signal); border: 2px solid #fff; transform: rotate(45deg); }
+.pin.up .pin-label { order: -1; }
+.pin.up { flex-direction: row; transform: translate(calc(-100% + 13px), -50%); }
+.pin-label { background: var(--ink); color: #fff; font-size: 12px; padding: 0 6px; border-radius: 2px; white-space: nowrap; }
+.map-note { margin: 8px 0 0; font-size: 13px; color: var(--muted); }
+
+/* 巡檢點 */
+.checks { list-style: none; margin: 0; padding: 0; counter-reset: cp; }
+.check { counter-increment: cp; display: grid; grid-template-columns: 1fr auto; gap: 4px 12px; padding: 10px 0; border-top: 1px solid var(--line); }
+.check-main { min-width: 0; }
+.check-name { font-weight: 700; display: flex; gap: 8px; align-items: center; }
+.check-name::before { content: "P-" counter(cp, decimal-leading-zero); font: 600 15px/1 var(--num); color: var(--muted); }
+.check-name::after { content: ""; width: 9px; height: 9px; border-radius: 2px; background: var(--line); }
+.check[data-state="ok"] .check-name::after { background: var(--ok); }
+.check[data-state="unsure"] .check-name::after { background: var(--unsure); }
+.check[data-state="alert"] .check-name::after { background: var(--alert); }
+.check-ans { display: block; font-size: 14px; color: var(--muted); margin-top: 2px; }
+.check-side { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; }
+.check-time { font: 500 14px/1 var(--num); color: var(--muted); }
+.check-go { border: 1px solid var(--ink); background: var(--panel); border-radius: 4px; padding: 3px 10px; font-size: 13px; font-weight: 500; }
+.check-go:hover { background: var(--ink); color: #fff; }
+.check-missing { font-size: 13px; color: var(--muted); padding-top: 10px; border-top: 1px solid var(--line); }
+
+/* 提問 */
+.ask { margin-top: 16px; }
+.row { display: flex; gap: 8px; }
+.mic { flex: none; width: 44px; height: 44px; border-radius: 4px; border: 0; background: var(--ink); color: #fff; display: grid; place-items: center; }
+.mic[data-ready="0"] { opacity: .5; }
+.mic.recording { background: var(--alert); animation: blink 1s steps(2) infinite; }
+.q-input { flex: 1; min-width: 0; height: 44px; border: 1px solid var(--line); border-radius: 4px; padding: 0 12px; font: inherit; background: #fff; color: var(--ink); }
+.send { flex: none; height: 44px; padding: 0 18px; border: 0; border-radius: 4px; background: var(--signal); color: var(--ink); font-weight: 700; }
+.quick { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.chip { border: 1px solid var(--line); background: #fff; border-radius: 4px; padding: 2px 10px; font-size: 13px; }
+.mic-hint { margin: 8px 0 0; font-size: 14px; }
+body.is-asking .send, body.is-asking .chip, body.is-asking .check-go { opacity: .45; pointer-events: none; }
+
+.thread { margin-top: 14px; border-top: 3px solid var(--signal); padding-top: 10px; }
+.q { margin: 0; font-weight: 700; display: flex; gap: 8px; align-items: baseline; }
+.via { font-size: 12px; font-weight: 400; border: 1px solid var(--line); border-radius: 3px; padding: 0 6px; color: var(--muted); }
+.steps { margin: 8px 0 0; padding-left: 22px; font-size: 13px; color: var(--muted); }
+.steps li.now { color: var(--ink); font-weight: 500; }
+.steps li.now::marker { color: var(--signal); }
+.step-t { font: 500 13px/1 var(--num); margin-right: 6px; }
+.answer-text { margin: 12px 0 0; font: 500 19px/1.55 var(--ui); }
+.answer-text[data-found="0"] { color: var(--alert); }
+.answer-meta { margin: 2px 0 0; font-size: 13px; color: var(--muted); }
+.shots { display: flex; gap: 6px; margin-top: 10px; }
+.shots img { height: 84px; border-radius: 3px; display: block; }
+
+/* 巡檢紀錄 */
+.log { grid-column: 1 / -1; }
+table { width: 100%; border-collapse: collapse; font-size: 14px; }
+td { padding: 7px 8px; border-top: 1px solid var(--line); vertical-align: top; }
+td:first-child, td:last-child { font: 500 15px/1.4 var(--num); white-space: nowrap; color: var(--muted); }
+td:nth-child(2) { font-weight: 700; white-space: nowrap; }
+.foot { display: flex; gap: 16px; justify-content: flex-end; font-size: 13px; color: var(--muted); margin-top: 10px; }
+.foot button { background: none; border: 0; padding: 0; color: var(--muted); text-decoration: underline; }
+
+@keyframes blink { 50% { opacity: .6; } }
+@media (prefers-reduced-motion: reduce) { .beam { transition: none; } .mic.recording { animation: none; } }
+</style>
+</head>
+<body data-mode="factory">
+<header class="bar">
+  <h1>Patrol Cam<small>Plant room 1</small></h1>
+  <p id="status" class="status">Connecting</p>
+  <a class="switch" href="/home">Home edition</a>
+</header>
+
+<main class="grid">
+  <section class="panel">
+    <h2>Live view <span>Click a checkpoint on the panorama to aim the camera</span></h2>
+    <div class="live">
+      <img id="live" alt="Live view of the plant room">
+      <span id="liveTag" class="live-tag" hidden></span>
+    </div>
+    <div id="mapScroll" class="map-scroll">
+      <div id="map" class="map">
+        <img id="panoImg" alt="Panorama of the plant room">
+        <div id="beam" class="beam" hidden></div>
+        <div id="pins"></div>
+      </div>
+    </div>
+    <p class="map-note">The orange frame on the panorama is the camera's current field of view.</p>
+  </section>
+
+  <section class="panel">
+    <h2>Checkpoints <span>Latest reading</span></h2>
+    <ul id="checks" class="checks"></ul>
+
+    <form id="askForm" class="ask">
+      <div class="row">
+        <button type="button" id="mic" class="mic" aria-label="Ask by voice">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></svg>
+        </button>
+        <input id="q" class="q-input" placeholder="Ask, e.g. What does the gauge read?" autocomplete="off" aria-label="Your question">
+        <button class="send">Read</button>
+      </div>
+      <div id="quick" class="quick"></div>
+      <p id="micHint" class="mic-hint" hidden></p>
+    </form>
+
+    <div id="thread" class="thread" hidden aria-live="polite">
+      <p class="q"><span id="question"></span><span id="viaVoice" class="via" hidden>voice</span></p>
+      <ol id="steps" class="steps"></ol>
+      <div id="answer"></div>
+      <div id="shots" class="shots"></div>
+    </div>
+  </section>
+
+  <section class="panel log">
+    <h2>Inspection log <span>Last 8 entries</span></h2>
+    <table><tbody id="recent"></tbody></table>
+    <div class="foot">
+      <button id="speak" type="button" aria-pressed="false">Read answers aloud: off</button>
+      <a href="/dev">Developer tools</a>
+    </div>
+  </section>
+</main>
+<script src="/web/app.js"></script>
+</body>
+</html>

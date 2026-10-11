@@ -1,0 +1,127 @@
+{
+  "width": 1280,
+  "height": 720,
+  "frames": [
+    {
+      "file": "000.jpg",
+      "pan": -50,
+      "tilt": -30
+    },
+    {
+      "file": "001.jpg",
+      "pan": -20,
+      "tilt": -30
+    },
+    {
+      "file": "002.jpg",
+      "pan": 10,
+      "tilt": -30
+    },
+    {
+      "file": "003.jpg",
+      "pan": 40,
+      "tilt": -30
+    },
+    {
+      "file": "004.jpg",
+      "pan": 70,
+      "tilt": -30
+    },
+    {
+      "file": "005.jpg",
+      "pan": 100,
+      "tilt": -30
+    },
+    {
+      "file": "006.jpg",
+      "pan": 100,
+      "tilt": -10
+    },
+    {
+      "file": "007.jpg",
+      "pan": 70,
+      "tilt": -10
+    },
+    {
+      "file": "008.jpg",
+      "pan": 40,
+      "tilt": -10
+    },
+    {
+      "file": "009.jpg",
+      "pan": 10,
+      "tilt": -10
+    },
+    {
+      "file": "010.jpg",
+      "pan": -20,
+      "tilt": -10
+    },
+    {
+      "file": "011.jpg",
+      "pan": -50,
+      "tilt": -10
+    },
+    {
+      "file": "012.jpg",
+      "pan": -50,
+      "tilt": 10
+    },
+    {
+      "file": "013.jpg",
+      "pan": -20,
+      "tilt": 10
+    },
+    {
+      "file": "014.jpg",
+      "pan": 10,
+      "tilt": 10
+    },
+    {
+      "file": "015.jpg",
+      "pan": 40,
+      "tilt": 10
+    },
+    {
+      "file": "016.jpg",
+      "pan": 70,
+      "tilt": 10
+    },
+    {
+      "file": "017.jpg",
+      "pan": 100,
+      "tilt": 10
+    },
+    {
+      "file": "018.jpg",
+      "pan": 100,
+      "tilt": 30
+    },
+    {
+      "file": "019.jpg",
+      "pan": 70,
+      "tilt": 30
+    },
+    {
+      "file": "020.jpg",
+      "pan": 40,
+      "tilt": 30
+    },
+    {
+      "file": "021.jpg",
+      "pan": 10,
+      "tilt": 30
+    },
+    {
+      "file": "022.jpg",
+      "pan": -20,
+      "tilt": 30
+    },
+    {
+      "file": "023.jpg",
+      "pan": -50,
+      "tilt": 30
+    }
+  ],
+  "note": "angles from commanded grid (scan.json lost in crash)"
+}

@@ -1,0 +1,550 @@
+<title>房間 3D 掃描</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* 版面:左邊大塊 3D 檢視窗,右邊一欄量測數據與原始影像;窄螢幕改成上下堆疊 */
+:root {
+  --bg: #eef0ee;
+  --panel: #ffffff;
+  --fg: #1d2421;
+  --muted: #5d6863;
+  --line: #d3d8d5;
+  --accent: #d0561f;
+  --stage: #121614;
+  --ok: #2f7d4f;
+  --warn: #a8661a;
+  --bad: #b8433a;
+  --sans: "IBM Plex Sans", "Noto Sans TC", "PingFang TC", "Microsoft JhengHei", system-ui, sans-serif;
+  --mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #161a18; --panel: #1e2321; --fg: #e3e8e5; --muted: #98a39e; --line: #313834;
+    --accent: #ee7a43; --stage: #0b0d0c; --ok: #5fbf86; --warn: #e0a24e; --bad: #e0675c; color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #161a18; --panel: #1e2321; --fg: #e3e8e5; --muted: #98a39e; --line: #313834;
+  --accent: #ee7a43; --stage: #0b0d0c; --ok: #5fbf86; --warn: #e0a24e; --bad: #e0675c; color-scheme: dark;
+}
+html, body { height: 100%; }
+body {
+  background: var(--bg); color: var(--fg); font-family: var(--sans); font-size: 14px; line-height: 1.55;
+  padding-inline: 16px; padding-block: 16px; box-sizing: border-box;
+}
+* { box-sizing: border-box; }
+.wrap { max-width: 1400px; margin-inline: auto; display: grid; gap: 16px; grid-template-columns: minmax(0, 1fr) 360px; }
+header { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 16px; }
+h1 { font-size: 22px; font-weight: 600; margin: 0; letter-spacing: -0.01em; text-wrap: balance; }
+.sub { color: var(--muted); font-size: 13px; }
+.stage {
+  position: relative; background: var(--stage); border-radius: 6px; overflow: hidden;
+  height: min(78vh, 760px); min-height: 360px;
+}
+canvas { display: block; width: 100%; height: 100%; touch-action: none; }
+.hud {
+  position: absolute; left: 12px; right: 12px; top: 12px; display: flex; flex-wrap: wrap; gap: 6px; pointer-events: none;
+}
+.hud > * { pointer-events: auto; }
+.btn {
+  font: 500 12px var(--sans); color: #e8ece9; background: rgba(255,255,255,0.08);
+  border: 1px solid rgba(255,255,255,0.16); border-radius: 4px; padding: 5px 10px; cursor: pointer;
+}
+.btn:hover { background: rgba(255,255,255,0.16); }
+.btn[aria-pressed="true"] { background: #d0561f; border-color: #d0561f; color: #fff; }
+.btn:focus-visible, input:focus-visible { outline: 2px solid #ee7a43; outline-offset: 2px; }
+.sizebox { display: flex; align-items: center; gap: 6px; color: #c5ccc8; font-size: 12px; margin-left: auto;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.16); border-radius: 4px; padding: 3px 8px; }
+.sizebox input { width: 90px; accent-color: #ee7a43; }
+.status { position: absolute; left: 12px; bottom: 10px; color: #9aa59f; font: 12px var(--mono); pointer-events: none; }
+.hint { position: absolute; right: 12px; bottom: 10px; color: #7d8883; font-size: 12px; pointer-events: none; text-align: right; }
+aside { display: flex; flex-direction: column; gap: 16px; min-width: 0; }
+section { background: var(--panel); border: 1px solid var(--line); border-radius: 6px; padding: 14px 16px; min-width: 0; }
+h2 { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; color: var(--muted); margin: 0 0 10px; }
+dl { display: grid; grid-template-columns: auto 1fr; gap: 6px 14px; margin: 0; font-size: 13px; }
+dt { color: var(--muted); }
+dd { margin: 0; font-family: var(--mono); font-variant-numeric: tabular-nums; text-align: right; }
+.figure img { display: block; width: 100%; border-radius: 3px; }
+.figure p { margin: 6px 0 0; font-size: 12px; color: var(--muted); }
+ul.notes { margin: 0; padding-left: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 13px; }
+ul.notes li { display: grid; grid-template-columns: 8px 1fr; gap: 10px; align-items: baseline; }
+ul.notes li::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--warn); transform: translateY(-1px); }
+ul.notes li.good::before { background: var(--ok); }
+.wide { grid-column: 1 / -1; }
+.objlist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.obj {
+  width: 100%; display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; gap: 4px 10px; align-items: baseline;
+  text-align: left; font: inherit; color: inherit; background: none; border: 1px solid transparent;
+  border-radius: 4px; padding: 6px 8px; cursor: pointer;
+}
+.obj:hover { background: var(--bg); }
+.obj[aria-pressed="true"] { border-color: var(--accent); background: var(--bg); }
+.obj .dot { width: 10px; height: 10px; border-radius: 2px; transform: translateY(1px); }
+.obj .name { font-weight: 500; }
+.obj .meta { font: 12px var(--mono); color: var(--muted); font-variant-numeric: tabular-nums; text-align: right; }
+.obj .note { grid-column: 2 / -1; font-size: 12px; color: var(--muted); }
+.legend { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.legend span { display: inline-flex; align-items: center; gap: 6px; }
+.legend i { width: 10px; height: 10px; border-radius: 2px; display: inline-block; }
+.r-right { background: var(--ok); } .r-wrong { background: var(--bad); } .r-unsure { background: var(--warn); }
+.score { font: 500 13px var(--mono); margin: 0 0 10px; }
+.wide .figure img { max-height: 420px; object-fit: contain; background: var(--stage); }
+@media (max-width: 900px) {
+  .wrap { grid-template-columns: minmax(0, 1fr); }
+  .stage { height: 62vh; }
+  .sizebox { margin-left: 0; }
+}
+@media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+
+.runs { display: inline-flex; border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin-left: auto; }
+.runs button {
+  font: 500 13px var(--sans); color: var(--fg); background: var(--panel); border: 0; padding: 6px 14px; cursor: pointer;
+}
+.runs button + button { border-left: 1px solid var(--line); }
+.runs button[aria-pressed="true"] { background: var(--accent); color: #fff; }
+.runs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+.r-unreviewed { background: var(--muted); }
+.conf { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); margin: 0 0 10px; }
+.conf input { flex: 1; min-width: 0; accent-color: var(--accent); }
+.conf output { font: 12px var(--mono); color: var(--fg); min-width: 3ch; text-align: right; }
+</style>
+
+<div class="wrap">
+  <header>
+    <h1>房間 3D 掃描</h1>
+    <span class="sub" id="sub"></span>
+    <div class="runs" role="group" aria-label="選擇掃描">
+      <button type="button" id="run-merge" aria-pressed="true">Run2 + Run3 合併</button>
+      <button type="button" id="run-run3" aria-pressed="false">Run3 · 床邊位置</button>
+      <button type="button" id="run-run2" aria-pressed="false">Run2 · 書桌位置</button>
+      <button type="button" id="run-run1" aria-pressed="false">Run1 · 24 張</button>
+    </div>
+  </header>
+
+  <div class="stage" id="stage">
+    <canvas id="c" aria-label="可旋轉的 3D 點雲"></canvas>
+    <div class="hud">
+      <button class="btn" id="v-cam" aria-pressed="true">相機位置</button>
+      <button class="btn" id="v-top" aria-pressed="false">俯視</button>
+      <button class="btn" id="v-side" aria-pressed="false">斜上方</button>
+      <button class="btn" id="v-color" aria-pressed="false">依距離上色</button>
+      <button class="btn" id="v-src" aria-pressed="false" hidden>依來源上色</button>
+      <button class="btn" id="v-boxes" aria-pressed="true">物體框</button>
+      <label class="sizebox" for="psize">點大小 <input id="psize" type="range" min="1" max="8" step="0.5" value="2.5"></label>
+    </div>
+    <div class="status" id="status">載入點雲中…</div>
+    <div class="hint">拖曳旋轉 · 滾輪縮放 · 右鍵平移</div>
+  </div>
+
+  <aside>
+    <section>
+      <h2>辨識到的物體</h2>
+      <p class="score" id="score">載入中…</p>
+      <label class="conf" for="minconf">信心門檻 <input id="minconf" type="range" min="0.3" max="0.9" step="0.05" value="0.6"><output id="minconf-v">0.60</output></label>
+      <div class="legend">
+        <span><i class="r-right"></i>正確</span><span><i class="r-unsure"></i>不確定</span><span><i class="r-wrong"></i>誤判</span><span><i class="r-unreviewed"></i>未核對</span>
+      </div>
+      <ul class="objlist" id="objlist"></ul>
+    </section>
+    <section>
+      <h2>這次掃描</h2>
+      <dl id="scanstats"></dl>
+    </section>
+    <section>
+      <h2>校正結果</h2>
+      <dl id="calibstats"></dl>
+    </section>
+    <section>
+      <h2>觀察</h2>
+      <ul class="notes" id="notes"></ul>
+    </section>
+  </aside>
+
+  <section class="wide" id="sec-det">
+    <h2>2D 辨識結果(偵測最多的 6 張)</h2>
+    <div class="figure">
+      <img id="img-det" alt="6 張照片上的物體分割遮罩與標籤" loading="lazy">
+      <p>每個物體先在照片上分割出輪廓,再用同一張的深度圖把輪廓內的像素投到 3D,得到房間座標。正確與否是我逐張對照照片判斷的。</p>
+    </div>
+  </section>
+  <section class="wide" id="sec-pano">
+    <h2 id="pano-title">拼接全景(用校正後的朝向)</h2>
+    <div class="figure">
+      <img id="img-pano" alt="依校正後朝向拼成的等距柱狀全景圖" loading="lazy">
+      <p id="pano-cap"></p>
+    </div>
+  </section>
+  <section class="wide" id="sec-depth">
+    <h2>單張深度範例</h2>
+    <div class="figure">
+      <img id="img-depth" alt="原圖與其深度圖並排" loading="lazy">
+      <p>左:原圖。右:模型估計的深度,藍色近、紅色遠,色階 0–8 m。</p>
+    </div>
+  </section>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.147.0/examples/js/controls/OrbitControls.js"></script>
+<script>
+(function () {
+  const RUNS = {
+    merge: {
+      sub: "把 Run3(床邊)對齊到 Run2(書桌旁)的座標,合成一個點雲 · 2026-10-09",
+      sources: ["Run2 書桌旁", "Run3 床邊"],
+      cams: [[0, 0, 0], [-0.309, -0.59, 3.728]],
+      scan: [["合併點數(網頁顯示 60%)", "826,686"], ["Run2 / Run3", "392,017 / 434,669"],
+             ["兩個位置相距", "3.79 m"], ["Run3 相對水平轉", "+109.3°"], ["Run3 相對尺度", "1.025"]],
+      calib: [["錨點(兩邊都辨識到的物體)", "3 個"], ["錨點殘差", "0.50 ~ 1.00 m"], ["引導式特徵配對", "882 組"],
+              ["最終內點", "110 組"], ["內點殘差中位數", "16.9 cm"]],
+      notes: [
+        ["good", "Run2 看不到的床、行李箱那一端,和 Run3 看不到的書桌那一端,合起來變成整個房間"],
+        ["good", "物體辨識當錨點:電視、行李箱、電腦螢幕兩邊都認得出來,用它們的 3D 位置先粗對齊"],
+        ["good", "檢查:Run3 看到坐在書桌前的人和椅子,對齊後落在 Run2 相機旁 0.4–0.5 m,而 Run2 的雲台確實就放在那張書桌上"],
+        ["", "對齊精度大約 ±5°、±30 cm:牆面大致重合,但近看會有雙層牆"],
+        ["", "純幾何特徵(FPFH)和全域影像特徵比對都試過,單目深度太粗糙、兩個位置幾乎對看,都對不起來"],
+        ["", "同一個物體在兩次掃描各出現一次,還沒做跨掃描的物體合併"],
+      ],
+      images: { det: null, depth: null, pano: "merge/topview.jpg" },
+      panoTitle: "合併俯視圖(只畫牆面高度的點,紅 Run2、藍 Run3)",
+      pano: "兩個位置拍到的牆面大致重合在同一個長方形房間上,格線 1 m。",
+    },
+    run3: {
+      sub: "C270 + 雙軸伺服雲台 · 移到床邊、從另一端看回書桌 · 2026-10-09",
+      scan: [["拍攝張數", "48 / 48"], ["水平範圍", "−100° ~ 110°"], ["俯仰範圍", "−50° ~ 50°"], ["融合後點數", "566,304"],
+             ["體素大小", "1.5 cm"], ["深度推論", "CPU 2 核 · 約 3.3 s/張"]],
+      calib: [["焦距(1280 寬)", "1410 px"], ["俯仰零點", "+1.3°"], ["有效重疊配對", "29 / 38"],
+              ["對應點誤差", "3.8 px"], ["各張偏離馬達角度", "中位數 0.7°"]],
+      notes: [
+        ["good", "從房間另一端拍,Run2 看不到的床、行李箱、書桌與坐在書桌前的人都進來了"],
+        ["good", "物體辨識最好的一次:信心 0.6 以上 14 個裡 12 個正確,只有牆上紅色掛勾被認成紅綠燈"],
+        ["good", "各張偏離馬達角度中位數只有 0.7°,雲台這次定位很穩"],
+        ["", "同一張床被切成 4 個物體、同一個人 2 個:不同角度的深度不一致,合併門檻不夠寬"],
+        ["", "大片白牆特徵少,48 張裡只找到 38 組重疊配對"],
+      ],
+      pano: "水平約 260°、垂直約 130°。中間是房間另一端的書桌,右上是冷氣,下方是床。",
+    },
+    run2: {
+      sub: "C270 + 雙軸伺服雲台 · 書桌旁 · 雲台重新設定極限後 · 2026-10-08 晚",
+      scan: [["拍攝張數", "48 / 48"], ["水平範圍", "−100° ~ 110°"], ["俯仰範圍", "−50° ~ 50°"], ["融合後點數", "526,745"],
+             ["體素大小", "1.5 cm"], ["深度推論", "CPU 2 核 · 約 3.3 s/張"]],
+      calib: [["焦距(1280 寬)", "1410 px"], ["俯仰零點", "+0.2°"], ["有效重疊配對", "38 / 55"],
+              ["對應點誤差", "3.6 px"], ["各張偏離馬達角度", "中位數 3.2°"]],
+      notes: [
+        ["good", "俯仰零點從 −26° 變成 0°,鏡頭平視,桌面、地板、整個房間都拍進來了"],
+        ["good", "水平範圍從 150° 擴大到 210°,電腦螢幕、書櫃、床、電視、桌面都在同一個模型裡"],
+        ["good", "物體辨識明顯變好:信心 0.6 以上 18 個裡 7 個正確(Run1 是 14 個裡 2 個)"],
+        ["", "近距離往下拍桌面的幾張,尺度很難對齊;我把尺度修正限制在 0.8–1.25 倍,並丟掉斜看的表面,減少拉長的條紋"],
+        ["", "鍵盤、滑鼠、椅墊、外套常被認成別的東西(遙控器、床、人),COCO 類別本身不夠細"],
+        ["", "同一台電腦螢幕被認成兩個物體:兩個視角的深度不一致,合併時距離超過門檻"],
+      ],
+      pano: "水平約 260°、垂直約 130°。往下拍的幾排看到桌面與地板,接縫錯位來自鏡頭不在轉軸中心造成的近物視差。",
+    },
+    run1: {
+      sub: "C270 + 雙軸伺服雲台 · 第一次掃描 · 2026-10-08",
+      scan: [["拍攝張數", "24 / 30"], ["水平範圍", "−50° ~ 100°"], ["俯仰範圍", "−30° ~ 30°"], ["融合後點數", "400,898"],
+             ["體素大小", "1.5 cm"], ["深度推論", "CPU 2 核 · 2.6 s/張"]],
+      calib: [["焦距(1280 寬)", "1410 px"], ["俯仰零點", "−26.4°"], ["有效重疊配對", "21 / 27"],
+              ["對應點誤差", "3.6 px"], ["各張偏離馬達角度", "中位數 2.5°"]],
+      notes: [
+        ["good", "房間格局、遠近關係正確:深約 6–7 m、寬約 2.7 m 的長形空間"],
+        ["", "最後一排因斷電遺失;鏡頭朝上 26°,大多拍到牆和天花板"],
+        ["", "物體辨識 14 個裡只有 2 個確定正確,外套、布條、貼紙容易被誤認"],
+        ["", "多數物體只被一張照片看到,3D 框只涵蓋看得到的那一面"],
+      ],
+      pano: "水平約 200°、垂直約 90°。拼接縫上的錯位來自鏡頭不在轉軸中心造成的近物視差。",
+    },
+  };
+
+  const stage = document.getElementById("stage");
+  const canvas = document.getElementById("c");
+  const status = document.getElementById("status");
+  const renderer = new THREE.WebGLRenderer({ canvas, antialias: false });
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x121614);
+  const camera = new THREE.PerspectiveCamera(60, 1, 0.01, 100);
+  const controls = new THREE.OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+
+  const marker = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), new THREE.MeshBasicMaterial({ color: 0xee7a43 }));
+  scene.add(marker);
+  const marker2 = new THREE.Mesh(new THREE.SphereGeometry(0.06, 16, 12), new THREE.MeshBasicMaterial({ color: 0x5c9ef2 }));
+  marker2.visible = false;
+  scene.add(marker2);
+  const grid = new THREE.GridHelper(12, 24, 0x3a4440, 0x252c29);
+  scene.add(grid);
+  const material = new THREE.PointsMaterial({ size: 2.5, sizeAttenuation: false, vertexColors: true });
+  const boxGroup = new THREE.Group();
+  scene.add(boxGroup);
+
+  let points = null, rgb = null, distColor = null;
+  let objects = [], boxes = [], selected = -1, current = null;
+  const cache = {};
+
+  function resize() {
+    const w = stage.clientWidth, h = stage.clientHeight;
+    renderer.setSize(w, h, false);
+    camera.aspect = w / h;
+    camera.updateProjectionMatrix();
+  }
+  new ResizeObserver(resize).observe(stage);
+  resize();
+
+  const views = {
+    "v-cam":  { pos: [0, 0, 0.05], target: [0, 0, -3] },
+    "v-top":  { pos: [0, 9, -2.2], target: [0, 0, -2.2] },
+    "v-side": { pos: [5.5, 4.5, 3.5], target: [0, -0.5, -2.5] },
+  };
+  function setView(id) {
+    const v = views[id];
+    camera.position.set(...v.pos);
+    controls.target.set(...v.target);
+    controls.update();
+    for (const k of Object.keys(views)) document.getElementById(k).setAttribute("aria-pressed", String(k === id));
+  }
+  for (const k of Object.keys(views)) document.getElementById(k).addEventListener("click", () => setView(k));
+
+  document.getElementById("psize").addEventListener("input", (e) => { material.size = parseFloat(e.target.value); });
+  const colorBtn = document.getElementById("v-color");
+  const srcBtn = document.getElementById("v-src");
+  let colorMode = "rgb";
+  let srcColor = null;
+  function applyColor() {
+    colorBtn.setAttribute("aria-pressed", String(colorMode === "dist"));
+    srcBtn.setAttribute("aria-pressed", String(colorMode === "src"));
+    if (!points) return;
+    points.geometry.setAttribute("color", colorMode === "dist" ? distColor : colorMode === "src" && srcColor ? srcColor : rgb);
+  }
+  colorBtn.addEventListener("click", () => { colorMode = colorMode === "dist" ? "rgb" : "dist"; applyColor(); });
+  srcBtn.addEventListener("click", () => { colorMode = colorMode === "src" ? "rgb" : "src"; applyColor(); });
+  const boxBtn = document.getElementById("v-boxes");
+  boxBtn.addEventListener("click", () => {
+    const on = boxBtn.getAttribute("aria-pressed") !== "true";
+    boxBtn.setAttribute("aria-pressed", String(on));
+    boxGroup.visible = on;
+  });
+
+  function turbo(t) {
+    t = Math.min(1, Math.max(0, t));
+    const r = 0.1357 + t * (4.5974 - t * (42.3277 - t * (130.5887 - t * (150.5666 - t * 58.1375))));
+    const g = 0.0914 + t * (2.1856 + t * (4.8052 - t * (14.0195 - t * (4.2109 + t * 2.7747))));
+    const b = 0.1067 + t * (12.5925 - t * (60.1097 - t * (109.0745 - t * (88.5066 - t * 26.8183))));
+    return [r, g, b];
+  }
+
+  // 點雲以 base64 文字存放(格式:uint32 點數、float32 xyz×N、uint8 rgb×N)
+  function loadPoints(run) {
+    if (cache[run]) return Promise.resolve(cache[run]);
+    return fetch(run + "/points.txt").then((r) => {
+      if (!r.ok) throw new Error("HTTP " + r.status);
+      return r.text();
+    }).then((b64) => {
+      const bin = atob(b64.trim());
+      const bytes = new Uint8Array(bin.length);
+      for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+      const buf = bytes.buffer;
+      const n = new Uint32Array(buf, 0, 1)[0];
+      const src = new Float32Array(buf, 4, n * 3);
+      const col = new Uint8Array(buf, 4 + n * 12, n * 3);
+      // 合併的點雲在顏色之後多存了每個點的來源(0 / 1)
+      const hasSrc = buf.byteLength >= 4 + n * 16;
+      const srcFlag = hasSrc ? new Uint8Array(buf, 4 + n * 15, n) : null;
+      const sc = hasSrc ? new Float32Array(n * 3) : null;
+      // 掃描座標(x 右、y 下、z 前)轉成 three.js(y 上、相機朝 -z):y、z 取負號
+      const pos = new Float32Array(n * 3);
+      const dc = new Float32Array(n * 3);
+      const ys = new Float32Array(n);
+      for (let i = 0; i < n; i++) {
+        const x = src[3 * i], y = -src[3 * i + 1], z = -src[3 * i + 2];
+        pos[3 * i] = x; pos[3 * i + 1] = y; pos[3 * i + 2] = z;
+        ys[i] = y;
+        const c = turbo(Math.sqrt(x * x + y * y + z * z) / 7);
+        dc[3 * i] = c[0]; dc[3 * i + 1] = c[1]; dc[3 * i + 2] = c[2];
+        if (hasSrc) {
+          const k = srcFlag[i] ? [0.36, 0.62, 0.95] : [0.93, 0.40, 0.33];
+          sc[3 * i] = k[0]; sc[3 * i + 1] = k[1]; sc[3 * i + 2] = k[2];
+        }
+      }
+      ys.sort();
+      const floorY = ys[Math.floor(n * 0.02)];      // 第 2 百分位當作地板高度,避開零星離群點
+      const g = new THREE.BufferGeometry();
+      g.setAttribute("position", new THREE.BufferAttribute(pos, 3));
+      const data = { n, g, rgb: new THREE.BufferAttribute(col, 3, true), dist: new THREE.BufferAttribute(dc, 3), floorY,
+                     src: hasSrc ? new THREE.BufferAttribute(sc, 3) : null };
+      cache[run] = data;
+      return data;
+    });
+  }
+
+  // ---------------- 物體框
+  const REVIEW = {
+    right: ["正確", 0x5fbf86, "r-right"], unsure: ["不確定", 0xe0a24e, "r-unsure"],
+    wrong: ["誤判", 0xe0675c, "r-wrong"], unreviewed: ["未核對", 0x98a39e, "r-unreviewed"],
+  };
+
+  function labelSprite(text, color) {
+    const c = document.createElement("canvas");
+    const ctx = c.getContext("2d");
+    const font = "600 44px 'IBM Plex Sans', 'Noto Sans TC', sans-serif";
+    ctx.font = font;
+    c.width = Math.ceil(ctx.measureText(text).width) + 28; c.height = 64;
+    ctx.font = font;
+    ctx.fillStyle = "rgba(18,22,20,0.85)"; ctx.fillRect(0, 0, c.width, c.height);
+    ctx.fillStyle = "#" + color.toString(16).padStart(6, "0"); ctx.fillRect(0, 0, 8, c.height);
+    ctx.fillStyle = "#f2f5f3"; ctx.textBaseline = "middle"; ctx.fillText(text, 18, 34);
+    const sp = new THREE.Sprite(new THREE.SpriteMaterial({ map: new THREE.CanvasTexture(c), depthTest: false, transparent: true }));
+    sp.renderOrder = 10;
+    const h = 0.11;
+    sp.scale.set(h * c.width / c.height, h, 1);
+    return sp;
+  }
+
+  function clearBoxes() {
+    for (const b of boxes) {
+      boxGroup.remove(b.helper); boxGroup.remove(b.label);
+      b.helper.geometry.dispose(); b.helper.material.dispose();
+      b.label.material.map.dispose(); b.label.material.dispose();
+    }
+    boxes = []; selected = -1;
+  }
+
+  function select(i) {
+    selected = i;
+    boxes.forEach((b, k) => {
+      const on = i < 0 || k === i;
+      b.helper.material.opacity = on ? 1 : 0.25;
+      b.label.material.opacity = on ? 1 : 0.3;
+      b.button.setAttribute("aria-pressed", String(k === i));
+    });
+    if (i < 0) return;
+    const b = boxes[i].box3;
+    const c = b.getCenter(new THREE.Vector3());
+    const size = Math.max(0.6, b.getSize(new THREE.Vector3()).length());
+    const dir = c.clone().normalize();
+    camera.position.copy(c.clone().sub(dir.multiplyScalar(size * 2.2)).add(new THREE.Vector3(0, size * 0.6, 0)));
+    controls.target.copy(c);
+    controls.update();
+    for (const k of Object.keys(views)) document.getElementById(k).setAttribute("aria-pressed", "false");
+  }
+
+  const minConf = document.getElementById("minconf");
+  const minConfOut = document.getElementById("minconf-v");
+
+  function renderObjects() {
+    clearBoxes();
+    const th = parseFloat(minConf.value);
+    minConfOut.value = th.toFixed(2);
+    const list = document.getElementById("objlist");
+    list.replaceChildren();
+    const shown = objects.filter((o) => o.conf >= th);
+    const counts = { right: 0, unsure: 0, wrong: 0, unreviewed: 0 };
+    shown.forEach((o, i) => {
+      counts[o.review]++;
+      const [rname, color, cls] = REVIEW[o.review];
+      // 掃描座標 → three.js:y、z 取負號,所以最小最大值要對調
+      const min = new THREE.Vector3(o.min[0], -o.max[1], -o.max[2]);
+      const max = new THREE.Vector3(o.max[0], -o.min[1], -o.min[2]);
+      const box3 = new THREE.Box3(min, max);
+      const helper = new THREE.Box3Helper(box3, new THREE.Color(color));
+      helper.material.transparent = true;
+      boxGroup.add(helper);
+      const label = labelSprite(o.label_zh + " " + Math.round(o.conf * 100) + "%", color);
+      label.position.set((min.x + max.x) / 2, max.y + 0.08, (min.z + max.z) / 2);
+      boxGroup.add(label);
+
+      const li = document.createElement("li");
+      const btn = document.createElement("button");
+      btn.className = "obj";
+      btn.type = "button";
+      btn.setAttribute("aria-pressed", "false");
+      btn.innerHTML = '<i class="dot ' + cls + '"></i><span class="name"></span><span class="meta"></span><span class="note"></span>';
+      btn.querySelector(".dot").title = rname;
+      btn.querySelector(".name").textContent = o.label_zh + "(" + o.label + ")";
+      btn.querySelector(".meta").textContent = Math.round(o.conf * 100) + "% · " + o.distance.toFixed(1) + " m";
+      btn.querySelector(".note").textContent = rname + ":" + o.note + " · " + o.views + " 張看到";
+      btn.addEventListener("click", () => select(selected === i ? -1 : i));
+      li.appendChild(btn);
+      list.appendChild(li);
+      boxes.push({ helper, label, box3, button: btn });
+    });
+    const parts = ["正確 " + counts.right, "不確定 " + counts.unsure, "誤判 " + counts.wrong];
+    if (counts.unreviewed) parts.push("未核對 " + counts.unreviewed);
+    document.getElementById("score").textContent =
+      "YOLOv8s-seg · 顯示 " + shown.length + " / " + objects.length + " 個 · " + parts.join(" / ");
+  }
+  minConf.addEventListener("input", renderObjects);
+
+  function fillDl(id, rows) {
+    const dl = document.getElementById(id);
+    dl.replaceChildren();
+    for (const [k, v] of rows) {
+      const dt = document.createElement("dt"); dt.textContent = k;
+      const dd = document.createElement("dd"); dd.textContent = v;
+      dl.append(dt, dd);
+    }
+  }
+
+  function showRun(run) {
+    current = run;
+    const R = RUNS[run];
+    for (const k of Object.keys(RUNS)) document.getElementById("run-" + k).setAttribute("aria-pressed", String(k === run));
+    document.getElementById("sub").textContent = R.sub;
+    fillDl("scanstats", R.scan);
+    fillDl("calibstats", R.calib);
+    const notes = document.getElementById("notes");
+    notes.replaceChildren();
+    for (const [cls, text] of R.notes) {
+      const li = document.createElement("li");
+      if (cls) li.className = cls;
+      li.textContent = text;
+      notes.appendChild(li);
+    }
+    const imgs = R.images || { det: run + "/detections.jpg", pano: run + "/panorama.jpg", depth: run + "/depth.jpg" };
+    for (const [key, sec] of [["det", "sec-det"], ["pano", "sec-pano"], ["depth", "sec-depth"]]) {
+      document.getElementById(sec).hidden = !imgs[key];
+      if (imgs[key]) document.getElementById("img-" + key).src = imgs[key];
+    }
+    document.getElementById("pano-title").textContent = R.panoTitle || "拼接全景(用校正後的朝向)";
+    document.getElementById("pano-cap").textContent = R.pano;
+    srcBtn.hidden = !R.sources;
+    if (R.sources) srcBtn.title = "紅:" + R.sources[0] + " · 藍:" + R.sources[1];
+    marker2.visible = !!R.cams;
+    if (R.cams) marker2.position.set(R.cams[1][0], -R.cams[1][1], -R.cams[1][2]);
+
+    status.textContent = "載入點雲中…";
+    if (points) { scene.remove(points); points = null; }
+    clearBoxes();
+    document.getElementById("objlist").replaceChildren();
+    document.getElementById("score").textContent = "載入中…";
+
+    loadPoints(run).then((d) => {
+      if (current !== run) return;
+      rgb = d.rgb; distColor = d.dist; srcColor = d.src;
+      if (colorMode === "src" && !srcColor) colorMode = "rgb";
+      points = new THREE.Points(d.g, material);
+      scene.add(points);
+      applyColor();
+      grid.position.y = d.floorY;
+      status.textContent = d.n.toLocaleString("en-US") + " 點 · 單位:公尺 · 格線 0.5 m";
+    }).catch((e) => {
+      if (current === run) status.textContent = "點雲載入失敗(" + e.message + "),重新整理頁面再試一次";
+    });
+    fetch(run + "/objects.json").then((r) => r.json()).then((objs) => {
+      if (current !== run) return;
+      objects = objs.map((o) => Object.assign({ review: "unreviewed", note: "" }, o));
+      renderObjects();
+    }).catch(() => {
+      if (current === run) document.getElementById("score").textContent = "物體清單載入失敗,重新整理頁面再試一次";
+    });
+    setView("v-cam");
+  }
+  for (const k of Object.keys(RUNS)) document.getElementById("run-" + k).addEventListener("click", () => { if (current !== k) showRun(k); });
+  showRun("merge");
+
+  (function loop() {
+    controls.update();
+    renderer.render(scene, camera);
+    requestAnimationFrame(loop);
+  })();
+})();
+</script>

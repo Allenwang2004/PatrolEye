@@ -1,0 +1,3578 @@
+[
+ {
+  "file": "000_0.jpg",
+  "pan": -88.9,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "鍵盤",
+    "x": 0.12,
+    "y": 0.36,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "滑鼠",
+    "x": 0.22,
+    "y": 0.17,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "平板電腦",
+    "x": 0.31,
+    "y": 0.44,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "水瓶",
+    "x": 0.05,
+    "y": 0.57,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色小裝置",
+    "x": 0.3,
+    "y": 0.07,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "支架",
+    "x": 0.77,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色裝置",
+    "x": 0.97,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.95,
+    "y": 0.82,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.5,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 22.44057846069336
+ },
+ {
+  "file": "001_0.jpg",
+  "pan": -75.5,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "平板",
+    "x": 0.1,
+    "y": 0.48,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "充電座",
+    "x": 0.54,
+    "y": 0.37,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "灰色裝置",
+    "x": 0.71,
+    "y": 0.33,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色墊子",
+    "x": 0.72,
+    "y": 0.48,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色物件",
+    "x": 0.33,
+    "y": 0.74,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色小物件",
+    "x": 0.04,
+    "y": 0.11,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.82,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.48,
+    "y": 0.77,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.7,
+    "y": 0.24,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 23.411033391952515
+ },
+ {
+  "file": "002_0.jpg",
+  "pan": -60.0,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.65,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "深色櫃體",
+    "x": 0.34,
+    "y": 0.29,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色置物架",
+    "x": 0.24,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色立柱",
+    "x": 0.4,
+    "y": 0.34,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "洞洞板",
+    "x": 0.7,
+    "y": 0.2,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "箱子",
+    "x": 0.02,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 18.858527183532715
+ },
+ {
+  "file": "003_0.jpg",
+  "pan": -45.5,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.4,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 14.093729734420776
+ },
+ {
+  "file": "004_0.jpg",
+  "pan": -30.4,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.22,
+    "y": 0.45,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.62,
+    "y": 0.75,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "包包",
+    "x": 0.8,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "白色物件",
+    "x": 0.51,
+    "y": 0.17,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 14.085093259811401
+ },
+ {
+  "file": "005_0.jpg",
+  "pan": -15.7,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.04,
+    "y": 0.35,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.13,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "拖鞋",
+    "x": 0.21,
+    "y": 0.19,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "拖鞋",
+    "x": 0.32,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "深色物品",
+    "x": 0.45,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.67,
+    "y": 0.66,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 17.146894931793213
+ },
+ {
+  "file": "006_0.jpg",
+  "pan": -0.6,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "不明深色物體",
+    "x": 0.05,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 12.242828607559204
+ },
+ {
+  "file": "007_0.jpg",
+  "pan": 14.2,
+  "tilt": -29.5,
+  "objects": [],
+  "sec": 10.241349458694458
+ },
+ {
+  "file": "008_0.jpg",
+  "pan": 29.3,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "白色物體",
+    "x": 0.87,
+    "y": 0.18,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "深色物體",
+    "x": 0.66,
+    "y": 0.06,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 12.693673610687256
+ },
+ {
+  "file": "009_0.jpg",
+  "pan": 44.4,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "桌子",
+    "x": 0.4,
+    "y": 0.65,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.85,
+    "y": 0.3,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.55,
+    "y": 0.15,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "白色物體",
+    "x": 0.78,
+    "y": 0.05,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 13.85932731628418
+ },
+ {
+  "file": "010_0.jpg",
+  "pan": 59.3,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "櫃門",
+    "x": 0.73,
+    "y": 0.34,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.49,
+    "y": 0.28,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.23,
+    "y": 0.26,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.91,
+    "y": 0.41,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "流理台檯面",
+    "x": 0.5,
+    "y": 0.7,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "白色突出物",
+    "x": 0.43,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 17.843159198760986
+ },
+ {
+  "file": "011_0.jpg",
+  "pan": 73.7,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "櫃門",
+    "x": 0.45,
+    "y": 0.37,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.21,
+    "y": 0.32,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.94,
+    "y": 0.7,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.77,
+    "y": 0.11,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.76,
+    "y": 0.32,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "抽屜",
+    "x": 0.74,
+    "y": 0.57,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "白色物體",
+    "x": 0.13,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "檯面",
+    "x": 0.5,
+    "y": 0.8,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 18.71332359313965
+ },
+ {
+  "file": "012_0.jpg",
+  "pan": 88.8,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "櫃門",
+    "x": 0.14,
+    "y": 0.38,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.43,
+    "y": 0.1,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.43,
+    "y": 0.31,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "抽屜",
+    "x": 0.44,
+    "y": 0.6,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.81,
+    "y": 0.22,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.8,
+    "y": 0.66,
+    "state": "關",
+    "partial": true
+   }
+  ],
+  "sec": 15.065856218338013
+ },
+ {
+  "file": "013_0.jpg",
+  "pan": 103.9,
+  "tilt": -29.5,
+  "objects": [
+   {
+    "name": "抽屜（左上）",
+    "x": 0.14,
+    "y": 0.11,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "抽屜（左中）",
+    "x": 0.15,
+    "y": 0.33,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門（右上）",
+    "x": 0.62,
+    "y": 0.21,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "抽屜（左下）",
+    "x": 0.16,
+    "y": 0.67,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門（右下）",
+    "x": 0.61,
+    "y": 0.64,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 16.999955415725708
+ },
+ {
+  "file": "014_0.jpg",
+  "pan": 103.9,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "瓦斯爐",
+    "x": 0.6,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電熱水壺(黑色)",
+    "x": 0.28,
+    "y": 0.11,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "陶瓷罐",
+    "x": 0.14,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "碗(白色)",
+    "x": 0.03,
+    "y": 0.21,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "粉色塑膠袋",
+    "x": 0.18,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "水龍頭",
+    "x": 0.95,
+    "y": 0.17,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "水槽",
+    "x": 0.9,
+    "y": 0.2,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門(中間上方)",
+    "x": 0.61,
+    "y": 0.63,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門(中間下方)",
+    "x": 0.61,
+    "y": 0.95,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門(左上抽屜)",
+    "x": 0.15,
+    "y": 0.53,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門(左中抽屜)",
+    "x": 0.15,
+    "y": 0.77,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門(左下抽屜)",
+    "x": 0.15,
+    "y": 0.96,
+    "state": "關",
+    "partial": true
+   }
+  ],
+  "sec": 22.729694604873657
+ },
+ {
+  "file": "015_0.jpg",
+  "pan": 91.1,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "櫃門（左側高櫃）",
+    "x": 0.05,
+    "y": 0.6,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門（中左上抽屜）",
+    "x": 0.27,
+    "y": 0.3,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門（中左下抽屜）",
+    "x": 0.27,
+    "y": 0.75,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門（右側大門）",
+    "x": 0.8,
+    "y": 0.6,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "瓦斯爐",
+    "x": 0.8,
+    "y": 0.15,
+    "state": "未見火焰",
+    "partial": true
+   },
+   {
+    "name": "鍋子",
+    "x": 0.13,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙杯",
+    "x": 0.26,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "碗",
+    "x": 0.33,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "粉色塑膠袋",
+    "x": 0.46,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "陶罐",
+    "x": 0.4,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色容器",
+    "x": 0.55,
+    "y": 0.12,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 19.67550015449524
+ },
+ {
+  "file": "016_0.jpg",
+  "pan": 76.0,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "垃圾桶",
+    "x": 0.07,
+    "y": 0.45,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "抹布",
+    "x": 0.26,
+    "y": 0.25,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "清潔噴瓶",
+    "x": 0.34,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "瓶子",
+    "x": 0.42,
+    "y": 0.09,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "鍋子",
+    "x": 0.51,
+    "y": 0.15,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙杯",
+    "x": 0.58,
+    "y": 0.16,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "花瓶",
+    "x": 0.72,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "碗",
+    "x": 0.64,
+    "y": 0.21,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "塑膠袋",
+    "x": 0.75,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "瓦斯爐",
+    "x": 0.94,
+    "y": 0.24,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.36,
+    "y": 0.69,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.66,
+    "y": 0.69,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 21.498296976089478
+ },
+ {
+  "file": "017_0.jpg",
+  "pan": 60.6,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "垃圾桶",
+    "x": 0.38,
+    "y": 0.42,
+    "state": "蓋子關",
+    "partial": false
+   },
+   {
+    "name": "抽屜櫃",
+    "x": 0.17,
+    "y": 0.46,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "抽屜",
+    "x": 0.9,
+    "y": 0.7,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.68,
+    "y": 0.66,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.44,
+    "y": 0.65,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "水槽",
+    "x": 0.68,
+    "y": 0.21,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "橘色抹布",
+    "x": 0.54,
+    "y": 0.24,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色抹布",
+    "x": 0.63,
+    "y": 0.27,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "清潔噴瓶",
+    "x": 0.67,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "瓶子",
+    "x": 0.77,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "鍋子",
+    "x": 0.86,
+    "y": 0.17,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "杯子",
+    "x": 0.95,
+    "y": 0.19,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 22.274128913879395
+ },
+ {
+  "file": "018_0.jpg",
+  "pan": 45.3,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "櫃門",
+    "x": 0.51,
+    "y": 0.4,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "垃圾桶",
+    "x": 0.71,
+    "y": 0.42,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "橘色抹布",
+    "x": 0.89,
+    "y": 0.25,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色抹布",
+    "x": 0.95,
+    "y": 0.28,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "紅色小物",
+    "x": 0.7,
+    "y": 0.15,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.39,
+    "y": 0.7,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.27,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 21.316295862197876
+ },
+ {
+  "file": "019_0.jpg",
+  "pan": 30.2,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "桌子",
+    "x": 0.5,
+    "y": 0.71,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.58,
+    "y": 0.32,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "玻璃隔間",
+    "x": 0.41,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.83,
+    "y": 0.44,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.25,
+    "y": 0.16,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.59,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.31,
+    "y": 0.31,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鞋子",
+    "x": 0.23,
+    "y": 0.32,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 20.568801879882812
+ },
+ {
+  "file": "020_0.jpg",
+  "pan": 15.2,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "時鐘",
+    "x": 0.18,
+    "y": 0.08,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "門",
+    "x": 0.33,
+    "y": 0.15,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.57,
+    "y": 0.15,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "皮夾",
+    "x": 0.1,
+    "y": 0.35,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.24,
+    "y": 0.37,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "暖氣",
+    "x": 0.16,
+    "y": 0.24,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鞋子",
+    "x": 0.52,
+    "y": 0.3,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "沙發",
+    "x": 0.62,
+    "y": 0.3,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "玻璃門",
+    "x": 0.74,
+    "y": 0.35,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "電視",
+    "x": 0.87,
+    "y": 0.08,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.5,
+    "y": 0.72,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 22.063398838043213
+ },
+ {
+  "file": "021_0.jpg",
+  "pan": 0.2,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "包包",
+    "x": 0.09,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "錢包",
+    "x": 0.42,
+    "y": 0.33,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "時鐘",
+    "x": 0.49,
+    "y": 0.08,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "門",
+    "x": 0.64,
+    "y": 0.15,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "鞋子",
+    "x": 0.83,
+    "y": 0.32,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.88,
+    "y": 0.14,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.53,
+    "y": 0.36,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.5,
+    "y": 0.7,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.93,
+    "y": 0.33,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "暖氣",
+    "x": 0.46,
+    "y": 0.23,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 17.68461775779724
+ },
+ {
+  "file": "022_0.jpg",
+  "pan": -14.3,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "包包",
+    "x": 0.42,
+    "y": 0.34,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "椅子",
+    "x": 0.33,
+    "y": 0.45,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "皮夾",
+    "x": 0.73,
+    "y": 0.34,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "時鐘",
+    "x": 0.8,
+    "y": 0.07,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "暖氣",
+    "x": 0.78,
+    "y": 0.24,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "門",
+    "x": 0.07,
+    "y": 0.34,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.51,
+    "y": 0.16,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.6,
+    "y": 0.74,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "拖鞋",
+    "x": 0.25,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 21.34646201133728
+ },
+ {
+  "file": "023_0.jpg",
+  "pan": -29.4,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.19,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "包包",
+    "x": 0.75,
+    "y": 0.32,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "椅子",
+    "x": 0.68,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.78,
+    "y": 0.75,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.42,
+    "y": 0.31,
+    "state": "關",
+    "partial": true
+   }
+  ],
+  "sec": 18.673675537109375
+ },
+ {
+  "file": "024_0.jpg",
+  "pan": -44.5,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.45,
+    "y": 0.55,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.8,
+    "y": 0.8,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "包包",
+    "x": 0.95,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 15.509694337844849
+ },
+ {
+  "file": "025_0.jpg",
+  "pan": -59.0,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.68,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.22,
+    "y": 0.45,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "直立黑色長柄物",
+    "x": 0.37,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色底座小物件",
+    "x": 0.17,
+    "y": 0.8,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 13.638365745544434
+ },
+ {
+  "file": "026_0.jpg",
+  "pan": -74.0,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.85,
+    "y": 0.7,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.65,
+    "y": 0.46,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "吸塵器",
+    "x": 0.67,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色底座",
+    "x": 0.5,
+    "y": 0.85,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "滑鼠墊",
+    "x": 0.07,
+    "y": 0.9,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 19.259247303009033
+ },
+ {
+  "file": "027_0.jpg",
+  "pan": -88.9,
+  "tilt": -16.5,
+  "objects": [
+   {
+    "name": "窗戶",
+    "x": 0.06,
+    "y": 0.25,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "螢幕",
+    "x": 0.02,
+    "y": 0.18,
+    "state": "暗",
+    "partial": true
+   },
+   {
+    "name": "白色圓形物件",
+    "x": 0.06,
+    "y": 0.42,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色小裝置",
+    "x": 0.31,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "滑鼠",
+    "x": 0.24,
+    "y": 0.6,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鍵盤",
+    "x": 0.13,
+    "y": 0.78,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "平板保護套",
+    "x": 0.31,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色支架",
+    "x": 0.77,
+    "y": 0.8,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "黑色支架",
+    "x": 0.84,
+    "y": 0.85,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "右側黑色物件",
+    "x": 0.97,
+    "y": 0.79,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 23.330153703689575
+ },
+ {
+  "file": "028_0.jpg",
+  "pan": -88.9,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "軟木板",
+    "x": 0.45,
+    "y": 0.1,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "海報",
+    "x": 0.59,
+    "y": 0.07,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.47,
+    "y": 0.15,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "透明盒",
+    "x": 0.59,
+    "y": 0.15,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙張",
+    "x": 0.53,
+    "y": 0.18,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "層板",
+    "x": 0.43,
+    "y": 0.25,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.86,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "把手",
+    "x": 0.93,
+    "y": 0.44,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.06,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "螢幕",
+    "x": 0.03,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 23.624454259872437
+ },
+ {
+  "file": "029_0.jpg",
+  "pan": -75.5,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "吸塵器",
+    "x": 0.72,
+    "y": 0.68,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "紙張",
+    "x": 0.76,
+    "y": 0.04,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "小物件(藍白色)",
+    "x": 0.74,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.32,
+    "y": 0.13,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.2,
+    "y": 0.13,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "白色小物",
+    "x": 0.25,
+    "y": 0.16,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.2,
+    "y": 0.65,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 18.892555713653564
+ },
+ {
+  "file": "030_0.jpg",
+  "pan": -60.0,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "櫃門",
+    "x": 0.35,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "雨傘",
+    "x": 0.4,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "摺疊衣物",
+    "x": 0.43,
+    "y": 0.03,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "藍色小物件",
+    "x": 0.38,
+    "y": 0.2,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "白色小物件",
+    "x": 0.48,
+    "y": 0.21,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "椅子",
+    "x": 0.84,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 17.331815481185913
+ },
+ {
+  "file": "031_0.jpg",
+  "pan": -45.5,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.57,
+    "y": 0.69,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.74,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.09,
+    "y": 0.61,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黑色長條物",
+    "x": 0.12,
+    "y": 0.45,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電燈開關",
+    "x": 0.99,
+    "y": 0.39,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 16.592487335205078
+ },
+ {
+  "file": "032_0.jpg",
+  "pan": -30.4,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "椅子",
+    "x": 0.22,
+    "y": 0.67,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.44,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.85,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "開關",
+    "x": 0.65,
+    "y": 0.39,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "包包",
+    "x": 0.77,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "有孔牆板",
+    "x": 0.18,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 20.74760627746582
+ },
+ {
+  "file": "033_0.jpg",
+  "pan": -15.7,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "門",
+    "x": 0.55,
+    "y": 0.35,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.13,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.93,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "時鐘",
+    "x": 0.83,
+    "y": 0.64,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.81,
+    "y": 0.43,
+    "state": "螢幕暗",
+    "partial": false
+   },
+   {
+    "name": "包包",
+    "x": 0.46,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.03,
+    "y": 0.78,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.36,
+    "y": 0.89,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.8,
+    "y": 0.94,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "暖氣",
+    "x": 0.81,
+    "y": 0.83,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "皮夾",
+    "x": 0.77,
+    "y": 0.92,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電燈開關",
+    "x": 0.36,
+    "y": 0.39,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 23.232227325439453
+ },
+ {
+  "file": "034_0.jpg",
+  "pan": -0.6,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "門",
+    "x": 0.23,
+    "y": 0.5,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.65,
+    "y": 0.49,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "時鐘",
+    "x": 0.51,
+    "y": 0.63,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.5,
+    "y": 0.42,
+    "state": "暗",
+    "partial": false
+   },
+   {
+    "name": "包包",
+    "x": 0.12,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "桌子",
+    "x": 0.55,
+    "y": 0.94,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "皮夾",
+    "x": 0.44,
+    "y": 0.9,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.89,
+    "y": 0.69,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.95,
+    "y": 0.91,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "安全帽",
+    "x": 0.85,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鞋子",
+    "x": 0.82,
+    "y": 0.88,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 26.18331241607666
+ },
+ {
+  "file": "035_0.jpg",
+  "pan": 14.5,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "時鐘",
+    "x": 0.2,
+    "y": 0.63,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "門",
+    "x": 0.35,
+    "y": 0.45,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.58,
+    "y": 0.7,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.19,
+    "y": 0.44,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.88,
+    "y": 0.62,
+    "state": "螢幕暗",
+    "partial": false
+   },
+   {
+    "name": "包包",
+    "x": 0.11,
+    "y": 0.93,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.27,
+    "y": 0.96,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "椅子",
+    "x": 0.63,
+    "y": 0.89,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "拖鞋",
+    "x": 0.54,
+    "y": 0.86,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "安全帽",
+    "x": 0.54,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "掛畫",
+    "x": 0.54,
+    "y": 0.36,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "白色矮櫃",
+    "x": 0.19,
+    "y": 0.81,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 24.021917819976807
+ },
+ {
+  "file": "036_0.jpg",
+  "pan": 29.3,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "門",
+    "x": 0.07,
+    "y": 0.49,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "冰箱",
+    "x": 0.86,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "電視",
+    "x": 0.57,
+    "y": 0.64,
+    "state": "螢幕暗",
+    "partial": false
+   },
+   {
+    "name": "電視櫃",
+    "x": 0.6,
+    "y": 0.86,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.61,
+    "y": 0.3,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.27,
+    "y": 0.7,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "沙發",
+    "x": 0.33,
+    "y": 0.89,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "安全帽",
+    "x": 0.24,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鞋子",
+    "x": 0.2,
+    "y": 0.87,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "置物架",
+    "x": 0.34,
+    "y": 0.34,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.25,
+    "y": 0.35,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "開關",
+    "x": 0.2,
+    "y": 0.41,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 26.528895378112793
+ },
+ {
+  "file": "037_0.jpg",
+  "pan": 44.4,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "冰箱",
+    "x": 0.54,
+    "y": 0.45,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.12,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.31,
+    "y": 0.35,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "電視",
+    "x": 0.25,
+    "y": 0.65,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "水龍頭",
+    "x": 0.93,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "垃圾桶",
+    "x": 0.73,
+    "y": 0.92,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "排油煙機",
+    "x": 0.85,
+    "y": 0.05,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "橘色抹布",
+    "x": 0.9,
+    "y": 0.82,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色抹布",
+    "x": 0.96,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "紅色小物",
+    "x": 0.72,
+    "y": 0.74,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 23.007522344589233
+ },
+ {
+  "file": "038_0.jpg",
+  "pan": 59.3,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "冰箱",
+    "x": 0.17,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "水龍頭",
+    "x": 0.83,
+    "y": 0.53,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "水槽",
+    "x": 0.65,
+    "y": 0.77,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.72,
+    "y": 0.92,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "垃圾桶",
+    "x": 0.4,
+    "y": 0.93,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "清潔噴霧",
+    "x": 0.7,
+    "y": 0.6,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "皂液瓶",
+    "x": 0.8,
+    "y": 0.65,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色毛巾",
+    "x": 0.88,
+    "y": 0.38,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "橘色毛巾",
+    "x": 0.58,
+    "y": 0.81,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色抹布",
+    "x": 0.68,
+    "y": 0.85,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "不鏽鋼鍋",
+    "x": 0.91,
+    "y": 0.73,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "企鵝擺件",
+    "x": 0.97,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 21.241624116897583
+ },
+ {
+  "file": "039_0.jpg",
+  "pan": 73.9,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "水龍頭",
+    "x": 0.53,
+    "y": 0.52,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "水槽",
+    "x": 0.39,
+    "y": 0.77,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "抽油煙機",
+    "x": 0.5,
+    "y": 0.05,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "企鵝玩偶",
+    "x": 0.68,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "毛巾",
+    "x": 0.59,
+    "y": 0.44,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.85,
+    "y": 0.28,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "清潔噴瓶",
+    "x": 0.42,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "陶罐",
+    "x": 0.8,
+    "y": 0.65,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "保溫杯",
+    "x": 0.94,
+    "y": 0.67,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鍋子",
+    "x": 0.59,
+    "y": 0.73,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "塑膠袋",
+    "x": 0.84,
+    "y": 0.81,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "垃圾桶",
+    "x": 0.11,
+    "y": 0.94,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 26.612207889556885
+ },
+ {
+  "file": "040_0.jpg",
+  "pan": 88.8,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "水龍頭",
+    "x": 0.23,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "燈",
+    "x": 0.83,
+    "y": 0.15,
+    "state": "亮",
+    "partial": true
+   },
+   {
+    "name": "爐台",
+    "x": 0.82,
+    "y": 0.81,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "清潔噴瓶",
+    "x": 0.09,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色毛巾",
+    "x": 0.27,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "企鵝布偶",
+    "x": 0.37,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.53,
+    "y": 0.27,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "湯鍋",
+    "x": 0.27,
+    "y": 0.75,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙杯",
+    "x": 0.35,
+    "y": 0.77,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "陶罐",
+    "x": 0.48,
+    "y": 0.66,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "保溫杯",
+    "x": 0.61,
+    "y": 0.66,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "粉紅色塑膠袋",
+    "x": 0.51,
+    "y": 0.79,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 22.278775930404663
+ },
+ {
+  "file": "041_0.jpg",
+  "pan": 103.9,
+  "tilt": -1.1,
+  "objects": [
+   {
+    "name": "燈",
+    "x": 0.55,
+    "y": 0.16,
+    "state": "亮",
+    "partial": true
+   },
+   {
+    "name": "企鵝玩偶",
+    "x": 0.02,
+    "y": 0.4,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.19,
+    "y": 0.26,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電源插座",
+    "x": 0.12,
+    "y": 0.42,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "陶罐",
+    "x": 0.15,
+    "y": 0.65,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "保溫杯",
+    "x": 0.28,
+    "y": 0.65,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "塑膠袋",
+    "x": 0.17,
+    "y": 0.79,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "碗",
+    "x": 0.05,
+    "y": 0.79,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "瓦斯爐",
+    "x": 0.49,
+    "y": 0.79,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "鍋",
+    "x": 0.36,
+    "y": 0.78,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅紙條",
+    "x": 0.75,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅紙條",
+    "x": 0.83,
+    "y": 0.22,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 17.2423198223114
+ },
+ {
+  "file": "042_0.jpg",
+  "pan": 103.9,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "抽油煙機",
+    "x": 0.58,
+    "y": 0.56,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "燈",
+    "x": 0.54,
+    "y": 0.59,
+    "state": "亮（藍色燈光）",
+    "partial": false
+   },
+   {
+    "name": "櫃門（左）",
+    "x": 0.16,
+    "y": 0.24,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門（中）",
+    "x": 0.45,
+    "y": 0.23,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門（右）",
+    "x": 0.72,
+    "y": 0.24,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.19,
+    "y": 0.81,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅色紙條（左）",
+    "x": 0.75,
+    "y": 0.77,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅色紙條（右）",
+    "x": 0.83,
+    "y": 0.78,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "插座",
+    "x": 0.11,
+    "y": 0.96,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 21.782609939575195
+ },
+ {
+  "file": "043_0.jpg",
+  "pan": 91.1,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "微波爐",
+    "x": 0.12,
+    "y": 0.32,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.38,
+    "y": 0.25,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.68,
+    "y": 0.22,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.91,
+    "y": 0.22,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "抽油煙機",
+    "x": 0.77,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.77,
+    "y": 0.6,
+    "state": "亮",
+    "partial": false
+   },
+   {
+    "name": "藍色毛巾",
+    "x": 0.17,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "企鵝玩偶",
+    "x": 0.27,
+    "y": 0.89,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.44,
+    "y": 0.82,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "插座",
+    "x": 0.37,
+    "y": 0.97,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 18.45425534248352
+ },
+ {
+  "file": "044_0.jpg",
+  "pan": 76.0,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "微波爐",
+    "x": 0.31,
+    "y": 0.37,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "抽油煙機",
+    "x": 0.5,
+    "y": 0.63,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門（左上）",
+    "x": 0.34,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門（右上）",
+    "x": 0.67,
+    "y": 0.25,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "毛巾",
+    "x": 0.5,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "企鵝玩偶",
+    "x": 0.59,
+    "y": 0.86,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "隔熱手套",
+    "x": 0.76,
+    "y": 0.85,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "插座",
+    "x": 0.68,
+    "y": 0.97,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 16.121995449066162
+ },
+ {
+  "file": "045_0.jpg",
+  "pan": 60.8,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "冰箱",
+    "x": 0.15,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "微波爐",
+    "x": 0.64,
+    "y": 0.37,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "櫃門",
+    "x": 0.62,
+    "y": 0.1,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.92,
+    "y": 0.3,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.91,
+    "y": 0.32,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色毛巾",
+    "x": 0.83,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "企鵝玩偶",
+    "x": 0.94,
+    "y": 0.87,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 17.979626655578613
+ },
+ {
+  "file": "046_0.jpg",
+  "pan": 45.2,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "冰箱",
+    "x": 0.63,
+    "y": 0.64,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.87,
+    "y": 0.41,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.93,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.19,
+    "y": 0.19,
+    "state": "亮",
+    "partial": false
+   },
+   {
+    "name": "螢幕",
+    "x": 0.24,
+    "y": 0.37,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅色板",
+    "x": 0.24,
+    "y": 0.67,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "深色板",
+    "x": 0.35,
+    "y": 0.69,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 19.31171464920044
+ },
+ {
+  "file": "047_0.jpg",
+  "pan": 30.7,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "冰箱",
+    "x": 0.85,
+    "y": 0.6,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.25,
+    "y": 0.48,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "燈",
+    "x": 0.48,
+    "y": 0.12,
+    "state": "亮",
+    "partial": false
+   },
+   {
+    "name": "軌道燈",
+    "x": 0.2,
+    "y": 0.25,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "深色木板",
+    "x": 0.06,
+    "y": 0.82,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "小螢幕",
+    "x": 0.2,
+    "y": 0.89,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "書架",
+    "x": 0.31,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "畫框",
+    "x": 0.53,
+    "y": 0.4,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅色掛畫",
+    "x": 0.54,
+    "y": 0.69,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "玻璃隔間",
+    "x": 0.45,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 20.849485158920288
+ },
+ {
+  "file": "048_0.jpg",
+  "pan": 15.6,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "門",
+    "x": 0.33,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.55,
+    "y": 0.5,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.15,
+    "y": 0.85,
+    "state": "暗",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.75,
+    "y": 0.1,
+    "state": "亮",
+    "partial": false
+   },
+   {
+    "name": "吸頂裝置",
+    "x": 0.08,
+    "y": 0.05,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃子",
+    "x": 0.61,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "小面板",
+    "x": 0.52,
+    "y": 0.89,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "畫框",
+    "x": 0.82,
+    "y": 0.36,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紅色物件",
+    "x": 0.84,
+    "y": 0.68,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 26.040971279144287
+ },
+ {
+  "file": "049_0.jpg",
+  "pan": 0.4,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "燈",
+    "x": 0.43,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.21,
+    "y": 0.67,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.63,
+    "y": 0.84,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.86,
+    "y": 0.49,
+    "state": "關",
+    "partial": false
+   },
+   {
+    "name": "燈",
+    "x": 0.65,
+    "y": 0.16,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.62,
+    "y": 0.35,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.48,
+    "y": 0.86,
+    "state": "暗",
+    "partial": true
+   },
+   {
+    "name": "開關面板",
+    "x": 0.42,
+    "y": 0.91,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "插座",
+    "x": 0.77,
+    "y": 0.97,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "書架",
+    "x": 0.94,
+    "y": 0.85,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "小方框",
+    "x": 0.83,
+    "y": 0.9,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 26.501160860061646
+ },
+ {
+  "file": "050_0.jpg",
+  "pan": -14.7,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "燈",
+    "x": 0.67,
+    "y": 0.08,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.52,
+    "y": 0.69,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.1,
+    "y": 0.66,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "插座",
+    "x": 0.32,
+    "y": 0.93,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "開關面板",
+    "x": 0.73,
+    "y": 0.93,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "電視",
+    "x": 0.79,
+    "y": 0.86,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.91,
+    "y": 0.83,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 22.65475845336914
+ },
+ {
+  "file": "051_0.jpg",
+  "pan": -29.4,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "門",
+    "x": 0.43,
+    "y": 0.69,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "門",
+    "x": 0.83,
+    "y": 0.66,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "窗戶",
+    "x": 0.18,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "燈",
+    "x": 0.89,
+    "y": 0.04,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黃色標籤",
+    "x": 0.4,
+    "y": 0.49,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "插座",
+    "x": 0.63,
+    "y": 0.94,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 16.157443284988403
+ },
+ {
+  "file": "052_0.jpg",
+  "pan": -44.5,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "箱子",
+    "x": 0.12,
+    "y": 0.23,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "文件堆",
+    "x": 0.1,
+    "y": 0.56,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色小物件",
+    "x": 0.03,
+    "y": 0.72,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "深色物件",
+    "x": 0.06,
+    "y": 0.94,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "穿孔面板",
+    "x": 0.45,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黃色便條",
+    "x": 0.7,
+    "y": 0.49,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "門",
+    "x": 0.72,
+    "y": 0.74,
+    "state": "關",
+    "partial": true
+   },
+   {
+    "name": "白色物件",
+    "x": 0.51,
+    "y": 0.95,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "牆面開關",
+    "x": 0.96,
+    "y": 0.94,
+    "state": "",
+    "partial": false
+   }
+  ],
+  "sec": 22.802104234695435
+ },
+ {
+  "file": "053_0.jpg",
+  "pan": -59.0,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "包包",
+    "x": 0.4,
+    "y": 0.3,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "層架",
+    "x": 0.3,
+    "y": 0.53,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "書本",
+    "x": 0.39,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "藍色小物",
+    "x": 0.34,
+    "y": 0.75,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "白色小物",
+    "x": 0.44,
+    "y": 0.76,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "啞鈴",
+    "x": 0.35,
+    "y": 0.96,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "櫃門",
+    "x": 0.7,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "黃色便籤",
+    "x": 0.98,
+    "y": 0.42,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "白色物件",
+    "x": 0.82,
+    "y": 0.98,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 16.983588218688965
+ },
+ {
+  "file": "054_0.jpg",
+  "pan": -74.3,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "書櫃",
+    "x": 0.63,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "包包",
+    "x": 0.69,
+    "y": 0.31,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "文件",
+    "x": 0.7,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "軟木板",
+    "x": 0.17,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "卡片",
+    "x": 0.29,
+    "y": 0.61,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.28,
+    "y": 0.69,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.16,
+    "y": 0.67,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙盒",
+    "x": 0.22,
+    "y": 0.71,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "桌子",
+    "x": 0.16,
+    "y": 0.79,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "書本",
+    "x": 0.65,
+    "y": 0.96,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 20.066681385040283
+ },
+ {
+  "file": "055_0.jpg",
+  "pan": -88.9,
+  "tilt": 14.2,
+  "objects": [
+   {
+    "name": "層板",
+    "x": 0.44,
+    "y": 0.32,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "軟木板",
+    "x": 0.45,
+    "y": 0.56,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "層板",
+    "x": 0.43,
+    "y": 0.85,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相框",
+    "x": 0.47,
+    "y": 0.71,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "相片",
+    "x": 0.59,
+    "y": 0.63,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "收納盒",
+    "x": 0.58,
+    "y": 0.7,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "紙張",
+    "x": 0.52,
+    "y": 0.73,
+    "state": "",
+    "partial": false
+   },
+   {
+    "name": "箱子",
+    "x": 0.97,
+    "y": 0.26,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "書架",
+    "x": 0.85,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   },
+   {
+    "name": "百葉窗",
+    "x": 0.08,
+    "y": 0.5,
+    "state": "",
+    "partial": true
+   }
+  ],
+  "sec": 20.161640167236328
+ }
+]

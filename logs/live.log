@@ -1,0 +1,189 @@
+--- 2026-10-11 03:39:48 start ---
+serving https on port 8000: /home /factory /dev
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:49] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:49] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:39:49] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:51] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:51] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:53] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:53] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:55] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:55] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:39:56] "POST /ask HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:39:56] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:39:57] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:57] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+::1 - - [11/Oct/2026 03:39:58] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:39:59] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:39:59] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:00] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:01] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:01] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:01] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:02] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:03] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:03] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:03] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:04] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:05] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:05] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:05] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:06] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:07] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:07] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:07] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:08] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:09] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:09] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:09] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:10] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:11] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+::1 - - [11/Oct/2026 03:40:12] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:12] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:13] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:14] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:14] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:14] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:15] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:16] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:16] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:16] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:17] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:17] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:17] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:18] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:19] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:19] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:19] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:20] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:20] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:20] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:21] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:22] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:22] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:22] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:22] "GET /ask/status HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:23] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:23] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:25] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:25] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:26] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:26] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:29] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:29] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:31] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:31] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:33] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:33] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:35] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:35] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:37] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:37] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:39] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:39] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:41] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:41] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:43] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:43] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:45] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:45] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:47] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:47] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /home?still HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /web/app.js HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /api/map?mode=home HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /snap HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /scanfile/20261011_031345_normal/pano.jpg HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /api/log?mode=home HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /ask/status HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "[33mGET /favicon.ico HTTP/1.1[0m" 404 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+::1 - - [11/Oct/2026 03:40:48] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:49] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:49] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:51] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:51] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:53] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:53] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:55] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:55] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:57] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:57] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:59] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:40:59] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:01] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:01] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:03] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:03] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:04] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:04] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:06] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:06] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:07] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:07] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:09] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:09] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:10] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:10] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:12] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:12] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:14] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:14] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:15] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:15] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:17] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:17] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:18] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:18] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:20] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:20] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:21] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:21] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:23] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:23] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:25] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:25] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:26] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:26] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:28] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:28] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:29] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:29] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:31] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:31] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:32] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:32] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:34] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:34] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:36] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:36] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:37] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:37] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:39] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:39] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:40] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:40] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:42] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:42] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:43] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:43] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:45] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:45] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:47] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:47] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:48] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:48] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:50] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:50] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:51] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:51] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:53] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:53] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:54] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:54] "GET /state HTTP/1.1" 200 -
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:56] SSL error occurred: [SSL: SSLV3_ALERT_CERTIFICATE_UNKNOWN] ssl/tls alert certificate unknown (_ssl.c:2650)
+2407:4d00:4c80:2a2:4940:b014:8ec2:2112 - - [11/Oct/2026 03:41:56] "GET /state HTTP/1.1" 200 -
