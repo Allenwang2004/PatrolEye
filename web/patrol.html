@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PatrolEye · patrol setup</title>
+<style>
+:root{--bg:#0F1A22;--card:#16242E;--line:#2A3944;--fg:#F2F4F5;--mut:#8C99A3;--acc:#FF6B1A;--ok:#2ED26A;--bad:#FF5A4A}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:15px system-ui,-apple-system,sans-serif}
+main{display:grid;grid-template-columns:1fr 420px;gap:14px;padding:14px}
+@media(max-width:1000px){main{grid-template-columns:1fr}}
+h1{font-size:20px;margin:0 0 10px}h1 b{color:var(--acc)}
+.card{background:var(--card);border-radius:12px;padding:14px;margin-bottom:14px}
+h3{margin:0 0 10px;font-size:13px;letter-spacing:2px;color:var(--mut);text-transform:uppercase}
+.view{position:relative;cursor:crosshair}.view img{width:100%;display:block;background:#000;border-radius:8px}
+.view .box{position:absolute;border:2px solid var(--acc);border-radius:4px;pointer-events:none}
+.view .x{position:absolute;left:50%;top:50%;width:22px;height:22px;margin:-11px;border:2px solid #fff8;border-radius:50%;pointer-events:none}
+button,select,input{font:inherit;color:var(--fg);background:#1C2C37;border:1px solid var(--line);border-radius:8px;padding:8px 10px}
+button{cursor:pointer}button:hover{border-color:var(--acc)}
+button.go{background:var(--acc);color:#111;border:0;font-weight:700}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.mut{color:var(--mut);font-size:13px;line-height:1.5}
+.pre button{padding:6px 9px;font-size:13px}
+table{width:100%;border-collapse:collapse}td{padding:7px 4px;border-top:1px solid var(--line);vertical-align:middle}
+td img{width:96px;border-radius:4px;display:block}
+.st{font-weight:700}.st.normal{color:var(--ok)}.st.abnormal{color:var(--bad)}.st.unclear{color:#FFC14A}
+#zimg{width:100%;border-radius:8px;display:block;background:#000;margin-top:8px}
+.big{font-size:17px;line-height:1.45}
+</style></head><body>
+<main>
+<div>
+  <h1>Patrol<b>Eye</b> · patrol setup</h1>
+  <div class="card">
+    <div class="view" id="view"><img src="/stream" id="live"><div class="box" id="box"></div><div class="x"></div></div>
+    <p class="mut">Click anything in the picture to turn the camera so it is centred. The orange box is what the model will see for the zoom you pick below.</p>
+    <div class="row">pan <button onclick="nudge(-5,0)">−5</button><button onclick="nudge(-1,0)">−1</button><button onclick="nudge(1,0)">+1</button><button onclick="nudge(5,0)">+5</button>
+      &nbsp; tilt <button onclick="nudge(0,-5)">−5</button><button onclick="nudge(0,-1)">−1</button><button onclick="nudge(0,1)">+1</button><button onclick="nudge(0,5)">+5</button>
+      <span class="mut" id="pos" style="margin-left:auto"></span></div>
+    <img id="zimg">
+  </div>
+  <div class="card"><h3>Checkpoints</h3><table id="cps"></table>
+    <div class="row"><button onclick="post('/patrol/learn')">Learn normal again (all)</button><span class="mut">Do this when every screen shows normal.</span></div></div>
+</div>
+<div>
+  <div class="card"><h3>1 · Teach this view</h3>
+    <div class="row pre" id="presets"></div>
+    <div class="row">Tag <input id="tag" placeholder="PT-102" style="width:110px">
+      <select id="kind" onchange="kindUpd()"><option>gauge</option><option>valve</option><option>breaker</option><option>light</option><option>leak</option><option>general</option></select></div>
+    <div class="row"><span id="limw">Limit <input id="limit" type="number" step="0.1" value="6.0" style="width:80px"></span>
+      <span id="expw" style="display:none">Should be <select id="expect"><option>open</option><option>closed</option></select></span>
+      Zoom <select id="zoom" onchange="boxUpd()"><option>2</option><option selected>3</option><option>4</option></select></div>
+    <div class="row"><button class="go" onclick="teach()">Teach this view</button><span class="mut" id="tmsg"></span></div>
+  </div>
+  <div class="card"><h3>2 · Report to</h3>
+    <div class="row"><input id="url" placeholder="http://192.168.x.x:8100/api/report" style="flex:1">
+      <button onclick="saveUrl(true)">Save + test</button></div>
+    <p class="mut" id="sendst">The bench's start-up message (and its home page) shows this address.</p></div>
+  <div class="card"><h3>3 · Patrol</h3>
+    <div class="row"><button class="go" onclick="post('/patrol/start')">Start patrol</button><button onclick="post('/patrol/stop')">Stop</button><span class="mut" id="round"></span></div>
+    <p class="big" id="step"></p><p class="mut" id="err" style="color:var(--bad)"></p></div>
+</div>
+</main>
+<script>
+const $ = (id) => document.getElementById(id);
+const W = 1280, H = 720;
+let S = null, F_PX = 1410;
+const PRESETS = [['PT-101', 'gauge', 6], ['PT-102', 'gauge', 6], ['V-12', 'valve'], ['DB-1', 'breaker'], ['P-3', 'light'], ['FLOOR-3', 'leak']];
+$('presets').innerHTML = '<span class="mut">Bench:</span>' + PRESETS.map(([t, k, l]) => `<button onclick="preset('${t}','${k}',${l || 'null'})">${t}</button>`).join('');
+function preset(t, k, l) { $('tag').value = t; $('kind').value = k; if (l) $('limit').value = l; kindUpd(); }
+function kindUpd() { $('limw').style.display = $('kind').value === 'gauge' ? '' : 'none'; $('expw').style.display = $('kind').value === 'valve' ? '' : 'none'; }
+function boxUpd() {
+  const z = +$('zoom').value, b = $('box');
+  b.style.left = (50 - 50 / z) + '%'; b.style.top = (50 - 50 / z) + '%'; b.style.width = 100 / z + '%'; b.style.height = 100 / z + '%';
+}
+boxUpd(); kindUpd();
+async function post(url, body = {}) {
+  const r = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+  const d = await r.json().catch(() => ({}));
+  if (d.error) $('err').textContent = d.error;
+  refresh();
+  return d;
+}
+async function nudge(dp, dt) { await post('/move', {dpan: dp, dtilt: dt}); }
+$('view').onclick = (e) => {
+  const r = e.currentTarget.getBoundingClientRect();
+  const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+  nudge(+(Math.atan((x - 0.5) * W / F_PX) * 180 / Math.PI).toFixed(1), +(-Math.atan((y - 0.5) * H / F_PX) * 180 / Math.PI).toFixed(1));
+};
+async function teach() {
+  $('tmsg').textContent = 'Saving…';
+  const d = await post('/patrol/teach', {tag: $('tag').value, kind: $('kind').value, limit: $('limit').value, expect: $('expect').value, zoom: $('zoom').value});
+  $('tmsg').textContent = d.error ? '' : `Saved ${d.tag} at pan ${d.pan}°, tilt ${d.tilt}°`;
+}
+async function saveUrl(test) { await post('/patrol/config', {report_url: $('url').value, test}); }
+async function go(tag) { await post('/patrol/goto', {tag}); }
+async function del(tag) { await post('/patrol/delete', {tag}); }
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+async function refresh() {
+  try {
+    S = await (await fetch('/patrol/status')).json();
+    F_PX = S.f_px || F_PX;
+    if (document.activeElement !== $('url')) $('url').value = S.config.report_url || '';
+    $('sendst').textContent = S.send_error ? 'Last send failed: ' + S.send_error : `Sent ${S.sent} reports · ${S.sent_bytes} bytes of text.`;
+    $('round').textContent = S.running ? `round ${S.round} · ${S.current || ''}` : (S.learning ? 'learning normal…' : 'stopped');
+    $('step').textContent = S.step || '';
+    if (!S.error) $('err').textContent = ''; else $('err').textContent = S.error;
+    $('cps').innerHTML = S.checkpoints.length ? S.checkpoints.map((c) => {
+      const l = S.last[c.tag] || {};
+      const extra = c.kind === 'gauge' ? `limit ${c.limit ?? '—'}` : c.kind === 'valve' ? `should be ${c.expect}` : '';
+      return `<tr><td><img src="/patrol/img/base/${c.tag}.jpg?${Date.now() >> 12}"></td><td><b>${esc(c.tag)}</b><div class="mut">${c.kind} ${extra} · pan ${c.pan}°, tilt ${c.tilt}° · ${c.zoom}×</div>
+        <div>${l.status ? `<span class="st ${l.status}">${l.status}</span> ` : ''}${esc(l.text || '')}${l.looked_closer ? ' <span class="mut">(looked closer)</span>' : ''}${l.change != null ? ` <span class="mut">· ${l.change}% changed${l.model ? '' : ', no model'}</span>` : ''}</div></td>
+        <td>${l.shot ? `<img src="/patrol/img/${l.shot}">` : ''}</td><td style="white-space:nowrap"><button onclick="go('${c.tag}')">Go</button> <button onclick="del('${c.tag}')">✕</button></td></tr>`;
+    }).join('') : '<tr><td class="mut">None yet. Aim at an instrument, pick its tag on the right, and press Teach.</td></tr>';
+    const st = await (await fetch('/state')).json();
+    if (st.pt) $('pos').textContent = `pan ${st.pt.pan.toFixed(1)}°, tilt ${st.pt.tilt.toFixed(1)}°`;
+  } catch (e) {}
+}
+setInterval(refresh, 1500); refresh();
+setInterval(() => { const z = $('zoom').value; $('zimg').src = `/crop?x=0.5&y=0.5&z=${z}&t=${Date.now()}`; }, 1200);
+</script>
+</body></html>

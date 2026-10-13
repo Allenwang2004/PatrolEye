@@ -171,7 +171,7 @@ def start_scan():
     d = request.json
     if d.get("stop"):
         scan["stop"] = True
-    elif pt and not scan["running"]:
+    elif pt and not scan["running"] and not (patroller and patroller.running):
         label = "".join(c for c in d.get("label", "scan") if c.isalnum() or c in "-_") or "scan"
         threading.Thread(target=run_scan, args=(label, int(d.get("shots", 1))), daemon=True).start()
         time.sleep(0.2)
@@ -181,11 +181,17 @@ def start_scan():
 # ---- 一句話查詢 ---------------------------------------------------------------
 asker = Asker(pt, ptlock, fresh_frame, SETTLE) if pt else None
 
+# ---- 巡檢模式(比賽 demo,見 patrol.py / DEMO.md):網頁 /patrol ----------------------------
+from patrol import Patroller, register as register_patrol
+patroller = Patroller(pt, ptlock, fresh_frame, SETTLE,
+                      busy=lambda: scan["running"] or bool(asker and asker.status["running"])) if pt else None
+register_patrol(app, patroller)
+
 
 @app.route("/ask", methods=["POST"])
 def ask_start():
-    if not asker or scan["running"]:
-        return jsonify(error="The camera mount is offline or a scan is running."), 503
+    if not asker or scan["running"] or (patroller and patroller.running):
+        return jsonify(error="The camera mount is offline, or a scan or patrol is running."), 503
     d = request.json
     q = d.get("q", "").strip()
     if not q or not asker.start(q, d.get("mode", "home"), d.get("via", "text")):
