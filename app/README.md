@@ -18,7 +18,7 @@ EXPO_PUBLIC_SUPABASE_URL=https://<project>.supabase.co
 EXPO_PUBLIC_SUPABASE_ANON_KEY=<anon key>
 ```
 
-接本機的 Supabase（`supabase/` 裡 `npx supabase start`）時，URL 要用電腦的區網 IP（`ipconfig getifaddr en0`），例如 `http://192.168.x.x:54321`，手機才連得到；anon key 用 `npx supabase status` 顯示的 `ANON_KEY`。改 `.env` 後要重開 `npx expo start`。
+改 `.env` 後要重開 `npx expo start`。
 
 沒有攝影機時，用 `supabase/` 的 `npm run fake-device` 模擬（見 `supabase/README.md`）。網頁版不能掃 QR，新增攝影機時直接貼上 fake device 印出的 `patroleye://claim?...` 連結。
 

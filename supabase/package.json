@@ -4,9 +4,7 @@
   "type": "module",
   "scripts": {
     "provision": "node --env-file=.env scripts/provision_device.mjs",
-    "provision:local": "node --env-file=.env.local scripts/provision_device.mjs",
-    "fake-device": "node scripts/fake_device.mjs",
-    "test:rls": "node --env-file=.env.local scripts/test_rls.mjs"
+    "fake-device": "node scripts/fake_device.mjs"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.118.0",

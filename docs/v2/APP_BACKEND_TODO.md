@@ -19,7 +19,7 @@ app/                              Expo（TypeScript、expo-router）
 - [ ] 建立專案（區域選 Tokyo 或 Singapore），記下 Project URL、anon key、service role key
 - [ ] service role key 只放在自己電腦的 `supabase/.env`（已在 `.gitignore`），不放進 App、不放進攝影機
 - [ ] Auth：開 email＋密碼；開發期間關掉 email 確認，比較好測
-- [x] Supabase CLI：`supabase init`（CLI 裝在 `supabase/node_modules`，在 `supabase/` 裡用 `npx supabase`）；本機測試用 `supabase start`（需要 Docker）
+- [x] Supabase CLI：`supabase init`（CLI 裝在 `supabase/node_modules`，在 `supabase/` 裡用 `npx supabase`）
 - [ ] `npx supabase link --project-ref <ref>`
 
 ## 2. 資料庫（migration）
@@ -42,8 +42,6 @@ app/                              Expo（TypeScript、expo-router）
 - bucket 限制檔案類型：`panoramas` 只收 JPG，`clips` 收 MP4、JPG，單檔 50 MB
 - `claim_device` 會去掉頭尾空白再比對；`device_set_claim_code` 檢查 8 碼和字元集
 - `type`、`status` 加上 check（值見 ARCHITECTURE.md）
-
-權限測試：`cd supabase && npm run test:rls`（只會對本機 `supabase start` 跑）
 
 ## 3. 建立攝影機的腳本（`provision_device.mjs`）
 

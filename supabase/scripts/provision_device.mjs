@@ -1,8 +1,7 @@
 // Create one camera: its device account, a devices row and a device_state row.
 // Writes device.json for device/config/device.json on the camera.
 //
-//   npm run provision                 # cloud project, reads supabase/.env
-//   npm run provision:local           # local stack, reads supabase/.env.local
+//   npm run provision                 # reads supabase/.env
 //   npm run provision -- --out path   # default: ./device.json
 //
 // Needs SUPABASE_URL, SUPABASE_ANON_KEY, SUPABASE_SERVICE_ROLE_KEY.

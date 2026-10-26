@@ -9,27 +9,7 @@ cd supabase
 npm install
 ```
 
-## 本機（Docker）
-
-```bash
-npx supabase start                  # 第一次會下載映像檔；會套用 migrations/
-npm run test:rls                    # 兩個帳號、兩台攝影機，檢查誰能讀寫什麼
-npm run provision:local -- --out device.local.json
-npm run fake-device -- --config device.local.json
-npx supabase stop
-```
-
-`.env.local`（不進 git）放本機的 URL 和 key，`npx supabase status` 可以看到：
-
-```
-SUPABASE_URL=http://127.0.0.1:54321
-SUPABASE_ANON_KEY=<ANON_KEY>
-SUPABASE_SERVICE_ROLE_KEY=<SERVICE_ROLE_KEY>
-```
-
-Studio：http://127.0.0.1:54323
-
-## 雲端專案
+## 設定
 
 ```bash
 npx supabase login
@@ -52,6 +32,5 @@ SUPABASE_SERVICE_ROLE_KEY=<service role key>
 |---|---|
 | `npm run provision` | 建立一台攝影機（裝置帳號、`devices`、`device_state`），輸出 `device.json` → 複製到攝影機的 `device/config/device.json` |
 | `npm run fake-device -- [--config device.json] [--pano <掃描資料夾>] [--event-every 120]` | 模擬攝影機：印出綁定 QR、心跳、回應 `scan`／`apply_masks`、定時丟假事件（按 Enter 立刻丟一個）。預設全景是 `device/scans/20261011_031345_normal`，測試片段用 ffmpeg 產生在 `.cache/` |
-| `npm run test:rls` | 權限測試，只對本機跑 |
 
 `device*.json` 裡有裝置帳號的密碼，已在 `.gitignore`。
