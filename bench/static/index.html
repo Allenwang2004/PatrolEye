@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PatrolEye test bench</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+body{margin:0;background:#EEF0F1;color:#0F1A22;font-family:Barlow,system-ui,sans-serif;padding:32px 20px}
+main{max-width:760px;margin:0 auto}
+h1{font:700 40px Barlow;margin:0 0 4px}h1 b{color:#FF6B1A}
+p{font:500 18px/1.5 Barlow;color:#3E4A53}
+a.c{display:flex;gap:18px;align-items:center;background:#F9FAFA;border:1px solid #C9D0D5;border-radius:14px;padding:16px 20px;margin-top:12px;color:inherit;text-decoration:none}
+a.c:hover{border-color:#FF6B1A}
+.n{font:700 34px "Barlow Condensed";color:#B4460C;width:120px;flex:none}
+.t{font:600 22px Barlow}.d{font:500 16px Barlow;color:#5B6770}
+code{background:#E2E6E9;border-radius:6px;padding:2px 6px}
+</style></head><body><main>
+<h1>Patrol<b>Eye</b> test bench</h1>
+<p>Open each page on its own screen and double-click it to go full screen. Every device just needs to be on the same Wi-Fi.</p>
+<a class="c" href="/station/1"><span class="n">Station 1</span><span><div class="t">Pressure gauges PT-101, PT-102</div><div class="d">Monitor on the left of PatrolEye</div></span></a>
+<a class="c" href="/station/2"><span class="n">Station 2</span><span><div class="t">Valve V-12 and breaker panel DB-1</div><div class="d">Monitor in front</div></span></a>
+<a class="c" href="/station/3"><span class="n">Station 3</span><span><div class="t">Pump P-3 status light and the floor under it</div><div class="d">Monitor on the right</div></span></a>
+<a class="c" href="/board"><span class="n">Board</span><span><div class="t">Control room scoreboard</div><div class="d">Tablet, behind PatrolEye, facing the filming camera</div></span></a>
+<a class="c" href="/remote"><span class="n">Remote</span><span><div class="t">Judge remote</div><div class="d">Phone</div></span></a>
+<p style="margin-top:24px">PatrolEye sends its reports to <code id="u"></code></p>
+<script>document.getElementById('u').textContent = location.origin + '/api/report';</script>
+</main></body></html>

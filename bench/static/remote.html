@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1">
+<title>PatrolEye bench · judge remote</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:#0F1A22;color:#F2F4F5;font-family:Barlow,system-ui,sans-serif;padding:16px 16px 40px;max-width:560px;margin:0 auto}
+h1{font:700 26px Barlow;display:flex;align-items:center;gap:10px}h1 b{color:#FF6B1A}
+.clock{margin-left:auto;font:600 22px "Barlow Condensed";color:#8C99A3}
+.big{display:block;width:100%;margin:16px 0 6px;padding:20px;border:0;border-radius:16px;background:#FF6B1A;color:#111;font:700 24px Barlow}
+.hint{font:500 15px Barlow;color:#8C99A3;margin-bottom:12px}
+.card{background:#16242E;border-radius:14px;padding:14px 16px;margin-top:12px}
+.card .h{display:flex;align-items:baseline;gap:10px}
+.card .tag{font:700 24px "Barlow Condensed";letter-spacing:1px}
+.card .lab{font:500 15px Barlow;color:#8C99A3}
+.card .now{margin-left:auto;font:600 17px Barlow;color:#C5CED4}
+.card .now.bad{color:#FF8A45}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}
+.seg button,.small{padding:14px 8px;border-radius:10px;border:2px solid #2A3944;background:#1C2C37;color:#F2F4F5;font:600 18px Barlow}
+.seg button.on{border-color:#F2F4F5;background:#2A3944}
+.seg button.warn.on{border-color:#FF6B1A;background:#FF6B1A22;color:#FFB07A}
+input[type=range]{width:100%;margin-top:12px;accent-color:#FF6B1A;height:30px}
+.foot{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:18px}
+.small.danger{border-color:#D12F2F55}
+#msg{position:fixed;left:16px;right:16px;bottom:16px;background:#2A3944;border-radius:12px;padding:12px 16px;font:500 16px Barlow;opacity:0;transition:opacity .3s}
+</style></head><body>
+<h1><svg width="34" height="34" viewBox="0 0 100 100"><path d="M14.3 47 A38 38 0 0 1 85.7 47" fill="none" stroke="#FF6B1A" stroke-width="8" stroke-linecap="round"/><circle cx="50" cy="60" r="19" fill="none" stroke="#F2F4F5" stroke-width="9"/><circle cx="50" cy="60" r="8" fill="#FF6B1A"/></svg>Judge remote<span class="clock" id="clock"></span></h1>
+<button class="big" onclick="post('/api/random')">Break something at random</button>
+<div class="hint">Hidden: nobody sees which one until PatrolEye reports it (or you tap Reveal).</div>
+<div id="cards"></div>
+<div class="foot">
+  <button class="small" onclick="post('/api/reveal')">Reveal hidden</button>
+  <button class="small" onclick="post('/api/normal')">All back to normal</button>
+  <button class="small danger" id="reset" onclick="confirmReset()">New run (clear scores)</button>
+  <a class="small" href="/board" style="text-align:center;text-decoration:none">Open scoreboard</a>
+</div>
+<div id="msg"></div>
+<script>
+const $ = (id) => document.getElementById(id);
+const CONTROLS = [
+  {tag: 'PT-101', kind: 'gauge', normal: 4.2, high: 7.6},
+  {tag: 'PT-102', kind: 'gauge', normal: 5.2, high: 7.8},
+  {tag: 'V-12', kind: 'state', opts: [['open', 'Open'], ['closed', 'Shut']]},
+  {tag: 'DB-1', kind: 'state', opts: [['on', 'CB-3 on'], ['tripped', 'Trip CB-3']]},
+  {tag: 'P-3', kind: 'state', opts: [['run', 'Running'], ['fault', 'Fault light']]},
+  {tag: 'FLOOR-3', kind: 'state', opts: [['dry', 'Dry'], ['leak', 'Leak']]},
+];
+let state = null, dragging = null;
+function say(t) { const m = $('msg'); m.textContent = t; m.style.opacity = 1; clearTimeout(say.h); say.h = setTimeout(() => (m.style.opacity = 0), 2200); }
+async function post(url, body = {}) {
+  try {
+    const r = await fetch(url, {method: 'POST', headers: {'Content-Type': 'application/json'}, body: JSON.stringify(body)});
+    const d = await r.json();
+    if (d.error) say(d.error); else { state = d; draw(); if (url.endsWith('random')) say('Something broke. Watch the scoreboard.'); }
+  } catch (e) { say('Bench not reachable.'); }
+}
+function confirmReset() {
+  const b = $('reset');
+  if (b.dataset.armed) { delete b.dataset.armed; b.textContent = 'New run (clear scores)'; post('/api/reset'); return; }
+  b.dataset.armed = 1; b.textContent = 'Tap again to clear';
+  setTimeout(() => { delete b.dataset.armed; b.textContent = 'New run (clear scores)'; }, 3000);
+}
+function build() {
+  $('cards').innerHTML = CONTROLS.map((c) => `<div class="card" id="c_${c.tag}"><div class="h"><span class="tag">${c.tag}</span><span class="lab" id="l_${c.tag}"></span><span class="now" id="n_${c.tag}"></span></div>${
+    c.kind === 'gauge'
+      ? `<div class="seg"><button onclick="post('/api/set',{tag:'${c.tag}',value:${c.normal}})">Normal ${c.normal}</button><button class="warn" onclick="post('/api/set',{tag:'${c.tag}',value:${c.high}})">High ${c.high}</button></div><input type="range" min="0" max="10" step="0.1" id="r_${c.tag}" oninput="dragging='${c.tag}';$('n_${c.tag}').textContent='set '+this.value+' bar'" onchange="dragging=null;post('/api/set',{tag:'${c.tag}',value:+this.value})">`
+      : `<div class="seg">${c.opts.map(([v, t], i) => `<button class="${i ? 'warn' : ''}" data-v="${v}" onclick="post('/api/set',{tag:'${c.tag}',value:'${v}'})">${t}</button>`).join('')}</div>`
+  }</div>`).join('');
+}
+function draw() {
+  if (!state) return;
+  const mm = Math.floor(state.elapsed / 60), ss = Math.floor(state.elapsed % 60);
+  $('clock').textContent = `run ${String(mm).padStart(2, '0')}:${String(ss).padStart(2, '0')} · ${state.stats.found}/${state.stats.injected} found`;
+  for (const c of CONTROLS) {
+    const x = state.eq[c.tag], n = $('n_' + c.tag);
+    $('l_' + c.tag).textContent = x.label || '';
+    if (x.hidden) { n.textContent = 'hidden'; n.className = 'now bad'; continue; }
+    n.className = 'now' + (x.abnormal ? ' bad' : '');
+    if (c.kind === 'gauge') {
+      if (dragging !== c.tag) { n.textContent = `${x.value.toFixed(1)} bar${x.abnormal ? ' · over limit' : ''}`; $('r_' + c.tag).value = x.target; }
+    } else {
+      n.textContent = x.abnormal ? 'abnormal' : 'normal';
+      document.querySelectorAll(`#c_${CSS.escape(c.tag)} .seg button`).forEach((b) => b.classList.toggle('on', b.dataset.v === x.state));
+    }
+  }
+}
+async function poll() {
+  try { const r = await fetch('/api/state?view=remote', {cache: 'no-store'}); state = await r.json(); draw(); } catch (e) {}
+  setTimeout(poll, 700);
+}
+build(); poll();
+</script>
+</body></html>

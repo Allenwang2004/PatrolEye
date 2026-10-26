@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PatrolEye bench · control room</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0B1319;overflow:hidden}
+#stage{width:1920px;height:1080px;transform-origin:0 0;position:absolute;background:#0F1A22;color:#F2F4F5;font-family:Barlow,system-ui,sans-serif;padding:48px 64px}
+.top{display:flex;align-items:center;gap:22px}
+.top .t1{font:700 52px Barlow;letter-spacing:-.5px}.top .t1 b{color:#FF6B1A}
+.top .t2{font:600 26px Barlow;letter-spacing:4px;color:#8C99A3;margin-left:12px;padding-left:24px;border-left:2px solid #2A3944}
+.clock{margin-left:auto;font:600 44px "Barlow Condensed";color:#C5CED4;letter-spacing:2px}
+.kpis{display:grid;grid-template-columns:1.1fr 1fr 1fr .8fr 1.5fr;gap:18px;margin-top:34px}
+.kpi{background:#16242E;border-radius:16px;padding:20px 24px}
+.kpi .l{font:600 22px Barlow;letter-spacing:3px;color:#8C99A3;text-transform:uppercase}
+.kpi .v{font:700 76px "Barlow Condensed";line-height:1.05;margin-top:6px}
+.kpi .s{font:500 22px Barlow;color:#8C99A3}
+.cols{display:grid;grid-template-columns:1fr 1.25fr;gap:28px;margin-top:28px;height:640px}
+.col{background:#13202A;border-radius:16px;padding:22px 26px;overflow:hidden;display:flex;flex-direction:column}
+.col h2{font:600 24px Barlow;letter-spacing:4px;color:#8C99A3;margin-bottom:14px}
+.row{display:flex;align-items:center;gap:16px;padding:14px 0;border-top:1px solid #22323D;font-size:28px}
+.row:first-of-type{border-top:none}
+.tm{font:600 26px "Barlow Condensed";color:#6F7E89;width:76px;flex:none}
+.tag{font:700 30px "Barlow Condensed";width:130px;flex:none;letter-spacing:1px}
+.desc{flex:1;font:500 27px Barlow;color:#DDE3E7;line-height:1.25}
+.pill{font:600 22px Barlow;letter-spacing:2px;border-radius:999px;padding:6px 16px;white-space:nowrap;flex:none}
+.open{background:#FF6B1A;color:#111}.found{background:#1E8E5A;color:#fff}.gray{background:#33434F;color:#C5CED4}.bad{background:#D12F2F;color:#fff}.ok{background:#22323D;color:#9FD9B8}
+.sub{font:500 22px Barlow;color:#8C99A3;margin-top:4px}
+.look{display:flex;align-items:center;gap:14px;font:600 28px Barlow;color:#FFB07A;margin:-4px 0 12px}
+.dot{width:16px;height:16px;border-radius:8px;background:#FF6B1A;animation:p 1s infinite}
+@keyframes p{50%{opacity:.25}}
+.flash{animation:fl 2.4s ease-out}
+@keyframes fl{0%{background:#1E8E5A55}100%{background:transparent}}
+#toast{position:absolute;left:50%;top:420px;transform:translateX(-50%) scale(.9);background:#1E8E5A;color:#fff;border-radius:22px;padding:28px 48px;font:700 54px Barlow;opacity:0;transition:all .35s;box-shadow:0 30px 80px #0008;text-align:center}
+#toast .s{font:500 30px Barlow;margin-top:6px;opacity:.9}
+#toast.on{opacity:1;transform:translateX(-50%) scale(1)}
+.empty{font:500 26px Barlow;color:#5F6E79;padding:12px 0}
+.note{position:absolute;left:64px;bottom:22px;font:500 20px Barlow;color:#5F6E79}
+</style></head><body>
+<div id="stage">
+  <div class="top">
+    <svg width="78" height="78" viewBox="0 0 100 100"><path d="M14.3 47 A38 38 0 0 1 85.7 47" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-linecap="round"/><circle cx="50" cy="60" r="19" fill="none" stroke="#F2F4F5" stroke-width="8"/><circle cx="50" cy="60" r="7" fill="#FF6B1A"/></svg>
+    <div class="t1">Patrol<b>Eye</b></div>
+    <div class="t2">CONTROL ROOM · PUMP ROOM B TEST BENCH</div>
+    <div class="clock" id="clock">RUN 00:00</div>
+  </div>
+  <div class="kpis">
+    <div class="kpi"><div class="l">Faults found</div><div class="v" id="k1">0 / 0</div><div class="s" id="k1s">nothing broken yet</div></div>
+    <div class="kpi"><div class="l">Mean time to find</div><div class="v" id="k2">—</div><div class="s">from fault to report</div></div>
+    <div class="kpi"><div class="l">Reading error</div><div class="v" id="k3">—</div><div class="s" id="k3s">% of full scale</div></div>
+    <div class="kpi"><div class="l">False alarms</div><div class="v" id="k4">0</div><div class="s" id="k4s">missed looks: 0</div></div>
+    <div class="kpi"><div class="l">Received from PatrolEye</div><div class="v" id="k5">0 B</div><div class="s" id="k5s">0 text reports · 0 images</div></div>
+  </div>
+  <div class="cols">
+    <div class="col"><h2>WHAT BROKE · GROUND TRUTH</h2><div id="faults"></div></div>
+    <div class="col"><h2>WHAT PATROLEYE REPORTED · TEXT ONLY</h2><div class="look" id="look" style="display:none"><span class="dot"></span><span id="lookt"></span></div><div id="reports"></div></div>
+  </div>
+  <div id="toast"></div>
+  <div class="note">The bench accepts only short JSON text reports from PatrolEye (no images, max 4 KB each) and checks each one against the ground truth when it arrives.</div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); const st = $('stage'); st.style.transform = `scale(${s})`; st.style.left = (innerWidth - 1920 * s) / 2 + 'px'; st.style.top = (innerHeight - 1080 * s) / 2 + 'px'; };
+addEventListener('resize', fit); fit();
+document.ondblclick = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen());
+const mmss = (s) => { s = Math.max(0, Math.round(s)); return String(Math.floor(s / 60)).padStart(2, '0') + ':' + String(s % 60).padStart(2, '0'); };
+const kb = (b) => (b < 1024 ? b + ' B' : (b / 1024).toFixed(1) + ' KB');
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+let seenFound = new Set(), run = null, firstPoll = true;
+
+function toast(title, sub) {
+  const t = $('toast'); t.innerHTML = `${esc(title)}<div class="s">${esc(sub)}</div>`; t.classList.add('on');
+  clearTimeout(toast.h); toast.h = setTimeout(() => t.classList.remove('on'), 3800);
+}
+function render(d) {
+  if (d.run !== run) { run = d.run; seenFound = new Set(); firstPoll = true; }
+  const t0 = d.now - d.elapsed;
+  $('clock').textContent = 'RUN ' + mmss(d.elapsed);
+  const s = d.stats;
+  $('k1').textContent = `${s.found} / ${s.injected}`;
+  $('k1s').textContent = s.injected ? `${s.injected - s.found} still open` : 'nothing broken yet';
+  $('k2').textContent = s.ttd == null ? '—' : s.ttd + ' s';
+  $('k3').textContent = s.gauge_err == null ? '—' : s.gauge_err.toFixed(1) + '%';
+  $('k3s').textContent = s.gauge_n ? `% of full scale · ${s.gauge_n} readings` : '% of full scale';
+  $('k4').textContent = s.false_alarms;
+  $('k4s').textContent = `missed looks: ${s.missed_looks}`;
+  $('k5').textContent = kb(s.bytes);
+  $('k5s').textContent = `${s.reports} text reports · ${s.images} images`;
+
+  const fr = d.faults.filter((f) => f.active).slice().reverse();
+  $('faults').innerHTML = fr.length ? fr.map((f) => {
+    let pill;
+    if (f.found) pill = `<span class="pill found">FOUND IN ${Math.round(f.found - f.start)} s</span>`;
+    else if (f.end) pill = `<span class="pill gray">FIXED · NOT FOUND</span>`;
+    else pill = `<span class="pill open">OPEN · ${Math.round(f.age)} s</span>`;
+    const isNew = f.found && !seenFound.has(f.id);
+    return `<div class="row${isNew && !firstPoll ? ' flash' : ''}"><span class="tm">${mmss(f.start - t0)}</span><span class="tag">${esc(f.tag)}</span><span class="desc">${esc(f.desc)}</span>${pill}</div>`;
+  }).join('') : '<div class="empty">All normal. Use the remote to break something.</div>';
+  for (const f of d.faults) if (f.found && !seenFound.has(f.id)) {
+    if (!firstPoll) toast(`FOUND · ${f.desc}`, `${Math.round(f.found - f.start)} s after it happened · “${f.found_text || ''}”`);
+    seenFound.add(f.id);
+  }
+  firstPoll = false;
+
+  if (d.looking && d.now - (d.looking_t || d.now) < 60) { $('look').style.display = 'flex'; $('lookt').textContent = `PatrolEye is looking at ${d.looking}…`; }
+  else $('look').style.display = d.looking ? 'flex' : 'none';
+  if (d.looking) $('lookt').textContent = `PatrolEye is looking at ${d.looking}…`;
+  const cls = {found: 'found', correct: 'ok', repeat: 'open', 'false alarm': 'bad', missed: 'bad', unclear: 'gray', 'unknown tag': 'gray'};
+  const rr = d.reports.slice(-7).reverse();
+  $('reports').innerHTML = rr.length ? rr.map((r) => {
+    const gaugeLine = r.error != null ? `<div class="sub">read ${r.reading} ${esc(r.unit || '')} · truth ${r.truth} · error ${r.error.toFixed(1)}% FS</div>` : '';
+    const closer = r.looked_closer ? ' · looked closer' : '';
+    return `<div class="row"><span class="tm">${mmss(r.t - t0)}</span><span class="tag" style="color:${r.status === 'abnormal' ? '#FF8A45' : '#F2F4F5'}">${esc(r.tag)}</span><div class="desc">${esc(r.text)}${gaugeLine}${closer ? `<div class="sub">${r.confidence || ''}${closer}</div>` : ''}</div><span class="pill ${cls[r.verdict] || 'gray'}">${esc((r.verdict || '').toUpperCase())}</span></div>`;
+  }).join('') : '<div class="empty">Waiting for the first report…</div>';
+}
+async function poll() {
+  try { const r = await fetch('/api/state?view=board', {cache: 'no-store'}); render(await r.json()); } catch (e) {}
+  setTimeout(poll, 400);
+}
+poll();
+</script>
+</body></html>

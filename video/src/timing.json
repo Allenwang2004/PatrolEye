@@ -1,0 +1,279 @@
+{
+  "fps": 30,
+  "total": 172.922,
+  "scenes": [
+    {
+      "id": "hook",
+      "start": 0.0,
+      "duration": 15.507,
+      "lines": [
+        {
+          "id": "h1",
+          "text": "In most plants, the gauges, valves and warning lights aren't connected to anything.",
+          "start": 0.5,
+          "duration": 5.144,
+          "file": "audio/h1.wav"
+        },
+        {
+          "id": "h2",
+          "text": "So every shift, someone walks the floor with a clipboard.",
+          "start": 5.994,
+          "duration": 3.387,
+          "file": "audio/h2.wav"
+        },
+        {
+          "id": "h3",
+          "text": "So a pressure past its limit, or a slow leak, gets noticed hours too late.",
+          "start": 9.73,
+          "duration": 4.877,
+          "file": "audio/h3.wav"
+        }
+      ]
+    },
+    {
+      "id": "options",
+      "start": 15.507,
+      "duration": 15.562,
+      "lines": [
+        {
+          "id": "o1",
+          "text": "Putting a sensor on every gauge costs thousands of dollars per point.",
+          "start": 0.5,
+          "duration": 4.424,
+          "file": "audio/o1.wav"
+        },
+        {
+          "id": "o2",
+          "text": "A patrol robot costs a hundred thousand.",
+          "start": 5.174,
+          "duration": 2.732,
+          "file": "audio/o2.wav"
+        },
+        {
+          "id": "o3",
+          "text": "Today's AI cameras spot people and pets, but judging danger needs a GPU-class model.",
+          "start": 8.155,
+          "duration": 6.507,
+          "file": "audio/o3.wav"
+        }
+      ]
+    },
+    {
+      "id": "homeProblem",
+      "start": 31.069,
+      "duration": 22.555,
+      "lines": [
+        {
+          "id": "hp0",
+          "text": "At the same time, another problem is growing.",
+          "start": 0.5,
+          "duration": 2.877,
+          "file": "audio/hp0.wav"
+        },
+        {
+          "id": "hp1",
+          "text": "In Taiwan, over seven hundred thousand older people now live alone.",
+          "start": 3.677,
+          "duration": 4.729,
+          "file": "audio/hp1.wav"
+        },
+        {
+          "id": "hp2",
+          "text": "As hearing and memory fade, pots are left burning on the stove, and smoke alarms go unheard.",
+          "start": 8.906,
+          "duration": 6.09,
+          "file": "audio/hp2.wav"
+        },
+        {
+          "id": "hp3",
+          "text": "Caregivers can't watch a camera all day, so by the time anyone notices, it's often too late.",
+          "start": 15.446,
+          "duration": 6.209,
+          "file": "audio/hp3.wav"
+        }
+      ]
+    },
+    {
+      "id": "proto",
+      "start": 53.624,
+      "duration": 13.491,
+      "lines": [
+        {
+          "id": "p1",
+          "text": "So we built PatrolEye to check where danger starts, and warn you in words.",
+          "start": 0.6,
+          "duration": 4.935,
+          "file": "audio/p1.wav"
+        },
+        {
+          "id": "p2",
+          "text": "This is our working prototype: a camera on two motors, and a small computer that decides where to look.",
+          "start": 5.9,
+          "duration": 6.691,
+          "file": "audio/p2.wav"
+        }
+      ]
+    },
+    {
+      "id": "editions",
+      "start": 67.115,
+      "duration": 7.0,
+      "lines": [
+        {
+          "id": "e1",
+          "text": "It comes in two editions: for plants, with a depth camera, and for homes, with a webcam.",
+          "start": 0.5,
+          "duration": 5.467,
+          "file": "audio/e1.wav"
+        }
+      ]
+    },
+    {
+      "id": "plant",
+      "start": 74.115,
+      "duration": 16.754,
+      "lines": [
+        {
+          "id": "f0",
+          "text": "Now put it in a pump room.",
+          "start": 0.5,
+          "duration": 1.64,
+          "file": "audio/f0.wav"
+        },
+        {
+          "id": "f1",
+          "text": "Every hour, it walks the round for you: twenty-two gauges, valves and lights, from one spot on the wall.",
+          "start": 2.5,
+          "duration": 6.645,
+          "file": "audio/f1.wav"
+        },
+        {
+          "id": "f2",
+          "text": "When a pressure creeps past its limit, it zooms in, reads the dial, and warns the shift lead.",
+          "start": 9.7,
+          "duration": 6.154,
+          "file": "audio/f2.wav"
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "start": 90.869,
+      "duration": 16.212,
+      "lines": [
+        {
+          "id": "b1",
+          "text": "To test it for real, we built a pump room out of three screens, and broke things while it patrolled.",
+          "start": 0.5,
+          "duration": 5.795,
+          "file": "audio/b1.wav"
+        },
+        {
+          "id": "b2",
+          "text": "PatrolEye found every fault, read the gauges within about one percent, and sent only text.",
+          "start": 8.8,
+          "duration": 6.512,
+          "file": "audio/b2.wav"
+        }
+      ]
+    },
+    {
+      "id": "homeRounds",
+      "start": 107.081,
+      "duration": 13.898,
+      "lines": [
+        {
+          "id": "hr1",
+          "text": "At home, PatrolEye makes the rounds for her caregiver: is she up and about? Is the stove off?",
+          "start": 0.5,
+          "duration": 6.016,
+          "file": "audio/hr1.wav"
+        },
+        {
+          "id": "hr2",
+          "text": "If it finds her on the floor, the caregiver gets a text right away: words, not a video feed.",
+          "start": 7.016,
+          "duration": 5.982,
+          "file": "audio/hr2.wav"
+        }
+      ]
+    },
+    {
+      "id": "homeAsk",
+      "start": 120.978,
+      "duration": 10.7,
+      "lines": [
+        {
+          "id": "ha1",
+          "text": "Besides waiting for its reports, her caregiver can just ask the camera to check.",
+          "start": 0.5,
+          "duration": 4.942,
+          "file": "audio/ha1.wav"
+        }
+      ]
+    },
+    {
+      "id": "how",
+      "start": 131.678,
+      "duration": 30.344,
+      "lines": [
+        {
+          "id": "w1",
+          "text": "The prototype runs on a Raspberry Pi 5, with an ASUS UGen300 M.2 module and its Hailo-10H chip.",
+          "start": 0.5,
+          "duration": 9.401,
+          "file": "audio/w1.wav"
+        },
+        {
+          "id": "w2",
+          "text": "Forty TOPS and eight gigabytes run a vision-language model, offline.",
+          "start": 10.301,
+          "duration": 4.627,
+          "file": "audio/w2.wav"
+        },
+        {
+          "id": "w3",
+          "text": "For real deployment, we keep the same AI module, shrink everything around it, and mount it on the ceiling, where one unit sees the whole room, floor included.",
+          "start": 15.428,
+          "duration": 10.375,
+          "file": "audio/w3.wav"
+        },
+        {
+          "id": "w4",
+          "text": "Images stay on the device. Only text leaves.",
+          "start": 26.203,
+          "duration": 3.241,
+          "file": "audio/w4.wav"
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "start": 162.022,
+      "duration": 10.899,
+      "lines": [
+        {
+          "id": "c1",
+          "text": "One camera that catches danger early, so nobody has to watch.",
+          "start": 0.5,
+          "duration": 4.333,
+          "file": "audio/c1.wav"
+        },
+        {
+          "id": "c2",
+          "text": "PatrolEye.",
+          "start": 5.533,
+          "duration": 1.089,
+          "file": "audio/c2.wav"
+        },
+        {
+          "id": "c3",
+          "text": "Private at home. Confidential at work.",
+          "start": 6.922,
+          "duration": 2.777,
+          "file": "audio/c3.wav"
+        }
+      ]
+    }
+  ]
+}

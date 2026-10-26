@@ -1,0 +1,4 @@
+node_modules
+out/*.mp4
+tts/models/*.onnx
+tts/models/*.bin

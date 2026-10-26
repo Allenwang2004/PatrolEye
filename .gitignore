@@ -1,0 +1,48 @@
+# OS / editors / caches
+.DS_Store
+__pycache__/
+*.pyc
+.venv/
+node_modules/
+.env
+.env.*
+!.env.example
+
+# old files kept locally
+_archive/
+*.tgz
+
+# device runtime data (stays on the Pi, see device/README.md)
+device/scans/
+device/asks/
+device/logs/
+device/patrol/
+device/certs/
+device/models/
+device/config/
+device/outbox/
+
+# bench runtime data
+bench/runs/
+
+# hardware backups
+hardware/**/_before_*/
+
+# video: footage, renders, model weights and old versions stay local
+video/out/
+video/real/
+video/shoot/
+video/public/real/
+video/public/footage/
+video/_old_*/
+video/_updates/
+video/tts/models/
+video/tts/pip.log
+
+# app / backend (v2)
+app/.expo/
+app/dist/
+app/ios/
+app/android/
+supabase/.temp/
+supabase/.branches/

@@ -1,0 +1,224 @@
+{
+  "voice": "am_michael",
+  "speed": 1.0,
+  "lead": 0.5,
+  "gap": 0.35,
+  "tail": 0.9,
+  "scenes": [
+    {
+      "id": "hook",
+      "lines": [
+        {
+          "id": "h1",
+          "text": "In most plants, the gauges, valves and warning lights aren't connected to anything."
+        },
+        {
+          "id": "h2",
+          "text": "So every shift, someone walks the floor with a clipboard.",
+          "pauseBefore": 0.35
+        },
+        {
+          "id": "h3",
+          "text": "So a pressure past its limit, or a slow leak, gets noticed hours too late.",
+          "pauseBefore": 0.35
+        }
+      ]
+    },
+    {
+      "id": "options",
+      "lines": [
+        {
+          "id": "o1",
+          "text": "Putting a sensor on every gauge costs thousands of dollars per point."
+        },
+        {
+          "id": "o2",
+          "text": "A patrol robot costs a hundred thousand.",
+          "pauseBefore": 0.25
+        },
+        {
+          "id": "o3",
+          "text": "Today's AI cameras spot people and pets, but judging danger needs a GPU-class model.",
+          "pauseBefore": 0.25
+        }
+      ]
+    },
+    {
+      "id": "homeProblem",
+      "lines": [
+        {
+          "id": "hp0",
+          "text": "At the same time, another problem is growing."
+        },
+        {
+          "id": "hp1",
+          "text": "In Taiwan, over seven hundred thousand older people now live alone.",
+          "pauseBefore": 0.3
+        },
+        {
+          "id": "hp2",
+          "text": "As hearing and memory fade, pots are left burning on the stove, and smoke alarms go unheard.",
+          "pauseBefore": 0.5,
+          "speed": 1.08
+        },
+        {
+          "id": "hp3",
+          "text": "Caregivers can't watch a camera all day, so by the time anyone notices, it's often too late.",
+          "pauseBefore": 0.45
+        }
+      ]
+    },
+    {
+      "id": "proto",
+      "minDuration": 10.8,
+      "lines": [
+        {
+          "id": "p1",
+          "at": 0.6,
+          "text": "So we built PatrolEye to check where danger starts, and warn you in words.",
+          "say": "So we built Patrol Eye to check where danger starts, and warn you in words."
+        },
+        {
+          "id": "p2",
+          "at": 5.9,
+          "text": "This is our working prototype: a camera on two motors, and a small computer that decides where to look."
+        }
+      ]
+    },
+    {
+      "id": "editions",
+      "minDuration": 7.0,
+      "lines": [
+        {
+          "id": "e1",
+          "text": "It comes in two editions: for plants, with a depth camera, and for homes, with a webcam.",
+          "at": 0.5
+        }
+      ]
+    },
+    {
+      "id": "plant",
+      "minDuration": 0,
+      "lines": [
+        {
+          "id": "f0",
+          "at": 0.5,
+          "text": "Now put it in a pump room."
+        },
+        {
+          "id": "f1",
+          "at": 2.5,
+          "text": "Every hour, it walks the round for you: twenty-two gauges, valves and lights, from one spot on the wall."
+        },
+        {
+          "id": "f2",
+          "at": 9.7,
+          "text": "When a pressure creeps past its limit, it zooms in, reads the dial, and warns the shift lead."
+        }
+      ]
+    },
+    {
+      "id": "bench",
+      "minDuration": 15.9,
+      "lines": [
+        {
+          "id": "b1",
+          "text": "To test it for real, we built a pump room out of three screens, and broke things while it patrolled.",
+          "at": 0.5
+        },
+        {
+          "id": "b2",
+          "text": "PatrolEye found every fault, read the gauges within about one percent, and sent only text.",
+          "say": "Patrol Eye found every fault, read the gauges within about one percent, and sent only text.",
+          "at": 8.8
+        }
+      ]
+    },
+    {
+      "id": "homeRounds",
+      "lines": [
+        {
+          "id": "hr1",
+          "text": "At home, PatrolEye makes the rounds for her caregiver: is she up and about? Is the stove off?",
+          "say": "At home, Patrol Eye makes the rounds for her caregiver. Is she up and about? Is the stove off?"
+        },
+        {
+          "id": "hr2",
+          "text": "If it finds her on the floor, the caregiver gets a text right away: words, not a video feed.",
+          "pauseBefore": 0.5
+        }
+      ]
+    },
+    {
+      "id": "homeAsk",
+      "minDuration": 10.7,
+      "lines": [
+        {
+          "id": "ha1",
+          "text": "Besides waiting for its reports, her caregiver can just ask the camera to check.",
+          "at": 0.5
+        }
+      ]
+    },
+    {
+      "id": "how",
+      "lines": [
+        {
+          "id": "w1",
+          "text": "The prototype runs on a Raspberry Pi 5, with an ASUS UGen300 M.2 module and its Hailo-10H chip.",
+          "say": "The prototype runs on a Raspberry Pi five, with an Asus U Gen three hundred M dot two module, and its Hailo ten H chip."
+        },
+        {
+          "id": "w2",
+          "text": "Forty TOPS and eight gigabytes run a vision-language model, offline.",
+          "say": "Forty tops, and eight gigabytes, run a vision language model, offline.",
+          "pauseBefore": 0.4
+        },
+        {
+          "id": "w3",
+          "text": "For real deployment, we keep the same AI module, shrink everything around it, and mount it on the ceiling, where one unit sees the whole room, floor included.",
+          "pauseBefore": 0.5
+        },
+        {
+          "id": "w4",
+          "text": "Images stay on the device. Only text leaves.",
+          "pauseBefore": 0.4
+        }
+      ]
+    },
+    {
+      "id": "close",
+      "tail": 1.2,
+      "lines": [
+        {
+          "id": "c1",
+          "text": "One camera that catches danger early, so nobody has to watch."
+        },
+        {
+          "id": "c2",
+          "text": "PatrolEye.",
+          "say": "Patrol Eye.",
+          "pauseBefore": 0.7
+        },
+        {
+          "id": "c3",
+          "text": "Private at home. Confidential at work.",
+          "pauseBefore": 0.3
+        }
+      ]
+    }
+  ],
+  "opening": [
+    {
+      "id": "op0",
+      "text": "PatrolEye.",
+      "say": "Patrol Eye.",
+      "at": 1.4
+    },
+    {
+      "id": "op1",
+      "text": "An AI camera that spots danger early.",
+      "at": 2.6
+    }
+  ]
+}
