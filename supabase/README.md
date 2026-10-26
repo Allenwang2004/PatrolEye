@@ -1,19 +1,57 @@
 # supabase：後端
 
-還沒建立。照 `docs/v2/APP_BACKEND_TODO.md` 第 1–3、5 節：
+資料表、RLS、RPC、Storage 都在 `migrations/`；約定見 `docs/v2/ARCHITECTURE.md`。
+
+CLI 裝在這個資料夾的 `node_modules`，指令都在 `supabase/` 裡執行：
 
 ```bash
-supabase init                        # 在 repo 根目錄執行
-supabase link --project-ref <ref>
-supabase migration new init          # 貼上待辦裡的 SQL 草稿，檢查後再用
-supabase db push
+cd supabase
+npm install
 ```
 
-`supabase/.env`（不進 git，只在開發者電腦上）：
+## 本機（Docker）
+
+```bash
+npx supabase start                  # 第一次會下載映像檔；會套用 migrations/
+npm run test:rls                    # 兩個帳號、兩台攝影機，檢查誰能讀寫什麼
+npm run provision:local -- --out device.local.json
+npm run fake-device -- --config device.local.json
+npx supabase stop
+```
+
+`.env.local`（不進 git）放本機的 URL 和 key，`npx supabase status` 可以看到：
+
+```
+SUPABASE_URL=http://127.0.0.1:54321
+SUPABASE_ANON_KEY=<ANON_KEY>
+SUPABASE_SERVICE_ROLE_KEY=<SERVICE_ROLE_KEY>
+```
+
+Studio：http://127.0.0.1:54323
+
+## 雲端專案
+
+```bash
+npx supabase login
+npx supabase link --project-ref <ref>
+npx supabase db push
+npm run provision                   # 讀 .env，輸出 device.json
+```
+
+`.env`（不進 git，只在開發者電腦上）：
 
 ```
 SUPABASE_URL=https://<project>.supabase.co
+SUPABASE_ANON_KEY=<anon key>
 SUPABASE_SERVICE_ROLE_KEY=<service role key>
 ```
 
-`scripts/provision_device.mjs` 用 service role 建立攝影機帳號並輸出 `device.json`；`scripts/fake_device.mjs` 在沒有攝影機時模擬攝影機。
+## 腳本
+
+| 指令 | 做什麼 |
+|---|---|
+| `npm run provision` | 建立一台攝影機（裝置帳號、`devices`、`device_state`），輸出 `device.json` → 複製到攝影機的 `device/config/device.json` |
+| `npm run fake-device -- [--config device.json] [--pano <掃描資料夾>] [--event-every 120]` | 模擬攝影機：印出綁定 QR、心跳、回應 `scan`／`apply_masks`、定時丟假事件（按 Enter 立刻丟一個）。預設全景是 `device/scans/20261011_031345_normal`，測試片段用 ffmpeg 產生在 `.cache/` |
+| `npm run test:rls` | 權限測試，只對本機跑 |
+
+`device*.json` 裡有裝置帳號的密碼，已在 `.gitignore`。
