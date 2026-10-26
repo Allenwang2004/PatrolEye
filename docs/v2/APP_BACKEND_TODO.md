@@ -56,28 +56,28 @@ app/                              Expo（TypeScript、expo-router）
 
 ## 4. Expo App
 
-- [ ] `npx create-expo-app@latest app`（預設就是 TypeScript＋expo-router）
-- [ ] 套件：`npx expo install expo-camera expo-video react-native-svg react-native-gesture-handler @react-native-async-storage/async-storage react-native-url-polyfill`，再 `npm i @supabase/supabase-js`。這些都能直接在 Expo Go 跑
-- [ ] `app/.env`：`EXPO_PUBLIC_SUPABASE_URL`、`EXPO_PUBLIC_SUPABASE_ANON_KEY`（只放 anon key）
-- [ ] `lib/supabase.ts`：`createClient`，session 存 AsyncStorage、`autoRefreshToken: true`、`persistSession: true`
+- [x] `npx create-expo-app@latest app`（預設就是 TypeScript＋expo-router；SDK 58，路由在 `app/src/app/`）
+- [x] 套件：`npx expo install expo-camera expo-video react-native-svg react-native-gesture-handler @react-native-async-storage/async-storage react-native-url-polyfill`，再 `npm i @supabase/supabase-js`。這些都能直接在 Expo Go 跑
+- [x] `app/.env`：`EXPO_PUBLIC_SUPABASE_URL`、`EXPO_PUBLIC_SUPABASE_ANON_KEY`（只放 anon key）
+- [x] `src/lib/supabase.ts`：`createClient`，session 存 AsyncStorage、`autoRefreshToken: true`、`persistSession: true`
 
 畫面：
 
-1. [ ] **登入／註冊**：email＋密碼
-2. [ ] **攝影機列表**：`devices`（自己的）＋`device_state`；`last_seen` 在 90 秒內顯示在線，否則離線；顯示 status（巡檢中、掃描中…）
-3. [ ] **新增攝影機**：`CameraView` 掃 QR（`barcodeScannerSettings={{ barcodeTypes: ['qr'] }}`）→ 解析 `patroleye://claim?d=&c=` → `rpc('claim_device', { p_device_id, p_code })` → 失敗顯示「綁定碼不對或這台已經被綁定」→ 成功後取名、選房間（更新 `devices.name`、`room`）→ 進設定流程
-4. [ ] **設定流程**
+1. [x] **登入／註冊**：email＋密碼
+2. [x] **攝影機列表**：`devices`（自己的）＋`device_state`；`last_seen` 在 90 秒內顯示在線，否則離線；顯示 status（巡檢中、掃描中…）
+3. [x] **新增攝影機**：`CameraView` 掃 QR（`barcodeScannerSettings={{ barcodeTypes: ['qr'] }}`）→ 解析 `patroleye://claim?d=&c=` → `rpc('claim_device', { p_device_id, p_code })` → 失敗顯示「綁定碼不對或這台已經被綁定」→ 成功後取名、選房間（更新 `devices.name`、`room`）→ 進設定流程
+4. [x] **設定流程**
    - 說明：「接下來攝影機會轉一圈拍全景，用來讓你選擇不想被看到的區域」，使用者同意才繼續
    - 新增 `device_commands`（`type: 'scan'`）→ 監看這筆指令（Realtime 或每 2 秒查一次）→ `done` 後拿 `result.scan_id`
    - 讀 `scans` 那一筆，`storage.from('panoramas').createSignedUrl(pano_path, 3600)` 顯示全景（全景很寬，要能左右捲動、縮放）
    - 遮罩編輯器：在全景上拖曳畫矩形（gesture handler＋svg），可以刪除；顯示成半透明黑框
    - 儲存：螢幕座標 → 全景像素 → 角度（公式見 ARCHITECTURE.md），新增 `masks`（`version` 由資料庫設定，用回傳的值）→ 新增 `device_commands`（`type: 'apply_masks'`, `payload: { mask_id, version }`）→ 等 `device_state.masks_version` 追上 → 顯示「之後這些區域都會是黑的」
    - 之後可以從攝影機頁面重新進來改遮罩或重新掃描
-5. [ ] **事件列表**：自己所有攝影機的 `events`，新的在最上面；縮圖、標題、時間、嚴重程度、是否已確認
+5. [x] **事件列表**：自己所有攝影機的 `events`，新的在最上面；縮圖、標題、時間、嚴重程度、是否已確認
    - 訂閱 Realtime（`postgres_changes`，`INSERT`，table `events`）：App 開著時新事件直接出現在最上面，並跳出頁內提示（代替推播）
    - 下拉重新整理；往下捲載入更多
-6. [ ] **事件內容**：標題、說明、時間、檢查點、讀數；`expo-video` 播放片段（`createSignedUrl(clip_path, 3600)`）；「我知道了」更新 `acked_at`、`acked_by`
-7. [ ] **設定**：登出、改攝影機名稱
+6. [x] **事件內容**：標題、說明、時間、檢查點、讀數；`expo-video` 播放片段（`createSignedUrl(clip_path, 3600)`）；「我知道了」更新 `acked_at`、`acked_by`
+7. [x] **設定**：登出、改攝影機名稱
 
 ## 5. 沒有攝影機也能測（`fake_device.mjs`）
 
