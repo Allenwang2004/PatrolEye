@@ -1,0 +1,12 @@
+# Supabase
+.branches
+.temp
+
+# dotenvx
+.env.keys
+.env.local
+.env.*.local
+
+# device credentials from provision_device.mjs, generated test media
+device*.json
+.cache/
