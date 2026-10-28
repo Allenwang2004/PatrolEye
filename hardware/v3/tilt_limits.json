@@ -1,0 +1,8 @@
+{
+ "note": "Lowest tilt in degrees (negative = down) that keeps the device out of the frame, for |pan| = 0, 5, ... 180 deg. Desk mount, 1 deg margin included. Ceiling mount: same numbers with the sign flipped = highest tilt toward the ceiling.",
+ "camera": "Raspberry Pi Camera Module 3 standard, 66 x 41 deg",
+ "pan_step_deg": 5,
+ "margin_deg": 1.0,
+ "p5": [-39.1, -39.1, -39.1, -39.1, -37.4, -34.8, -33.3, -32.2, -31.3, -30.5, -30.4, -30.0, -30.3, -30.5, -31.3, -32.1, -33.2, -34.6, -36.3, -34.5, -32.4, -29.9, -27.0, -23.6, -19.6, -17.5, -16.5, -15.5, -14.9, -14.6, -14.7, -14.7, -15.0, -15.5, -16.3, -17.3, -18.6],
+ "v2": [-30.6, -28.8, -27.4, -26.2, -25.4, -24.8, -24.2, -24.2, -24.5, -24.6, -25.2, -26.0, -27.2, -28.8, -31.8, -34.8, -37.3, -39.1, -39.1, -39.1, -37.3, -34.8, -31.8, -29.9, -28.5, -27.5, -26.9, -26.2, -26.0, -26.1, -26.2, -26.8, -27.6, -28.6, -29.8, -31.5, -33.3]
+}

@@ -12,11 +12,14 @@ TEMPLATE = r'''# PatrolEye enclosure v3: Raspberry Pi 5 + 2280 M.2 HAT + ASUS UG
 # Generated from design.py (single geometry model; clash-checked). Massing model, not print-ready.
 #   v1  = competition prototype as built (C-bracket pan, tilt tower, C270), base raised to 80 x 98 x 47 mm
 #         for Pi 5 + 2280 M.2 HAT + UGen300 M.2 + 30 mm fan; servo board on the back of the pan post
+#   p5  = Stage II build: v1's Pi 5 base stack (80 x 98 x 47 mm, no holes front or back, one 12 V cable
+#         through the floor) with the compact head 21 mm ahead of centre; 120 mm tall overall
+#   p5x = p5 exploded
 #   v2  = after the competition, smaller (68 x 92 x 36 mm body, CM5 on one carrier board,
-#         compact turret head with two STS3032 micro bus servos; 102 mm tall overall)
+#         compact turret head with two STS3032 micro bus servos; 110 mm tall overall)
 #   v1x = v1 exploded, for explaining the parts
 #   vc  = for real deployment: v2 hung from the ceiling on a twist-lock plate (PoE through the plate),
-#         turret below the body, barrel resting 35 degrees down; drops 104 mm from the ceiling
+#         turret below the body, barrel resting 35 degrees down; drops 114 mm from the ceiling
 # Axes in mm: r = right (seen from the front), f = toward the lens, u = up.
 # Run in Fusion: Text Commands (Py) ->  exec(open('/Users/coconut/tmp/fusion_test/rig_concept_v3.py').read())
 import adsk.core, adsk.fusion, traceback, os, math, json
@@ -24,9 +27,9 @@ import adsk.core, adsk.fusion, traceback, os, math, json
 OUT_DIR = '/Users/coconut/tmp/fusion_test'
 LOG = os.path.join(OUT_DIR, 'rig4_result.log')
 DATA = json.loads(r"""__DATA__""")
-OFFSET = {'v1': 0.0, 'v2': 150.0, 'v1x': -175.0, 'vc': 420.0}           # r offset of each build in the scene
+OFFSET = {'v1': 0.0, 'v2': 150.0, 'v1x': -175.0, 'vc': 420.0, 'p5': 285.0, 'p5x': -350.0}   # r offset of each build in the scene
 EXPLODE = {'lid': (0, 0, 120), 'head': (0, 0, 120), 'servo': (0, 0, 120),
-           'hat': (0, 0, 40), 'ai': (0, 0, 68), 'cool': (40, 0, 0)}
+           'hat': (0, 0, 40), 'ai': (0, 0, 68), 'cool': (40, 0, 0), 'power': (-45, 0, 0)}
 XRAY_GROUPS = ('shell', 'lid', 'boss')
 PALETTE = {
     'white': (236, 236, 232), 'black': (28, 28, 30), 'silver': (188, 191, 196), 'green': (24, 118, 66),
@@ -125,7 +128,8 @@ def build():
             occ = root.occurrences.addNewComponent(adsk.core.Matrix3D.create())
             comp = occ.component
             comp.name = {'v1': 'PatrolEye v1 (competition)', 'v2': 'PatrolEye v2 (compact)',
-                         'v1x': 'PatrolEye v1 exploded', 'vc': 'PatrolEye ceiling (deployment)'}[key]
+                         'v1x': 'PatrolEye v1 exploded', 'vc': 'PatrolEye ceiling (deployment)',
+                         'p5': 'PatrolEye p5 (Stage II, Pi 5 base)', 'p5x': 'PatrolEye p5 exploded'}[key]
         except Exception:
             log('component %s: using root\n%s' % (key, traceback.format_exc()))
         target = comp or root
@@ -164,6 +168,8 @@ def build():
     make('v2', 'v2', False)
     make('v1x', 'v1', True)
     make('vc', 'vc', False)
+    make('p5', 'p5', False)
+    make('p5x', 'p5', True)
 
     # ------------------------------------------------------------------ colours
     try:
@@ -196,7 +202,7 @@ def build():
                 except Exception:
                     pass
 
-    def xray(on, keys=('v1', 'v2', 'v1x', 'vc')):
+    def xray(on, keys=('v1', 'v2', 'v1x', 'vc', 'p5', 'p5x')):
         for kk in keys:
             for b, part in bodies.get(kk, []):
                 if part['group'] in XRAY_GROUPS or part.get('xray'):
@@ -260,7 +266,14 @@ def build():
     shot('v3_vc_room.png', ['vc'], (0.85, 1.5, -0.38))
     shot('v3_vc_side.png', ['vc'], (1.0, 0.0, -0.12), hide=('room',))
     shot('v3_vc_xray.png', ['vc'], (1.0, 1.1, -0.9), xr=True, hide=('room',))
-    show(['v1', 'v2', 'v1x', 'vc'])
+    # Stage II build (Pi 5 base + compact head)
+    shot('v3_p5_front.png', ['p5'], FRONT)
+    shot('v3_p5_rear.png', ['p5'], REAR)
+    shot('v3_p5_xray.png', ['p5'], (-1.0, 0.6, 0.6), xr=True)
+    shot('v3_p5_exploded.png', ['p5x'], (1.0, 1.2, 0.6))
+    shot('v3_p5_base_xray.png', ['p5'], (1.0, 1.1, 1.0), xr=True, hide=('head', 'lid'))
+    shot('v3_v1_p5_front.png', ['v1', 'p5'], (0.45, 1.3, 0.4))
+    show(['v1', 'v2', 'v1x', 'vc', 'p5', 'p5x'])
     xray(False)
     try:
         app.activeViewport.fit()

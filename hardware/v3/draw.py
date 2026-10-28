@@ -206,5 +206,5 @@ def draw(key, out):
 
 
 if __name__ == '__main__':
-    for k in sys.argv[1:] or ['v1', 'v2']:
+    for k in sys.argv[1:] or ['v1', 'p5', 'v2']:
         draw(k, f'layout_{k}.png')

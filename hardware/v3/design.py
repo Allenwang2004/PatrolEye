@@ -4,9 +4,17 @@
   - the Fusion 360 script                (python3 design.py fusion)
 
 Axes in mm: r = right (seen from the front), f = toward the front (lens side), u = up.
-Two builds:
-  v1  competition prototype: Raspberry Pi 5 + 2280 M.2 HAT + ASUS UGen300 M.2 (Hailo-10H)
+Builds:
+  v1  competition prototype as built: Raspberry Pi 5 + 2280 M.2 HAT + ASUS UGen300 M.2 (Hailo-10H),
+      C-bracket pan, tilt tower, C270
+  p5  Stage II build: v1's Pi 5 base stack, tidied (no holes front or back, one 12 V cable through the
+      floor), with the compact head
   v2  after the competition: same parts family, smaller: Compute Module 5 on one carrier board
+  vc  v2 hung from the ceiling
+The compact head (v2r, 2026-10-27) follows the user's redlines: one centred lens, a one-piece U bracket
+screwed to the turret, no front slot, no holes in the back.
+tilt_limits.py works out, for each pan angle, how far the camera may tilt down before the body enters
+the frame (tilt_limits.json, for the camera software).
 """
 import json
 import math
@@ -108,40 +116,66 @@ class Part:
 MICRO = dict(L=23.2, W=12.1, H=28.5, SH=5.9)   # Feetech STS3032: body L x W, height incl. shaft boss, shaft from front end
 
 
-def head_compact(top, PF):
-    """v2 head: fixed pedestal, rotating turret, tilting camera barrel. Two STS3032 micro bus servos.
-    The pan servo sinks 12 mm into the base through the lid; the tilt servo hides inside the barrel."""
+def head_compact(top, PF, servo_forward=False):
+    """Compact head (v2r): fixed pedestal, PTFE washer, turret cup, one-piece U bracket, tilting barrel.
+    Two STS3032 micro bus servos.
+    - Pan: the servo stands in the pedestal and sinks 12 mm into the body through the lid. Its horn is
+      screwed to the inside of the turret cup; the cup rides on a PTFE washer, so the shaft carries no load.
+      servo_forward=True turns the servo body to point forward (Pi 5 base: clears the AI heatsink).
+    - The U bracket's 3 mm base plate is screwed to the turret, so both cheeks turn with it.
+    - Tilt: the servo hides in the barrel behind the camera. Its horn is bolted into a pocket in the left
+      cheek, so when the servo drives, its body turns and takes the barrel with it. The right side is a
+      hollow shaft in a bearing in the right cheek; the camera FPC and the servo cable leave through it,
+      run down inside the right cheek and coil inside the turret (about +-170 deg of pan, no slip ring).
+    - One centred lens; a light-guide ring around the bezel is the status light (no extra hole)."""
     L, Wd, Hs, SH = MICRO['L'], MICRO['W'], MICRO['H'], MICRO['SH']
     w = Wd / 2
     sb = top - 12.0                                   # pan servo bottom (below the lid)
-    ear0 = sb + 18.0                                  # mounting ears rest on the pedestal bar
+    ear0 = sb + 18.0                                  # mounting ears rest on the pedestal top
     ped_top, tur0, tur1 = top + 6.0, top + 7.0, top + 20.5
-    UT = tur1 + 1.0 + 21.0                            # tilt axis height
+    plate1 = tur1 + 3.0                               # top of the U bracket's base plate
+    UT = plate1 + 25.0                                # tilt axis: the bezel (24.4 mm from the axis) clears the plate
+    f0, f1 = (PF - SH, PF + (L - SH)) if servo_forward else (PF - (L - SH), PF + SH)
     P = []
     P.append(Part('Pan servo STS3032', 'black', 'head',
-                  [box(-w, w, PF - (L - SH), PF + SH, sb, sb + 25), cyl((0, PF, sb + 25), (0, PF, sb + Hs), 3.0),
-                   box(-w, w, PF - (L - SH) - 4.55, PF + SH + 4.55, ear0, ear0 + 2.5)],
-                  through=True, label='水平伺服 STS3032（下半截沉入機身）', side=(PF - 6, sb + 6)))
+                  [box(-w, w, f0, f1, sb, sb + 25), cyl((0, PF, sb + 25), (0, PF, sb + Hs), 3.0),
+                   box(-w, w, f0 - 4.55, f1 + 4.55, ear0, ear0 + 2.5)],
+                  through=True, label='水平伺服 STS3032（下半截沉入機身）', side=((f0 + f1) / 2, sb + 6)))
     P.append(Part('Pan horn', 'silver', 'head', [cyl((0, PF, sb + Hs), (0, PF, sb + Hs + 2), 10)]))
-    ped_plus = [cyl((0, PF, top), (0, PF, ped_top), 25), box(-8, 8, PF - 23, PF + 11.5, ped_top - 2.5, ped_top)]
     ped_minus = [cyl((0, PF, top - 1), (0, PF, ped_top - 2.5), 23),
-                 box(-w - 0.3, w + 0.3, PF - (L - SH) - 0.2, PF + SH + 0.2, top - 1, ped_top + 1)]
-    P.append(Part('Pedestal (fixed)', 'white', 'head', ped_plus, ped_minus, xray=True))
+                 box(-w - 0.3, w + 0.3, f0 - 0.2, f1 + 0.2, top - 1, ped_top + 1),      # pan servo
+                 box(13, 17, PF - 9, PF - 1, top - 1, ped_top + 1)]                    # cables down into the body
+    P.append(Part('Pedestal (fixed)', 'white', 'head', [cyl((0, PF, top), (0, PF, ped_top), 25)], ped_minus, xray=True))
+    P.append(Part('PTFE washer', 'white', 'head', [cyl((0, PF, ped_top), (0, PF, tur0), 25)],
+                  [cyl((0, PF, ped_top - 1), (0, PF, tur0 + 1), 21.5)]))
     P.append(Part('Turret (rotates)', 'white', 'head', [cyl((0, PF, tur0), (0, PF, tur1), 25)],
                   [cyl((0, PF, tur0 - 1), (0, PF, tur1 - 2), 23)], label='轉台（水平轉動）', xray=True))
+    yoke = [rbox(-31.6, 31.6, PF - 11, PF + 11, tur1, plate1, 4)]
     for sgn in (-1, 1):
         r0, r1 = sorted((sgn * 28.6, sgn * 31.6))
-        P.append(Part('Cheek', 'white', 'head',
-                      [box(r0, r1, PF - 11, PF + 11, tur1, UT), cyl((r0, PF, UT), (r1, PF, UT), 11),
-                       cyl((sgn * 28.0, PF, UT), (sgn * 28.6, PF, UT), 6)]))
+        yoke += [box(r0, r1, PF - 11, PF + 11, plate1, UT), cyl((r0, PF, UT), (r1, PF, UT), 11)]
+    P.append(Part('U bracket', 'white', 'head', yoke,
+                  [cyl((-29.4, PF, UT), (-28.4, PF, UT), 9.8),                          # pocket for the tilt horn
+                   cyl((28.4, PF, UT), (31.8, PF, UT), 8.5)],                           # bearing seat
+                  label='U 型支架（底板鎖在轉台上）', side=(PF - 6, plate1 + 10), xray=True))
+    P.append(Part('Tilt horn (bolted to the left cheek)', 'silver', 'head', [cyl((-29.4, PF, UT), (-28.2, PF, UT), 9.5)]))
+    P.append(Part('Horn screws', 'black', 'head', [cyl((-31.95, PF + df, UT), (-31.6, PF + df, UT), 1.5) for df in (-6.5, 6.5)]))
+    P.append(Part('Right pivot bearing', 'silver', 'head', [cyl((28.4, PF, UT), (31.8, PF, UT), 8.5)],
+                  [cyl((28.0, PF, UT), (32.2, PF, UT), 6.0)]))
+    P.append(Part('Hollow pivot shaft', 'silver', 'head', [cyl((27.0, PF, UT), (32.2, PF, UT), 6.0)],
+                  [cyl((26.0, PF, UT), (33.0, PF, UT), 3.0)]))
     P.append(Part('Camera barrel (tilts)', 'white', 'head', [cyl((-28, PF, UT), (28, PF, UT), 21)],
                   label='鏡頭筒（俯仰）', xray=True, side=(PF - 14, UT + 12)))
     P.append(Part('Tilt servo STS3032 (inside the barrel)', 'black', 'head',
-                  [box(-27.5, 0, PF - (L - SH), PF + SH, UT - w, UT + w)], label='俯仰伺服 STS3032（藏在筒內）', side=(PF - 8, UT - 2)))
-    P.append(Part('Camera Module 3', 'green', 'head', [box(1, 26, PF + 3, PF + 14.5, UT - 12, UT + 12)], label='相機模組 3'))
-    P.append(Part('Lens bezel', 'black', 'head', [cyl((13.5, PF + 14.5, UT), (13.5, PF + 21.6, UT), 9)]))
-    P.append(Part('Camera lens', 'glass', 'head', [cyl((13.5, PF + 21.6, UT), (13.5, PF + 22.4, UT), 6.5)]))
-    P.append(Part('Status LED + mic', 'black', 'head', [cyl((-13.5, PF + 19.5, UT), (-13.5, PF + 21.5, UT), 2.5)]))
+                  [box(-27.5, 0, PF - (L - SH), PF + SH, UT - w, UT + w), cyl((-29.0, PF, UT), (-27.5, PF, UT), 3.0)],
+                  label='俯仰伺服 STS3032（藏在筒內）', side=(PF - 8, UT - 2)))
+    P.append(Part('Camera Module 3', 'green', 'head', [box(-12.5, 12.5, PF + 7, PF + 8, UT - 12, UT + 12),
+                                                        box(-4.25, 4.25, PF + 8, PF + 18, UT - 4.25, UT + 4.25)],
+                  label='Camera Module 3（鏡頭置中）'))
+    P.append(Part('Lens bezel', 'black', 'head', [cyl((0, PF + 18, UT), (0, PF + 22.5, UT), 8)]))
+    P.append(Part('Light ring', 'white', 'head', [cyl((0, PF + 18, UT), (0, PF + 22, UT), 9.4)],
+                  [cyl((0, PF + 17, UT), (0, PF + 23, UT), 8.0)]))
+    P.append(Part('Camera lens', 'glass', 'head', [cyl((0, PF + 22.5, UT), (0, PF + 23, UT), 5.5)]))
     return P
 
 
@@ -274,30 +308,76 @@ def build_v1():
     return P, dict(HW=HW, FR=FR, RE=RE, H=H, W=W, name='v1 · 比賽原型（換 M.2 後）', flow=flow)
 
 
+# ------------------------------------------------------------------- p5
+def build_p5():
+    """Stage II build: the user keeps the Raspberry Pi 5. v1's base stack, tidied, with the compact head.
+    - Same stack as v1 (taken from build_v1): Pi 5 + Active Cooler, 2280 M.2 HAT on 16 mm standoffs,
+      UGen300 M.2 + heatsink, 30 mm fan on the right wall. Body 80 x 98 x 47 mm.
+    - No holes in the front or the back: one 12 V cable comes up through a grommet in the floor and runs
+      out to the back in a groove under the base. Inside, two small buck converters make 5 V 5 A for the
+      Pi and 6 V for the servos; the network is Wi-Fi. Air comes in through the floor (4 mm rubber feet)
+      and leaves through a slot grille on the right wall in front of the fan. The microSD card is reached
+      through a small opening in the floor.
+    - The bus servo adapter stands against the left wall inside.
+    - The head sits 21 mm ahead of the body centre, with the pan servo turned to point forward, so the
+      servo can still sink 12 mm into the body in front of the AI heatsink. Front and side views are a
+      little better than v2; looking backwards and down is worse, so the back should face a wall."""
+    HW, FR, RE, H, W = 40.0, 49.0, -49.0, 47.0, 3.0
+    PF = 21.0
+    L, SH = MICRO['L'], MICRO['SH']
+    v1_parts, _ = build_v1()
+    P = []
+    shell_minus = [box(-HW + W, HW - W, RE + W, FR - W, W, H + 1)]
+    for i in range(6):
+        for r0, r1 in ((-20, -6), (6, 20)):
+            shell_minus.append(box(r0, r1, -36 + i * 12, -32 + i * 12, -1, W + 1))   # floor intake, clear of the insert
+    for k in range(7):
+        uu = 15.5 + 3.6 * k
+        shell_minus.append(box(HW - W - 1, HW + 1, -12, 14, uu, uu + 1.8))         # exhaust grille in front of the fan
+    shell_minus += [cyl((-33, 12, -1), (-33, 12, W + 1), 3.5),                      # 12 V cable grommet
+                    box(-36, -30, RE - 1, 12, -1, 1.2),                              # groove under the base, out at the back
+                    box(-7, 7, 31, 45, -1, W + 1)]                                   # microSD access from below
+    P.append(Part('Base shell', 'white', 'shell', [rbox(-HW, HW, RE, FR, 0, H - W, 6)], shell_minus, label='底座外殼'))
+    BOSS = [(rr, ff) for rr in (-HW + 6.5, HW - 6.5) for ff in (FR - 6.5, RE + 6.5)]
+    lid_minus = [cyl((rr, ff, H - W - 1), (rr, ff, H + 1), 1.7) for rr, ff in BOSS]
+    lid_minus += [box(-7, 7, PF - SH - 1, PF + (L - SH) + 1, H - W - 1, H + 1),      # pan servo drops through the lid
+                  box(13, 17, PF - 9, PF - 1, H - W - 1, H + 1)]                      # camera FPC + tilt servo cable
+    P.append(Part('Lid', 'white', 'lid', [rbox(-HW, HW, RE, FR, H - W, H, 6)], lid_minus, label='上蓋'))
+    for rr in (-24, 24):
+        for ff in (-40, 40):
+            P.append(Part('Rubber foot', 'black', 'shell', [cyl((rr, ff, -4), (rr, ff, 0), 5)], through=True))
+    # Pi 5, M.2 HAT, UGen300, heatsink, fan, lid screw bosses and the 1/4"-20 insert: exactly as in v1
+    P += [p for p in v1_parts if p.group in ('pi', 'hat', 'ai', 'cool', 'boss') or p.name.startswith('1/4"-20')]
+    P.append(Part('Bus servo adapter (A)', 'pcb', 'power', [box(-HW + W, -HW + W + 6, -36, 6, 10, 43)],
+                  label='伺服驅動板（貼左側牆）', top=(-34, -15)))
+    P.append(Part('Buck 12 V to 5 V 5 A (Pi)', 'blue', 'power', [box(-28, -14, -40, -14, 28.5, 37)],
+                  label='降壓模組（12 V → Pi 5 V、伺服 6 V）', top=(-21, -27)))
+    P.append(Part('Buck 12 V to 6 V (servos)', 'blue', 'power', [box(-28, -16, -8, 10, 28.5, 34)]))
+    P += head_compact(H, PF, servo_forward=True)
+    flow = [('out', 'R', 1)]
+    return P, dict(HW=HW, FR=FR, RE=RE, H=H, W=W, pan_f=PF, name='p5 · 複賽版（Pi 5 底座）', flow=flow)
+
+
 # ------------------------------------------------------------------- v2
 def build_v2():
     HW, FR, RE, H, W = 34.0, 46.0, -46.0, 36.0, 3.0
     P = []
-    shell_minus = [box(-HW + W, HW - W, RE + W, FR - W, W, H + 1),
-                   box(-23, -5, RE - 2, RE + W + 1, 14.1, 28.5),               # RJ45 (PoE) window
-                   cyl((0.5, RE - 2, 20), (0.5, RE + 5, 20), 5.5),             # 12 V jack
-                   box(8, 29, RE - 2, RE + W + 1, 23, 31)]                      # blower exhaust
-    shell_minus += [
-                   box(-8, 8, FR - 5, FR + 2, 15, 18)]                          # service slot
+    shell_minus = [box(-HW + W, HW - W, RE + W, FR - W, W, H + 1)]
     for i in range(6):
-        shell_minus.append(box(-18, 18, -32 + i * 12, -28 + i * 12, -1, W + 1))
-    for i in range(5):
-        shell_minus.append(('dside', -HW + 1.5, -26 + i * 12, 9, 5.0))
-        shell_minus.append(('dside', HW - 1.5, -26 + i * 12, 9, 5.0))
+        shell_minus.append(box(-18, 18, -32 + i * 12, -28 + i * 12, -1, W + 1))       # floor intake slots
+    for uu in (28.6, 30.8):
+        shell_minus.append(box(HW - W - 1, HW + 1, -39, -22, uu, uu + 1.2))          # exhaust: two slots under the lid seam, right side
+    shell_minus += [cyl((-8, -40, -1), (-8, -40, W + 1), 3.2),                         # PoE cable grommet
+                    box(-11, -5, RE - 1, -40, -1, 1.2)]                                 # groove under the base, out at the back
     P.append(Part('Base shell', 'white', 'shell', [rbox(-HW, HW, RE, FR, 0, H - W, 6)], shell_minus, label='機身外殼'))
     PF = -2.0                                                                    # pan axis (body centre)
     L, SH = MICRO['L'], MICRO['SH']
     lid_minus = [box(-7, 7, PF - (L - SH) - 1, PF + SH + 1, H - W - 1, H + 1),     # pan servo drops through the lid
-                 box(13, 17, PF - 9, PF - 1, H - W - 1, H + 1)]                     # camera FFC + tilt servo cable, inside the pedestal
+                 box(13, 17, PF - 9, PF - 1, H - W - 1, H + 1)]                     # camera FPC + tilt servo cable, inside the pedestal
     P.append(Part('Lid', 'white', 'lid', [rbox(-HW, HW, RE, FR, H - W, H, 6)], lid_minus, label='上蓋'))
     for rr in (-26, 26):
         for ff in (-38, 38):
-            P.append(Part('Rubber foot', 'black', 'shell', [cyl((rr, ff, -2.5), (rr, ff, 0), 5)], through=True))
+            P.append(Part('Rubber foot', 'black', 'shell', [cyl((rr, ff, -4), (rr, ff, 0), 5)], through=True))
     for rr in (-26, 26):
         for ff in (-38, 38):
             P.append(Part('Carrier standoff', 'brass', 'board', [cyl((rr, ff, W), (rr, ff, 13), 2.5)]))
@@ -311,50 +391,49 @@ def build_v2():
     P.append(Part('UGen300 M.2 card (2280, underside)', 'pcb', 'ai', [box(-11, 11, -40, 40, 10.5, 11.3)], label='UGen300 M.2（板下）', top=(2, -12), side=(24, 10.9)))
     P.append(Part('Hailo-10H (faces down)', 'black', 'ai', [box(-8, 8, -10, 7, 9.3, 10.5)]))
     P.append(Part('Buck + bus-servo driver', 'blue', 'board', [box(-27, -8, -24, -8, 14.6, 19)]))
-    P.append(Part('RJ45 (PoE)', 'silver', 'board', [box(-22, -6, -45, -26, 14.6, 28)], through=True, label='RJ45（PoE）'))
-    P.append(Part('12 V jack', 'black', 'board', [box(-4, 5, -45, -33, 14.6, 25)], through=True))
-    P.append(Part('25 mm blower (exhaust rear)', 'black', 'cool', [box(8, 31, -43, -20, 22, 32)], label='25 mm 鼓風扇（後排）'))
+    P.append(Part('RJ45 (PoE)', 'silver', 'board', [box(-22, -6, -41, -25, 14.6, 28)], label='RJ45（PoE，線從底部出去）'))
+    P.append(Part('25 mm blower (exhausts right)', 'black', 'cool', [box(8, 31, -43, -20, 19, 31)], label='25 mm 鼓風扇（往右側細縫排風）'))
     P += head_compact(H, PF)
-    flow = [('in', 'L', ff) for ff in (-26, 10)] + [('in', 'R', ff) for ff in (-2, 22)] + [('out', 'B', 18.5)]
-    return P, dict(HW=HW, FR=FR, RE=RE, H=H, W=W, name='v2 · 比賽後縮小版', flow=flow)
+    flow = [('out', 'R', -30.5)]
+    return P, dict(HW=HW, FR=FR, RE=RE, H=H, W=W, pan_f=PF, name='v2 · 比賽後縮小版', flow=flow)
 
 
 # ------------------------------------------------------------- ceiling (vc)
 U_REF = 110.0          # ceiling version: the body's top face (v2's underside) sits at u = U_REF
 PLATE_T = 5.0          # twist-lock ceiling plate thickness
+POST = 4.0             # posts between the plate and the body keep the floor intake open
 TILT_DOWN = 35.0       # resting pose of the barrel: looking 35 degrees below the horizon
 
 
 def build_vc(flipped=True):
     """For real deployment: the compact v2 hung from the ceiling, like a PTZ dome without the dome.
     Same body, boards and turret as v2, turned upside down (180 degrees about the front-back axis):
-      - a round twist-lock plate (like a smoke detector base) is screwed to the ceiling; the body turns onto it;
-      - power and data (PoE) come down through the plate, so the body needs no rear cable;
-      - the floor vents of v2 would face the plate, so they are closed; air enters the side vents and the
-        blower still exhausts at the rear; the rubber feet are gone;
+      - a round twist-lock plate (like a smoke detector base) is screwed to the ceiling; the body turns onto
+        it, held 4 mm off the plate by four posts so air still comes in through the floor slots;
+      - power and data (PoE) go up through the plate, so the body needs no other cable;
+      - the blower exhausts through the slots on the right side, as in v2; the rubber feet are gone;
       - the turret hangs below the body; pan turns the whole head, tilt points the barrel from the horizon
         down to straight below, so one unit sees the whole floor of a room.
     flipped=False returns the same parts the right way up, for the clearance check."""
     parts, M = build_v2()
-    HW, RE, FR, W = M['HW'], M['RE'], M['FR'], M['W']
     keep = []
     for p in parts:
         if p.name == 'Rubber foot':
             continue
         if p.name == 'Base shell':
-            # drop v2's six floor slots (u from -1 to W+1); add a cable hole up through the plate
-            p.minus = [m for m in p.minus if not (m[0] == 'box' and m[5] == -1 and m[6] == W + 1)]
-            p.minus.append(cyl((0, -30, -1), (0, -30, W + 1), 6.5))
             p.label = '機身（倒掛，上方鎖進吸頂底座）'
-        if p.name in ('RJ45 (PoE)', '12 V jack'):
+        if p.name == 'RJ45 (PoE)':
             p.label = None
         keep.append(p)
     PF = -2.0
+    for rr in (-26, 26):
+        for ff in (-38, 38):
+            keep.append(Part('Plate post', 'white', 'mount', [cyl((rr, ff, -POST), (rr, ff, 0), 4)]))
     keep.append(Part('Ceiling plate (twist-lock)', 'white', 'mount',
-                     [cyl((0, PF, -PLATE_T), (0, PF, 0), 62)],
-                     [cyl((0, -30, -PLATE_T - 1), (0, -30, 1), 6.5)],
+                     [cyl((0, PF, -POST - PLATE_T), (0, PF, -POST), 62)],
+                     [cyl((-8, -40, -POST - PLATE_T - 1), (-8, -40, 1), 6.5)],
                      label='吸頂旋鎖底座 Ø124（PoE 線從中間上去）'))
-    keep.append(Part('Ceiling', 'ceiling', 'room', [box(-150, 150, -130, 130, -PLATE_T - 12, -PLATE_T)]))
+    keep.append(Part('Ceiling', 'ceiling', 'room', [box(-150, 150, -130, 130, -POST - PLATE_T - 12, -POST - PLATE_T)]))
     meta = dict(M, name='吸頂版 · 實際部署', flow=[], u_ref=U_REF)
     if not flipped:
         return keep, meta
@@ -367,21 +446,20 @@ def build_vc(flipped=True):
     barrel = next(p for p in out if p.name == 'Camera barrel (tilts)')
     (_, ax_f, ax_u) = barrel.plus[0][1]
     th = math.radians(TILT_DOWN)
+
+    def tilt(pt):
+        d = pt[1] - ax_f
+        du = pt[2] - ax_u
+        return (pt[0], ax_f + d * math.cos(th) + du * math.sin(th), ax_u - d * math.sin(th) + du * math.cos(th))
     for p in out:
-        if p.name in ('Lens bezel', 'Camera lens', 'Status LED + mic'):
-            new = []
-            for (kind, a, b, rad) in p.plus:
-                def tilt(pt):
-                    d = pt[1] - ax_f
-                    du = pt[2] - ax_u
-                    return (pt[0], ax_f + d * math.cos(th) + du * math.sin(th), ax_u - d * math.sin(th) + du * math.cos(th))
-                new.append(('cyl', tilt(a), tilt(b), rad))
-            p.plus = new
+        if p.name in ('Lens bezel', 'Camera lens', 'Light ring'):
+            p.plus = [('cyl', tilt(a), tilt(b), rad) for (kind, a, b, rad) in p.plus]
+            p.minus = [('cyl', tilt(a), tilt(b), rad) for (kind, a, b, rad) in p.minus]
     return out, meta
 
 
-BUILDS = {'v1': build_v1, 'v2': build_v2, 'vc': build_vc}
-CHECK_BUILDS = {'v1': build_v1, 'v2': build_v2, 'vc': lambda: build_vc(False)}
+BUILDS = {'v1': build_v1, 'p5': build_p5, 'v2': build_v2, 'vc': build_vc}
+CHECK_BUILDS = {'v1': build_v1, 'p5': build_p5, 'v2': build_v2, 'vc': lambda: build_vc(False)}
 
 # ------------------------------------------------------------------- checks
 NESTED_OK = {('Tilt tower', 'Tilt servo STS3215'),
@@ -389,7 +467,12 @@ NESTED_OK = {('Tilt tower', 'Tilt servo STS3215'),
              ('Pedestal (fixed)', 'Pan servo STS3032'), ('Camera barrel (tilts)', 'Tilt servo STS3032 (inside the barrel)'),
              ('Camera barrel (tilts)', 'Camera Module 3'), ('Camera barrel (tilts)', 'Lens bezel'),
              ('Camera Module 3', 'Lens bezel'),
-             ('Camera barrel (tilts)', 'Status LED + mic'),
+             ('Camera barrel (tilts)', 'Light ring'), ('Lens bezel', 'Light ring'),
+             ('PTFE washer', 'Pan servo STS3032'),
+             ('U bracket', 'Tilt horn (bolted to the left cheek)'), ('U bracket', 'Tilt servo STS3032 (inside the barrel)'),
+             ('Tilt servo STS3032 (inside the barrel)', 'Tilt horn (bolted to the left cheek)'),
+             ('U bracket', 'Right pivot bearing'), ('U bracket', 'Hollow pivot shaft'),
+             ('Right pivot bearing', 'Hollow pivot shaft'), ('Camera barrel (tilts)', 'Hollow pivot shaft'),
              ('Pan servo holder', 'Pan servo STS3215'), ('Tilt bracket', 'Tilt servo STS3215'),
              ('Tilt bracket', 'Pan horn'), ('M.2 Key-M socket', 'UGen300 M.2 card (2280)'),
              ('M.2 socket (underside)', 'UGen300 M.2 card (2280, underside)')}
