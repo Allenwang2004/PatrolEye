@@ -1,97 +1,97 @@
-# App 與 Supabase 後端待辦（`feature/app-supabase`）
+# App and Supabase backend todo (`feature/app-supabase`)
 
-先讀 `docs/v2/ARCHITECTURE.md`：資料表、RPC、Storage 路徑、指令格式都定在那裡，攝影機端照同一份做。
+Read `docs/v2/ARCHITECTURE.md` first: tables, RPCs, Storage paths and command formats are all defined there, and the camera side follows the same document.
 
-範圍：帳號、QR 綁定、全域掃描與遮罩、事件列表與片段播放。不做推播、邀請家人、解除綁定。
+Scope: accounts, QR pairing, global scan and masks, event list and clip playback. No push notifications, family invites or unpairing.
 
-## 目錄
+## Layout
 
 ```
 supabase/
-  migrations/<時間>_init.sql      資料表、RLS、RPC、Storage 政策
-  scripts/provision_device.mjs    建立一台攝影機，輸出 device.json
-  scripts/fake_device.mjs         沒有攝影機時模擬攝影機（測 App 用）
-app/                              Expo（TypeScript、expo-router）
+  migrations/<timestamp>_init.sql   Tables, RLS, RPCs, Storage policies
+  scripts/provision_device.mjs      Creates a camera and writes device.json
+  scripts/fake_device.mjs           Simulates a camera when there isn't one (for testing the app)
+app/                                Expo (TypeScript, expo-router)
 ```
 
-## 1. Supabase 專案
+## 1. Supabase project
 
-- [ ] 建立專案（區域選 Tokyo 或 Singapore），記下 Project URL、anon key、service role key
-- [ ] service role key 只放在自己電腦的 `supabase/.env`（已在 `.gitignore`），不放進 App、不放進攝影機
-- [ ] Auth：開 email＋密碼；開發期間關掉 email 確認，比較好測
-- [x] Supabase CLI：`supabase init`（CLI 裝在 `supabase/node_modules`，在 `supabase/` 裡用 `npx supabase`）
+- [ ] Create the project (region Tokyo or Singapore) and note the Project URL, anon key and service role key
+- [ ] Keep the service role key only in `supabase/.env` on your own computer (already in `.gitignore`), never in the app or on the camera
+- [ ] Auth: enable email + password; turn off email confirmation during development to make testing easier
+- [x] Supabase CLI: `supabase init` (the CLI is installed in `supabase/node_modules`; use `npx supabase` inside `supabase/`)
 - [ ] `npx supabase link --project-ref <ref>`
 
-## 2. 資料庫（migration）
+## 2. Database (migration)
 
-- [x] `supabase migration new init`，內容照原本的草稿調整
-- [x] 建表：`devices`、`device_state`、`device_commands`、`scans`、`masks`、`events`
-- [x] 打開 RLS，加上政策（誰能讀、誰能寫見 ARCHITECTURE.md 的表）
-- [x] RPC：`claim_device`、`device_set_claim_code`
-- [x] Storage：private bucket `panoramas`、`clips` 和它們的政策
-- [x] Realtime：`events`、`device_commands`、`device_state` 加進 `supabase_realtime` publication
+- [x] `supabase migration new init`, adapted from the original draft
+- [x] Tables: `devices`, `device_state`, `device_commands`, `scans`, `masks`, `events`
+- [x] Enable RLS and add policies (who can read and write is in the table in ARCHITECTURE.md)
+- [x] RPCs: `claim_device`, `device_set_claim_code`
+- [x] Storage: private buckets `panoramas` and `clips` and their policies
+- [x] Realtime: add `events`, `device_commands` and `device_state` to the `supabase_realtime` publication
 - [ ] `supabase db push`
-- [x] 用兩個不同的使用者帳號測：A 看不到 B 的攝影機、事件和片段
+- [x] Test with two different user accounts: A can't see B's cameras, events or clips
 
-已完成：`supabase/migrations/20261026155457_init.sql`。和原本草稿的差別：
+Done: `supabase/migrations/20261026155457_init.sql`. Differences from the original draft:
 
-- 欄位層級權限：擁有者只能改 `devices.name`、`room` 和 `events.acked_at`、`acked_by`（`acked_by` 只能是自己）；裝置只能改指令的 `status`、`result`；新增指令時不能指定 `status`
-- `masks.version` 由資料庫 trigger 設定（這台目前最大值＋1，同時存也不會撞號），App 送的值會被忽略
-- `device_commands.updated_at` 由 trigger 更新
-- Storage 政策用文字比對資料夾名稱（不是 uuid 的路徑直接拒絕，不會報錯）；裝置可以覆寫自己的檔案（upsert）
-- bucket 限制檔案類型：`panoramas` 只收 JPG，`clips` 收 MP4、JPG，單檔 50 MB
-- `claim_device` 會去掉頭尾空白再比對；`device_set_claim_code` 檢查 8 碼和字元集
-- `type`、`status` 加上 check（值見 ARCHITECTURE.md）
+- Column-level grants: owners can only change `devices.name`, `room` and `events.acked_at`, `acked_by` (`acked_by` can only be themselves); devices can only change a command's `status` and `result`; inserting a command can't set `status`
+- `masks.version` is set by a database trigger (this camera's current maximum + 1, with no collisions on concurrent saves); any value the app sends is ignored
+- `device_commands.updated_at` is updated by a trigger
+- Storage policies compare folder names as text (paths that aren't a uuid are simply rejected rather than raising an error); a device can overwrite its own files (upsert)
+- Buckets restrict file types: `panoramas` accepts only JPG, `clips` accepts MP4 and JPG, 50 MB per file
+- `claim_device` trims surrounding whitespace before comparing; `device_set_claim_code` checks the 8-character length and the alphabet
+- `type` and `status` have check constraints (values in ARCHITECTURE.md)
 
-## 3. 建立攝影機的腳本（`provision_device.mjs`）
+## 3. Camera provisioning script (`provision_device.mjs`)
 
-每台攝影機出貨前跑一次（現在就是每台原型跑一次）：
+Run once per camera before it ships (for now, once per prototype):
 
-- [x] 讀 `supabase/.env` 的 URL 和 service role key
-- [x] `auth.admin.createUser({ email: "device-<uuid>@devices.patroleye.local", password: <32 字元隨機>, email_confirm: true })`
-- [x] 新增 `devices`（`id` 用同一個 uuid、`device_user_id` = 新帳號 id）和 `device_state`
-- [x] 輸出 `device.json`（格式見 ARCHITECTURE.md）→ 複製到攝影機的 `device/config/device.json`
+- [x] Read the URL and service role key from `supabase/.env`
+- [x] `auth.admin.createUser({ email: "device-<uuid>@devices.patroleye.local", password: <32 random characters>, email_confirm: true })`
+- [x] Insert `devices` (`id` is the same uuid, `device_user_id` = the new account's id) and `device_state`
+- [x] Write `device.json` (format in ARCHITECTURE.md) and copy it to the camera's `device/config/device.json`
 
-## 4. Expo App
+## 4. Expo app
 
-- [x] `npx create-expo-app@latest app`（預設就是 TypeScript＋expo-router；SDK 58，路由在 `app/src/app/`）
-- [x] 套件：`npx expo install expo-camera expo-video react-native-svg react-native-gesture-handler @react-native-async-storage/async-storage react-native-url-polyfill`，再 `npm i @supabase/supabase-js`。這些都能直接在 Expo Go 跑
-- [x] `app/.env`：`EXPO_PUBLIC_SUPABASE_URL`、`EXPO_PUBLIC_SUPABASE_ANON_KEY`（只放 anon key）
-- [x] `src/lib/supabase.ts`：`createClient`，session 存 AsyncStorage、`autoRefreshToken: true`、`persistSession: true`
+- [x] `npx create-expo-app@latest app` (TypeScript + expo-router by default; SDK 58, routes in `app/src/app/`)
+- [x] Packages: `npx expo install expo-camera expo-video react-native-svg react-native-gesture-handler @react-native-async-storage/async-storage react-native-url-polyfill`, then `npm i @supabase/supabase-js`. All of these run in Expo Go
+- [x] `app/.env`: `EXPO_PUBLIC_SUPABASE_URL`, `EXPO_PUBLIC_SUPABASE_ANON_KEY` (anon key only)
+- [x] `src/lib/supabase.ts`: `createClient` with the session in AsyncStorage, `autoRefreshToken: true`, `persistSession: true`
 
-畫面：
+Screens:
 
-1. [x] **登入／註冊**：email＋密碼
-2. [x] **攝影機列表**：`devices`（自己的）＋`device_state`；`last_seen` 在 90 秒內顯示在線，否則離線；顯示 status（巡檢中、掃描中…）
-3. [x] **新增攝影機**：`CameraView` 掃 QR（`barcodeScannerSettings={{ barcodeTypes: ['qr'] }}`）→ 解析 `patroleye://claim?d=&c=` → `rpc('claim_device', { p_device_id, p_code })` → 失敗顯示「綁定碼不對或這台已經被綁定」→ 成功後取名、選房間（更新 `devices.name`、`room`）→ 進設定流程
-4. [x] **設定流程**
-   - 說明：「接下來攝影機會轉一圈拍全景，用來讓你選擇不想被看到的區域」，使用者同意才繼續
-   - 新增 `device_commands`（`type: 'scan'`）→ 監看這筆指令（Realtime 或每 2 秒查一次）→ `done` 後拿 `result.scan_id`
-   - 讀 `scans` 那一筆，`storage.from('panoramas').createSignedUrl(pano_path, 3600)` 顯示全景（全景很寬，要能左右捲動、縮放）
-   - 遮罩編輯器：在全景上拖曳畫矩形（gesture handler＋svg），可以刪除；顯示成半透明黑框
-   - 儲存：螢幕座標 → 全景像素 → 角度（公式見 ARCHITECTURE.md），新增 `masks`（`version` 由資料庫設定，用回傳的值）→ 新增 `device_commands`（`type: 'apply_masks'`, `payload: { mask_id, version }`）→ 等 `device_state.masks_version` 追上 → 顯示「之後這些區域都會是黑的」
-   - 之後可以從攝影機頁面重新進來改遮罩或重新掃描
-5. [x] **事件列表**：自己所有攝影機的 `events`，新的在最上面；縮圖、標題、時間、嚴重程度、是否已確認
-   - 訂閱 Realtime（`postgres_changes`，`INSERT`，table `events`）：App 開著時新事件直接出現在最上面，並跳出頁內提示（代替推播）
-   - 下拉重新整理；往下捲載入更多
-6. [x] **事件內容**：標題、說明、時間、檢查點、讀數；`expo-video` 播放片段（`createSignedUrl(clip_path, 3600)`）；「我知道了」更新 `acked_at`、`acked_by`
-7. [x] **設定**：登出、改攝影機名稱
+1. [x] **Sign in / sign up**: email + password
+2. [x] **Camera list**: `devices` (your own) + `device_state`; online if `last_seen` is within 90 seconds, otherwise offline; show the status (patrolling, scanning, ...)
+3. [x] **Add camera**: scan the QR with `CameraView` (`barcodeScannerSettings={{ barcodeTypes: ['qr'] }}`), parse `patroleye://claim?d=&c=`, call `rpc('claim_device', { p_device_id, p_code })`; on failure show "The claim code is wrong or this camera is already paired"; on success name it and pick a room (update `devices.name`, `room`), then go to setup
+4. [x] **Setup flow**
+   - Explain: "The camera will now turn around to take a panorama, so you can choose areas you don't want it to see"; continue only once the user agrees
+   - Insert a `device_commands` row (`type: 'scan'`), watch it (Realtime or poll every 2 seconds), and take `result.scan_id` once it is `done`
+   - Read that `scans` row and show the panorama with `storage.from('panoramas').createSignedUrl(pano_path, 3600)` (the panorama is wide, so it needs horizontal scrolling and zoom)
+   - Mask editor: drag on the panorama to draw rectangles (gesture handler + svg), which can be deleted; shown as translucent black boxes
+   - Save: screen coordinates to panorama pixels to angles (formula in ARCHITECTURE.md), insert `masks` (`version` is set by the database; use the returned value), insert `device_commands` (`type: 'apply_masks'`, `payload: { mask_id, version }`), wait for `device_state.masks_version` to catch up, then show "These areas will be black from now on"
+   - Later the user can come back from the camera page to change the masks or rescan
+5. [x] **Event list**: `events` from all of your cameras, newest first; thumbnail, title, time, severity, acknowledged or not
+   - Subscribe to Realtime (`postgres_changes`, `INSERT`, table `events`): while the app is open new events appear at the top and an in-app alert pops up (in place of push notifications)
+   - Pull to refresh; load more on scroll
+6. [x] **Event details**: title, description, time, checkpoint, reading; play the clip with `expo-video` (`createSignedUrl(clip_path, 3600)`); "Got it" updates `acked_at` and `acked_by`
+7. [x] **Settings**: sign out, rename cameras
 
-## 5. 沒有攝影機也能測（`fake_device.mjs`）
+## 5. Testing without a camera (`fake_device.mjs`)
 
-讓 App 不必等攝影機端完成就能跑完整流程：
+Lets the app run the whole flow without waiting for the camera side:
 
-- [x] 用 `device.json` 以裝置帳號登入
-- [x] 還沒綁定時：產生 claim code、`rpc('device_set_claim_code')`、在終端機印出 QR 內容（或 QR）
-- [x] 每 30 秒更新 `device_state.last_seen`
-- [x] 收到 `scan`：上傳一張測試全景（可用 `device/scans/<資料夾>/pano.jpg` 和它的 `pano.json`）、新增 `scans`、指令改 `done`
-- [x] 收到 `apply_masks`：把 `device_state.masks_version` 改成那個版本、指令改 `done`
-- [x] 每隔一段時間丟一個假事件：上傳一段測試 mp4 和 jpg 到 `clips/<device_id>/<event_id>.*`，再新增 `events`
+- [x] Sign in as the device account from `device.json`
+- [x] While unpaired: generate a claim code, call `rpc('device_set_claim_code')`, print the QR content (or the QR) in the terminal
+- [x] Update `device_state.last_seen` every 30 seconds
+- [x] On `scan`: upload a test panorama (e.g. `device/scans/<folder>/pano.jpg` and its `pano.json`), insert `scans`, set the command to `done`
+- [x] On `apply_masks`: set `device_state.masks_version` to that version and the command to `done`
+- [x] Send a fake event every so often: upload a test mp4 and jpg to `clips/<device_id>/<event_id>.*`, then insert `events`
 
-## 6. 驗收
+## 6. Acceptance
 
-1. 新帳號登入 → 掃 QR 綁定 → 列表出現攝影機，顯示在線
-2. 設定流程：掃描 → 全景出現 → 框住床 → 儲存 → 顯示已套用
-3. 攝影機端製造異常（爐火、跌倒或錶超標）→ 30 秒內事件列表出現新事件 → 點開能播放片段，框住的區域是黑的
-4. 按「我知道了」→ 列表狀態更新
-5. 用另一個帳號登入 → 看不到這台攝影機和它的事件
+1. Sign in with a new account, scan the QR to pair, and the camera appears in the list as online
+2. Setup flow: scan, the panorama appears, box the bed, save, and it shows as applied
+3. Cause an abnormality on the camera side (stove fire, a fall or a gauge over its limit); within 30 seconds a new event appears in the list, and opening it plays the clip with the boxed areas black
+4. Press "Got it" and the list status updates
+5. Sign in with another account: this camera and its events are not visible
