@@ -1,88 +1,88 @@
-# 新 demo:「把泵房弄壞給它看」
+# New demo: "break the pump room and let it find out"
 
-三個螢幕扮演泵房的設備牆,評審用手機把東西弄壞，PatrolEye 巡一圈找出來,
-平板上的中控室計分板自動對答案:抓到幾個、花幾秒、讀數誤差多少、收到多少位元組(只有文字)。
+Three screens play the pump room's equipment wall. A judge breaks things with a phone, PatrolEye patrols and finds them,
+and the control room scoreboard on a tablet checks the answers automatically: how many were caught, how many seconds it took, how far off the readings were, and how many bytes were received (text only).
 
 ```
-              螢幕 1                 螢幕 2                 螢幕 3
-          壓力錶 PT-101/102     閥門 V-12 + 配電盤 DB-1   泵浦 P-3 燈號 + 地面
-                 ╲                     │                     ╱
-            約 -60°  ╲                 │ 0°                ╱  約 +60°
-                       ╲               │               ╱
-                         ╲     1.0–1.5 m        ╱
-                              [ PatrolEye ]
-                                    │
-                              [ 平板:計分板 ]   ← 面向攝影機
-                    評審手上:手機遙控器
+              Screen 1                Screen 2                 Screen 3
+       Pressure gauges PT-101/102  Valve V-12 + breaker DB-1  Pump P-3 light + floor
+                 \                     |                     /
+          about -60 deg \              | 0 deg              /  about +60 deg
+                         \             |             /
+                           \       1.0-1.5 m       /
+                                [ PatrolEye ]
+                                      |
+                           [ Tablet: scoreboard ]   <- facing the filming camera
+                       In the judge's hand: phone remote
 ```
 
-## 檔案
+## Files
 
-| 檔案 | 放在哪 | 做什麼 |
+| File | Where it runs | What it does |
 |---|---|---|
-| `bench/server.py` + `bench/static/` | 接三個螢幕的那台電腦 | 模擬設備台、計分板、遙控器。只需要 Python 3,不用裝套件 |
-| `device/patrol.py`、`device/web/patrol.html` | Pi | 巡檢模式:教檢查點、記住正常、偵測變化、交給模型判讀、看不清楚就再靠近看、只送文字報告 |
-| `device/live.py`(改了 3 處) | Pi | 掛上 `/patrol` 網頁和 API;巡檢時不接受問問題和全景掃描,避免搶雲台 |
+| `bench/server.py` + `bench/static/` | The computer driving the three screens | Simulates the equipment, the scoreboard and the remote. Needs only Python 3, no packages |
+| `device/patrol.py`, `device/web/patrol.html` | Pi | Patrol mode: teach checkpoints, remember normal, detect changes, hand them to the model, look closer when unsure, send text-only reports |
+| `device/live.py` (3 changes) | Pi | Mounts the `/patrol` page and API; refuses questions and panorama scans during a patrol so they don't fight over the pan-tilt |
 
-## 架設(約 20 分鐘)
+## Setup (about 20 minutes)
 
-1. **設備台**:在接三個螢幕的電腦上
+1. **Bench**: on the computer driving the three screens
    ```
    cd PatrolEye
    python3 bench/server.py
    ```
-   它會印出網址,例如 `http://192.168.1.23:8100/`(IPv6 是 `http://[2001:…]:8100/`)。
-   - 開三個瀏覽器視窗:`/station/1`、`/station/2`、`/station/3`,各拖到一個螢幕,**雙擊**變全螢幕。
-   - 平板開 `/board`,手機開 `/remote`。
-   - Mac 跳出「允許 Python 接受連線」→ 允許;Windows 防火牆 → 允許私人網路。
-   - 螢幕亮度 50–70%,關掉自動變暗、休眠、夜覽。燈光不要正對螢幕(會反光)。
-2. **擺位**:三個螢幕離 PatrolEye 1.0–1.5 m,大約在 -60°、0°、+60°,螢幕面向它。
-   螢幕在同一張桌子拉不開的話,就把 PatrolEye 往前放,讓三個螢幕至少分開一個鏡頭視角(約 50°)。
-   平板放在 PatrolEye 後面、面向拍攝的攝影機(不要被 PatrolEye 巡到)。
-3. **Pi**:把 `device/` 同步到 Pi(用你平常的方式:git 或 scp),然後
+   It prints a URL, e.g. `http://192.168.1.23:8100/` (IPv6 is `http://[2001:...]:8100/`).
+   - Open three browser windows: `/station/1`, `/station/2`, `/station/3`, drag each to a screen and **double-click** for full screen.
+   - Open `/board` on the tablet and `/remote` on the phone.
+   - If a Mac asks to allow Python to accept incoming connections, allow it; on Windows allow it through the firewall on private networks.
+   - Screen brightness 50-70%; turn off auto-dimming, sleep and night shift. Don't point lights straight at the screens (glare).
+2. **Placement**: put the three screens 1.0-1.5 m from PatrolEye at roughly -60, 0 and +60 deg, facing it.
+   If the screens can't be spread out that far on one table, move PatrolEye forward so the screens are at least one field of view (about 50 deg) apart.
+   Put the tablet behind PatrolEye, facing the filming camera (so PatrolEye doesn't patrol it).
+3. **Pi**: sync `device/` to the Pi (git or scp, whichever you normally use), then
    ```
    cd device && ./start.sh restart
    ```
-   打開 `https://[Pi 的位址]:8000/patrol`。
-4. **教檢查點**(六個):在即時畫面上**點一下儀器** → 鏡頭自動轉過去對準 →
-   按右上角對應的按鈕(PT-101、PT-102、V-12、DB-1、P-3、FLOOR-3)→ **Teach this view**。
-   橘色框就是模型會看到的範圍:儀表、閥門、配電盤、燈號用 3×,地面用 2×,要把整個東西框進去。
-5. **Report to**:貼上設備台的 `…:8100/api/report` → **Save + test**,計分板會出現
-   「PatrolEye is looking at TEST…」就代表通了。
-6. 遙控器按 **All back to normal** → Pi 頁面按 **Learn normal again** → **Start patrol**。
-7. 正式拍之前,遙控器按 **New run (clear scores)** 把分數歸零。
+   Open `https://[Pi address]:8000/patrol`.
+4. **Teach the checkpoints** (six): **click the instrument** in the live view, the camera turns to centre on it,
+   press the matching button at the top right (PT-101, PT-102, V-12, DB-1, P-3, FLOOR-3), then **Teach this view**.
+   The orange box is what the model will see: 3x for gauges, valves, the breaker panel and lights, 2x for the floor; fit the whole thing in the box.
+5. **Report to**: paste the bench's `...:8100/api/report` and press **Save + test**. When the scoreboard shows
+   "PatrolEye is looking at TEST...", the connection works.
+6. On the remote press **All back to normal**, then on the Pi page **Learn normal again**, then **Start patrol**.
+7. Before the real take, press **New run (clear scores)** on the remote to reset the scores.
 
-## 拍影片(約 25–30 秒的段落)
+## Filming (a section of about 25-30 seconds)
 
-| # | 鏡頭 | 長度 |
+| # | Shot | Length |
 |---|---|---|
-| 1 | 大全景:PatrolEye 在中間,三個螢幕圍成弧形,前景有平板 | 4 s |
-| 2 | 手機特寫:按下 **Break something at random** | 2 s |
-| 3 | 螢幕特寫:指針爬進紅區 / 閥門把手轉 90° / 地上積水變大 | 3 s |
-| 4 | 側面:PatrolEye 轉向那一站、停住(可以加速,畫面標 4×) | 4 s |
-| 5 | 越過 PatrolEye 拍平板:跳出綠色 **FOUND** 和花了幾秒 | 4 s |
-| 6 | 計分板數字特寫:Faults found、Reading error、0 images | 3 s |
+| 1 | Wide: PatrolEye in the middle, the three screens in an arc, the tablet in the foreground | 4 s |
+| 2 | Phone close-up: pressing **Break something at random** | 2 s |
+| 3 | Screen close-up: the needle climbing into the red / the valve handle turning 90 deg / the puddle on the floor growing | 3 s |
+| 4 | Side view: PatrolEye turning to that station and stopping (can be sped up, labelled 4x) | 4 s |
+| 5 | Over PatrolEye onto the tablet: a green **FOUND** pops up with the seconds it took | 4 s |
+| 6 | Scoreboard close-up: Faults found, Reading error, 0 images | 3 s |
 
-另外用螢幕錄影錄 Pi 的 `/patrol` 頁面,裡面有每一站模型看到的畫面和一句話判讀,剪進去很好看。
+Also screen-record the Pi's `/patrol` page; it shows what the model saw at each station and its one-line verdict, which cuts in well.
 
-## 拿真的數據
+## Getting real numbers
 
-設備台把每一次故障和每一份報告都記在 `bench/runs/<時間>.jsonl`。
-建議跑一次 20–30 分鐘、用「隨機故障」弄壞 15–20 次,拿到抓到率、平均反應時間、讀數誤差,
-可以直接放進簡報的「預期成果」頁。檔案給我,我幫你算表。
+The bench logs every fault and every report to `bench/runs/<timestamp>.jsonl`.
+Run it for 20-30 minutes and break things 15-20 times with random faults to get the catch rate, mean response time and reading error,
+which can go straight onto the "expected results" slide.
 
-## 現場評審版(5 分鐘)
+## Live version for judges (5 minutes)
 
-1. 一切正常,PatrolEye 巡一輪,計分板全綠;沒變化的站直接寫「no model needed」(省電)。
-2. 請評審用手機按「隨機故障」,連我們都不知道哪裡壞。
-3. PatrolEye 巡到、看不清楚就靠近再看、回報;計分板跳出 FOUND 和秒數。
-4. 評審自己拉壓力滑桿到 6.5、關閥、按漏水,看它一個一個找出來。
-5. 最後指著計分板:收到的全部是文字,幾 KB,0 張圖片。
+1. Everything is normal; PatrolEye does a round and the scoreboard is all green. Stations with no change just say "no model needed" (saves power).
+2. Ask a judge to press "random fault" on the phone; not even we know what broke.
+3. PatrolEye patrols, looks closer when unsure and reports; the scoreboard shows FOUND and the seconds.
+4. The judge pulls the pressure slider to 6.5, closes the valve and presses leak, and watches it find each one.
+5. Finally point at the scoreboard: everything received is text, a few KB, 0 images.
 
-## 注意
+## Notes
 
-- 目前 `vlm.py` 用雲端模型代替 Hailo,所以「判讀用的照片」現在還會上雲;計分板寫的「只收到文字」是指
-  PatrolEye 回報給中控室的通道,這句是真的。等 UGen300 到了換成本機模型,影像才完全不出裝置。
-- 一輪的時間主要看模型:每次判讀至少 6.5 秒(模擬 Hailo),兩顆壓力錶每輪都會讀,
-  其他站畫面沒變化就不叫模型。六站一輪大約 30–60 秒。
-- 紅色 FAULT 燈會閃,PatrolEye 拍到暗的那一下也沒關係:同時 RUN 綠燈會熄,一樣會判成異常。
+- `vlm.py` currently uses a cloud model in place of the Hailo, so the photos used for judging still go to the cloud for now. The scoreboard's "text only" refers to
+  the channel PatrolEye reports to the control room on, and that is true. Once the UGen300 arrives and a local model is swapped in, images will never leave the device.
+- The round time is mostly the model: each judgement takes at least 6.5 s (simulating the Hailo). Both pressure gauges are read every round;
+  other stations only call the model when the picture has changed. A round of six stations takes about 30-60 s.
+- The red FAULT light blinks; it doesn't matter if PatrolEye catches it dark, because the green RUN light goes out at the same time and it is still judged abnormal.

@@ -1,33 +1,33 @@
-# PatrolEye（巡眼）
+# PatrolEye
 
 An AI camera that spots danger early.
 
-雙軸雲台＋Raspberry Pi 5＋ASUS UGen300 M.2（Hailo-10H）。攝影機自己巡視一個房間、記住正常的樣子，有變化才在裝置上用視覺語言模型判斷：壓力超標、慢慢漏水、爐火沒關、有人跌倒。
+A two-axis pan-tilt head, a Raspberry Pi 5 and an ASUS UGen300 M.2 (Hailo-10H). The camera patrols a room on its own, remembers what normal looks like, and only when something changes does it run a vision-language model on the device to judge it: a pressure past its limit, a slow leak, a stove left on, someone who has fallen.
 
-## 目錄
+## Layout
 
-| 資料夾 | 內容 |
+| Folder | Contents |
 |---|---|
-| `device/` | 攝影機（Pi）上的程式：`live.py`（伺服器、相機、雲台）、`patrol.py`（巡檢）、`ask.py`（一句話提問）、`scan.py`／`panorama.py`（全域掃描與全景）、`vlm.py`、`voice.py`、`web/`、`viewer/`、`start.sh`。說明見 `device/README.md` |
-| `bench/` | 測試台：三個螢幕扮演泵浦室、計分板、遙控器。`python3 bench/server.py`，流程見 `docs/DEMO.md` |
-| `hardware/` | 機構設計與 Fusion 360 腳本 |
-| `video/` | 比賽影片（Remotion）。素材、輸出與舊版不在 git 裡，見 `video/README.md` |
-| `docs/` | `DEMO.md`：測試台 demo；`v2/`：新版（App、Supabase、QR 綁定、隱私遮罩、異常片段） |
+| `device/` | Code that runs on the camera (Pi): `live.py` (server, camera, pan-tilt), `patrol.py` (patrol), `ask.py` (one-sentence questions), `scan.py` / `panorama.py` (global scan and panorama), `vlm.py`, `voice.py`, `web/`, `viewer/`, `start.sh`. See `device/README.md` |
+| `bench/` | Test bench: three screens play the pump room, a scoreboard and a remote. `python3 bench/server.py`; the walkthrough is in `docs/DEMO.md` |
+| `hardware/` | Mechanical design and Fusion 360 scripts |
+| `video/` | Competition video (Remotion). Footage, renders and old versions are not in git; see `video/README.md` |
+| `docs/` | `DEMO.md`: the test bench demo; `v2/`: the new version (app, Supabase, QR pairing, privacy masks, event clips) |
 
-## 在 Pi 上執行
+## Running on the Pi
 
 ```bash
 cd device
-./start.sh            # 啟動；也可以 stop / restart / status / log
+./start.sh            # start; also stop / restart / status / log
 ```
 
-執行期資料（`device/scans`、`models`、`certs`、`logs`、`asks`、`patrol`）不進 git。**從舊版（程式放在根目錄）升級的 Pi，先照 `device/README.md` 的步驟備份再 `git pull`。**
+Runtime data (`device/scans`, `models`, `certs`, `logs`, `asks`, `patrol`) is not tracked in git. **On a Pi upgrading from the old layout (code in the repo root), back up first by following the steps in `device/README.md`, then `git pull`.**
 
-## 新版（v2，複賽前完成）
+## v2 (due before the final round)
 
-整體規劃與 App、後端、攝影機三方共用的約定：`docs/v2/ARCHITECTURE.md`。
+The overall plan and the contract shared by the app, the backend and the camera: `docs/v2/ARCHITECTURE.md`.
 
-| 分支 | 內容 | 待辦 |
+| Branch | Contents | Todo |
 |---|---|---|
-| `feature/app-supabase` | Expo App 與 Supabase 後端 | `docs/v2/APP_BACKEND_TODO.md` |
-| `feature/camera-v2` | 攝影機端：QR 綁定、全域掃描與隱私遮罩、異常片段上傳 | `docs/v2/CAMERA_TODO.md` |
+| `feature/app-supabase` | Expo app and Supabase backend | `docs/v2/APP_BACKEND_TODO.md` |
+| `feature/camera-v2` | Camera side: QR pairing, global scan and privacy masks, event clip upload | `docs/v2/CAMERA_TODO.md` |
