@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>PatrolEye · control room</title>
+<link rel="stylesheet" href="/fonts.css">
+<style>
+/* Plant edition control room: only what PatrolEye reported, as text. No ground truth, no test scoring. */
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{height:100%;background:#0B1319;overflow:hidden}
+#stage{width:1920px;height:1080px;transform-origin:0 0;position:absolute;background:#0F1A22;color:#F2F4F5;font-family:Barlow,system-ui,sans-serif;padding:48px 64px}
+.top{display:flex;align-items:center;gap:22px}
+.top .t1{font:700 52px Barlow;letter-spacing:-.5px}.top .t1 b{color:#FF6B1A}
+.top .t2{font:600 26px Barlow;letter-spacing:4px;color:#8C99A3;margin-left:12px;padding-left:24px;border-left:2px solid #2A3944}
+.live{margin-left:auto;display:flex;align-items:center;gap:12px;font:600 22px Barlow;letter-spacing:3px;color:#9FD9B8;background:#16242E;border-radius:999px;padding:10px 22px}
+.live i{width:14px;height:14px;border-radius:7px;background:#2ED26A;display:block}
+.live.idle{color:#8C99A3}.live.idle i{background:#5F6E79}
+.clock{font:600 44px "Barlow Condensed";color:#C5CED4;letter-spacing:2px;margin-left:14px;min-width:150px;text-align:right}
+.kpis{display:grid;grid-template-columns:.9fr 1.2fr 1.2fr .9fr 1.3fr;gap:18px;margin-top:34px}
+.kpi{background:#16242E;border-radius:16px;padding:20px 24px;min-width:0}
+.kpi .l{font:600 22px Barlow;letter-spacing:3px;color:#8C99A3;text-transform:uppercase;white-space:nowrap}
+.kpi .v{font:700 76px "Barlow Condensed";line-height:1.05;margin-top:6px;white-space:nowrap}
+.kpi .v small{font:600 38px "Barlow Condensed";color:#8C99A3;margin-left:8px}
+.kpi .s{font:500 22px Barlow;color:#8C99A3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.hot{color:#FF8A45}
+.cols{display:grid;grid-template-columns:1fr 1.25fr;gap:28px;margin-top:28px;height:640px}
+.col{background:#13202A;border-radius:16px;padding:22px 26px;overflow:hidden;display:flex;flex-direction:column}
+.col h2{font:600 24px Barlow;letter-spacing:4px;color:#8C99A3;margin-bottom:14px}
+.row{display:flex;align-items:center;gap:16px;padding:14px 12px;margin:0 -12px;border-top:1px solid #22323D;border-radius:10px}
+.row:first-of-type{border-top-color:transparent}
+.tm{font:600 26px "Barlow Condensed";color:#6F7E89;width:70px;flex:none}
+.tag{font:700 30px "Barlow Condensed";width:120px;flex:none;letter-spacing:1px}
+.desc{flex:1;font:500 27px Barlow;color:#DDE3E7;line-height:1.25}
+.sub{font:500 22px Barlow;color:#8C99A3;margin-top:4px}
+.pill{font:600 22px Barlow;letter-spacing:2px;border-radius:999px;padding:6px 16px;white-space:nowrap;flex:none}
+.p-alert{background:#FF6B1A;color:#111}.p-ok{background:#22323D;color:#9FD9B8}.p-gray{background:#33434F;color:#C5CED4}
+.look{display:flex;align-items:center;gap:14px;font:600 28px Barlow;color:#FFB07A;margin:-4px 0 12px;min-height:34px}
+.dot{width:16px;height:16px;border-radius:8px;background:#FF6B1A}
+#toast{position:absolute;left:960px;top:400px;background:#E8590C;color:#fff;border-radius:22px;padding:30px 52px;box-shadow:0 30px 80px #0009;text-align:center;opacity:0;width:max-content;max-width:1400px;pointer-events:none}
+#toast .h{font:700 54px Barlow}
+#toast .q{font:600 36px Barlow;margin-top:10px}
+#toast .s{font:500 26px Barlow;margin-top:10px;opacity:.88}
+.empty{font:500 26px Barlow;color:#5F6E79;padding:12px 0}
+.note{position:absolute;left:64px;bottom:22px;font:500 20px Barlow;color:#5F6E79}
+</style></head><body>
+<div id="stage">
+  <div class="top">
+    <svg width="78" height="78" viewBox="0 0 100 100"><path d="M14.3 47 A38 38 0 0 1 85.7 47" fill="none" stroke="#FF6B1A" stroke-width="7" stroke-linecap="round"/><circle cx="50" cy="60" r="19" fill="none" stroke="#F2F4F5" stroke-width="8"/><circle cx="50" cy="60" r="7" fill="#FF6B1A"/></svg>
+    <div class="t1">Patrol<b>Eye</b></div>
+    <div class="t2">CONTROL ROOM · PUMP ROOM B</div>
+    <div class="live idle" id="live"><i></i><span id="liveT">WAITING FOR PATROLEYE</span></div>
+    <div class="clock" id="clock">--:--:--</div>
+  </div>
+  <div class="kpis" id="kpis"></div>
+  <div class="cols">
+    <div class="col" id="alertsCol"><h2>ALERTS</h2><div id="alerts"></div></div>
+    <div class="col" id="logCol"><h2>PATROL LOG · TEXT ONLY</h2><div class="look" id="look"><span class="dot" id="lookDot"></span><span id="lookT"></span></div><div id="log"></div></div>
+  </div>
+  <div id="toast"></div>
+  <div class="note">Plant edition · PatrolEye sends short JSON text reports only: no images, at most 4 KB each.</div>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const fit = () => { const s = Math.min(innerWidth / 1920, innerHeight / 1080); const st = $('stage'); st.style.transform = `scale(${s})`; st.style.left = (innerWidth - 1920 * s) / 2 + 'px'; st.style.top = (innerHeight - 1080 * s) / 2 + 'px'; };
+addEventListener('resize', fit); fit();
+document.ondblclick = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen());
+const pad = (n) => String(n).padStart(2, '0');
+const hm = (t) => { const d = new Date(t * 1000); return pad(d.getHours()) + ':' + pad(d.getMinutes()); };
+const hms = (t) => { const d = new Date(t * 1000); return hm(t) + ':' + pad(d.getSeconds()); };
+const kb = (b) => (b < 1024 ? b + ' B' : (b / 1024).toFixed(1) + ' KB');
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;'}[c]));
+const clamp01 = (x) => Math.max(0, Math.min(1, x));
+const TOAST_S = 4.0, FLASH_S = 2.4, RECENT_S = 300;
+
+/** Everything on screen is a function of the state `d` and the time `now` (seconds), so it can be redrawn at any moment. */
+function draw(d, now) {
+  const reps = (d.reports || []).filter((r) => r.t <= now);
+  const eq = d.eq || [];
+  $('clock').textContent = hms(now);
+  const lastRep = reps.length ? reps[reps.length - 1] : null;
+  const live = lastRep && now - lastRep.t < 120;
+  $('live').className = live ? 'live' : 'live idle';
+  $('liveT').textContent = live ? 'PATROLLING' : 'WAITING FOR PATROLEYE';
+
+  // latest word on each point, and the alerts it raised
+  const latest = {};
+  for (const r of reps) if (r.status === 'normal' || r.status === 'abnormal') latest[r.tag] = r;
+  const alerts = [];
+  for (const r of reps) if (r.status === 'abnormal') {
+    const back = reps.find((x) => x.tag === r.tag && x.t > r.t && x.status === 'normal');
+    alerts.push({...r, cleared: back ? back.t : null});
+  }
+  const open = Object.values(latest).filter((r) => r.status === 'abnormal').map((r) => r.tag);
+
+  // KPI tiles
+  const gaugeTags = eq.filter((e) => e.kind === 'gauge');
+  const checked = new Set(reps.filter((r) => now - r.t <= RECENT_S).map((r) => r.tag));
+  const tiles = [];
+  tiles.push(`<div class="kpi" id="tOpen"><div class="l">Open alerts</div><div class="v${open.length ? ' hot' : ''}">${open.length}</div><div class="s">${open.length ? esc(open.join(', ')) : 'all clear'}</div></div>`);
+  for (const g of gaugeTags.slice(0, 2)) {
+    const r = [...reps].reverse().find((x) => x.tag === g.tag && typeof x.reading === 'number');
+    const over = r && r.reading > g.limit;
+    tiles.push(`<div class="kpi" id="t${esc(g.tag)}"><div class="l">${esc(g.tag)}</div><div class="v${over ? ' hot' : ''}">${r ? r.reading.toFixed(1) : '—'}<small>${esc(g.unit)}</small></div><div class="s">${esc(g.label)} · limit ${g.limit.toFixed(1)}</div></div>`);
+  }
+  tiles.push(`<div class="kpi" id="tChecked"><div class="l">Last 5 min</div><div class="v">${checked.size} / ${eq.length}</div><div class="s">points checked</div></div>`);
+  const bytes = reps.reduce((a, r) => a + (r.bytes || 0), 0);
+  tiles.push(`<div class="kpi" id="tSent"><div class="l">From PatrolEye</div><div class="v">${kb(bytes)}</div><div class="s">${reps.length} text reports · 0 images</div></div>`);
+  $('kpis').innerHTML = tiles.join('');
+
+  // alerts, newest first
+  const tint = (r) => { const a = 1 - (now - r.t) / FLASH_S; return a > 0 ? ` style="background:rgba(255,107,26,${(0.22 * a).toFixed(3)})"` : ''; };
+  $('alerts').innerHTML = alerts.length ? alerts.slice().reverse().slice(0, 6).map((a) => {
+    const pill = a.cleared ? '<span class="pill p-ok">CLEARED</span>' : '<span class="pill p-alert">OPEN</span>';
+    const sub = a.cleared ? `<div class="sub">re-checked normal at ${hm(a.cleared)}</div>` : `<div class="sub">${now - a.t < 60 ? 'just now' : Math.floor((now - a.t) / 60) + ' min ago'}</div>`;
+    return `<div class="row"${tint(a)}><span class="tm">${hm(a.t)}</span><span class="tag hot">${esc(a.tag)}</span><div class="desc">${esc(a.text)}${sub}</div>${pill}</div>`;
+  }).join('') : '<div class="empty">No alerts. Every point was normal on the last round.</div>';
+
+  // what PatrolEye is doing right now
+  if (d.looking) { $('look').style.visibility = 'visible'; $('lookT').textContent = `Checking ${d.looking}…`; $('lookDot').style.opacity = (0.25 + 0.75 * (0.5 + 0.5 * Math.cos(now * Math.PI * 2))).toFixed(3); }
+  else $('look').style.visibility = 'hidden';
+
+  // patrol log, newest first
+  const logTint = (r) => { const a = 1 - (now - r.t) / FLASH_S; if (a <= 0) return ''; return r.status === 'abnormal' ? ` style="background:rgba(255,107,26,${(0.22 * a).toFixed(3)})"` : ` style="background:rgba(46,210,106,${(0.12 * a).toFixed(3)})"`; };
+  $('log').innerHTML = reps.length ? reps.slice(-7).reverse().map((r) => {
+    const bad = r.status === 'abnormal';
+    const pill = bad ? '<span class="pill p-alert">ALERT</span>' : r.status === 'normal' ? '<span class="pill p-ok">NORMAL</span>' : `<span class="pill p-gray">${esc((r.status || '').toUpperCase())}</span>`;
+    const bits = [];
+    if (typeof r.reading === 'number') bits.push(`read ${r.reading} ${esc(r.unit || '')}`);
+    if (r.looked_closer) bits.push('looked closer');
+    if (bits.length && r.confidence) bits.push(`${esc(r.confidence)} confidence`);
+    return `<div class="row"${logTint(r)}><span class="tm">${hm(r.t)}</span><span class="tag${bad ? ' hot' : ''}">${esc(r.tag)}</span><div class="desc">${esc(r.text)}${bits.length ? `<div class="sub">${bits.join(' · ')}</div>` : ''}</div>${pill}</div>`;
+  }).join('') : '<div class="empty">Waiting for the first report…</div>';
+
+  // a new alert pops up for a few seconds
+  const newest = alerts.length ? alerts[alerts.length - 1] : null;
+  const age = newest ? now - newest.t : 1e9;
+  const t = $('toast');
+  if (age >= 0 && age < TOAST_S) {
+    const o = Math.min(clamp01(age / 0.35), clamp01((TOAST_S - age) / 0.4));
+    const k = 0.92 + 0.08 * clamp01(age / 0.35);
+    if (t.dataset.key !== String(newest.t)) {
+      t.dataset.key = String(newest.t);
+      t.innerHTML = `<div class="h">ALERT · ${esc(newest.tag)}</div><div class="q">“${esc(newest.text)}”</div><div class="s">${hms(newest.t)} · ${newest.bytes || ''}-byte text report, no image</div>`;
+    }
+    t.style.opacity = o.toFixed(3);
+    t.style.transform = `translateX(-50%) scale(${k.toFixed(4)})`;
+  } else t.style.opacity = 0;
+}
+
+// live: poll the bench, redraw every frame with the clock running between polls
+let state = null, recvAt = 0;
+async function poll() {
+  try { const r = await fetch('/api/state?view=monitor', {cache: 'no-store'}); state = await r.json(); recvAt = performance.now(); } catch (e) { /* keep the last picture */ }
+  setTimeout(poll, 400);
+}
+function loop() { if (state) draw(state, state.now + (performance.now() - recvAt) / 1000); requestAnimationFrame(loop); }
+poll(); requestAnimationFrame(loop);
+</script>
+</body></html>

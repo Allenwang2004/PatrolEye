@@ -8,6 +8,7 @@ Open these in any browser on the same network (the start-up message prints the a
     /station/2   valve V-12, breaker panel DB-1 ├ the "equipment wall" PatrolEye patrols
     /station/3   pump P-3 status light + floor  ┘
     /board       control room scoreboard (ground truth vs. what PatrolEye reported)
+    /monitor     plant-edition control room: only what PatrolEye reported (alerts, patrol log)
     /remote      judge's remote, for a phone
 
 PatrolEye sends small JSON text reports to POST /api/report. The bench refuses anything else
@@ -155,7 +156,7 @@ def take_report(d, nbytes):
     S["n_reports"] += 1
     r = {"t": t, "tag": tag, "status": status, "text": str(d.get("text", ""))[:400],
          "reading": d.get("reading"), "unit": d.get("unit"), "confidence": d.get("confidence"),
-         "looked_closer": bool(d.get("looked_closer")), "verdict": None, "error": None}
+         "looked_closer": bool(d.get("looked_closer")), "verdict": None, "error": None, "bytes": nbytes}
     e = EQUIPMENT.get(tag)
     if e:
         truth_bad = is_abnormal(tag, t)
@@ -210,6 +211,13 @@ def snapshot(view):
     if view == "station":
         out["eq"] = eq
         return out
+    if view == "monitor":
+        # The plant control room sees only what PatrolEye said: no ground truth, no verdicts, no live values.
+        keep = ("t", "tag", "status", "text", "reading", "unit", "confidence", "looked_closer", "bytes")
+        out.update(reports=[{k: r.get(k) for k in keep} for r in S["reports"][-40:]], looking=S["looking"],
+                   eq=[{"tag": tag, "kind": e["kind"], "label": e["label"], "unit": e.get("unit"), "limit": e.get("limit")}
+                       for tag, e in EQUIPMENT.items()])
+        return out
     faults = []
     for f in S["faults"]:
         g = dict(f)
@@ -263,7 +271,7 @@ class Handler(SimpleHTTPRequestHandler):
             view = (self.path.split("view=")[1].split("&")[0] if "view=" in self.path else "board")
             with lock:
                 return self.send_json(snapshot(view))
-        pages = {"/": "index.html", "/board": "board.html", "/remote": "remote.html"}
+        pages = {"/": "index.html", "/board": "board.html", "/monitor": "monitor.html", "/remote": "remote.html"}
         if path.startswith("/station/"):
             self.path = "/station.html"
         elif path in pages:
@@ -347,7 +355,7 @@ if __name__ == "__main__":
         srv = Server(("0.0.0.0", PORT), Handler)
     print(f"PatrolEye bench running on port {PORT}. Open on any device on this network:")
     for a in addresses():
-        print(f"  http://{a}:{PORT}/      (links to stations 1–3, board, remote)")
+        print(f"  http://{a}:{PORT}/      (links to stations 1–3, board, monitor, remote)")
     print("PatrolEye reports to:  http://<one of the addresses above>:%d/api/report" % PORT)
     print("Ctrl+C to stop.")
     try:
