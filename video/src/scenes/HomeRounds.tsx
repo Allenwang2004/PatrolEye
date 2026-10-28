@@ -1,10 +1,10 @@
 import React from 'react';
-import {AbsoluteFill, interpolate, useCurrentFrame} from 'remotion';
-import {ease, pop, rise, sceneFade} from '../anim';
+import {AbsoluteFill, useCurrentFrame} from 'remotion';
+import {ease, sceneFade} from '../anim';
 import {HomeRoom, SPOT} from '../components/HomeRoom';
-import {VideoOff} from '../components/Icons';
+import {PhoneFrame, Push, Screen, Tap} from '../components/PhoneApp';
 import {lineStart, scene, sec} from '../timing';
-import {C, NUM, UI} from '../theme';
+import {C} from '../theme';
 
 const S = 'homeRounds';
 type Pt = {x: number; y: number};
@@ -23,15 +23,7 @@ const aimAt = (f: number, keys: {f: number; p: Pt}[]): Pt => {
   return keys[keys.length - 1].p;
 };
 
-const Row: React.FC<{time: string; text: string; o: number}> = ({time, text, o}) => (
-  <div style={{display: 'flex', alignItems: 'center', gap: 14, padding: '14px 0', borderTop: `1px solid ${C.line}`, opacity: o, transform: `translateY(${(1 - o) * 12}px)`}}>
-    <span style={{fontFamily: NUM, fontWeight: 600, fontSize: 26, color: C.muted, width: 70}}>{time}</span>
-    <span style={{fontFamily: UI, fontSize: 28, color: C.ink, flex: 1}}>{text}</span>
-    <svg width={30} height={30} viewBox="0 0 30 30"><circle cx={15} cy={15} r={14} fill={C.ok} /><path d="M8 15.5 L13 20 L22 10" stroke="#fff" strokeWidth={3.4} fill="none" strokeLinecap="round" strokeLinejoin="round" /></svg>
-  </div>
-);
-
-/** At home: PatrolEye on the ceiling makes the rounds and texts the caregiver. */
+/** At home: PatrolEye on the ceiling makes the rounds; the caregiver's PatrolEye app gets the alert. */
 export const HomeRounds: React.FC = () => {
   const f = useCurrentFrame();
   const dur = sec(scene(S).duration);
@@ -44,8 +36,8 @@ export const HomeRounds: React.FC = () => {
   const onStove = A(4.9);
   const cut = B(-0.5); // 10:12, she is on the floor
   const onFloor = B(0.9);
-  const alertAt = B(2.25);
-  const footAt = B(3.95);
+  const bannerAt = B(2.0); // "...the caregiver gets an alert right away"
+  const tapAt = B(3.75); // opens it: the alert is words, no live video
 
   const aim = aimAt(f, [
     {f: A(0.3), p: {x: 980, y: 300}},
@@ -69,7 +61,8 @@ export const HomeRounds: React.FC = () => {
   ];
   const badge = f < cut ? (f < onStove ? '09:30' : '09:31') : '10:12';
   const phoneIn = ease(f, A(0.6), 16);
-  const alertPop = interpolate(pop(f, alertAt), [0, 1], [0.85, 1]);
+  const banner = ease(f, bannerAt, 6);
+  const push = ease(f, tapAt + 3, 10);
 
   return (
     <AbsoluteFill style={{background: C.bg, opacity: sceneFade(f, dur)}}>
@@ -86,34 +79,19 @@ export const HomeRounds: React.FC = () => {
         )}
       </div>
 
-      {/* caregiver's phone: text only */}
-      <div style={{position: 'absolute', left: 1300, top: 96, opacity: phoneIn, transform: `translateY(${(1 - phoneIn) * 30}px)`}}>
-        <div style={{width: 500, height: 900, borderRadius: 64, background: '#0F1A22', padding: 14, boxShadow: '0 30px 80px rgba(15,26,34,0.28)'}}>
-          <div style={{width: 472, height: 872, borderRadius: 52, background: '#fff', overflow: 'hidden', padding: '40px 30px'}}>
-            <div style={{fontFamily: UI, fontWeight: 600, fontSize: 22, letterSpacing: 3, color: C.signal}}>CAREGIVER · HOME CHECKS</div>
-            <div style={{fontFamily: UI, fontWeight: 700, fontSize: 38, color: C.ink, marginTop: 10}}>Mrs. Lin, 82</div>
-            <div style={{fontFamily: UI, fontSize: 24, color: C.muted, marginTop: 2, marginBottom: 18}}>Lives alone · living room and kitchen</div>
-            <Row time="09:30" text="Up, on the sofa" o={ease(f, onHer + 10, 10)} />
-            <Row time="09:31" text="Stove off" o={ease(f, onStove + 14, 10)} />
-            {f >= alertAt - 2 && (
-              <div style={{marginTop: 22, borderRadius: 18, background: '#FFF3EA', border: `3px solid ${C.signal}`, padding: '18px 20px', transform: `scale(${alertPop})`, opacity: ease(f, alertAt, 6), transformOrigin: '50% 0'}}>
-                <div style={{display: 'flex', alignItems: 'baseline', gap: 12}}>
-                  <span style={{fontFamily: NUM, fontWeight: 700, fontSize: 28, color: C.signal}}>10:12</span>
-                  <span style={{fontFamily: UI, fontWeight: 600, fontSize: 22, letterSpacing: 2, color: C.signal}}>ALERT</span>
-                </div>
-                <div style={{fontFamily: UI, fontWeight: 600, fontSize: 31, color: C.ink, lineHeight: 1.2, marginTop: 8}}>On the living-room floor, not moving.</div>
-                <div style={{display: 'flex', gap: 12, marginTop: 16}}>
-                  <div style={{flex: 1, textAlign: 'center', fontFamily: UI, fontWeight: 600, fontSize: 24, color: '#fff', background: C.ink, borderRadius: 12, padding: '12px 0'}}>Call her</div>
-                  <div style={{flex: 1, textAlign: 'center', fontFamily: UI, fontWeight: 600, fontSize: 24, color: '#111', background: C.signal, borderRadius: 12, padding: '12px 0'}}>Send someone</div>
-                </div>
-              </div>
-            )}
-            <div style={{display: 'flex', alignItems: 'center', gap: 12, marginTop: 26, ...rise(f, footAt, 14)}}>
-              <VideoOff size={44} />
-              <span style={{fontFamily: UI, fontWeight: 600, fontSize: 25, color: C.ink, lineHeight: 1.2}}>Text only. No video leaves her home.</span>
-            </div>
-          </div>
-        </div>
+      {/* caregiver's phone: the PatrolEye app's own screens (app/, web build), sample data */}
+      <div style={{position: 'absolute', left: 1336, top: 46, opacity: phoneIn, transform: `translateY(${(1 - phoneIn) * 30}px)`}}>
+        <PhoneFrame time={f < cut ? (f < onStove ? '9:30' : '9:31') : '10:12'}>
+          <Push
+            k={push}
+            from={<>
+              <Screen name="r1_cameras" />
+              {banner > 0 && <Screen name="r2_alert" style={{opacity: banner}} />}
+            </>}
+            to={<Screen name="r3_detail" />}
+          />
+          <Tap x={195} y={36} at={tapAt} />
+        </PhoneFrame>
       </div>
     </AbsoluteFill>
   );

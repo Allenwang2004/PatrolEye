@@ -170,9 +170,9 @@
         },
         {
           "id": "b2",
-          "text": "PatrolEye found every fault, read the gauges within about one percent, and sent only text.",
-          "start": 8.8,
-          "duration": 6.512,
+          "text": "This is the plant edition's control room: here you see every reading and alert, as text, and every fault it caught.",
+          "start": 8.7,
+          "duration": 6.88,
           "file": "audio/b2.wav"
         }
       ]
@@ -191,9 +191,9 @@
         },
         {
           "id": "hr2",
-          "text": "If it finds her on the floor, the caregiver gets a text right away: words, not a video feed.",
-          "start": 7.016,
-          "duration": 5.982,
+          "text": "If it finds her on the floor, the caregiver gets an alert right away.",
+          "start": 7.9,
+          "duration": 4.119,
           "file": "audio/hr2.wav"
         }
       ]
@@ -205,9 +205,9 @@
       "lines": [
         {
           "id": "ha1",
-          "text": "Besides waiting for its reports, her caregiver can just ask the camera to check.",
+          "text": "On every round, it checks each spot and reports to the app. Open a report, and the clip shows the stove really is off.",
           "start": 0.5,
-          "duration": 4.942,
+          "duration": 7.569,
           "file": "audio/ha1.wav"
         }
       ]
@@ -225,24 +225,24 @@
           "file": "audio/w1.wav"
         },
         {
-          "id": "w2",
-          "text": "Forty TOPS and eight gigabytes run a vision-language model, offline.",
-          "start": 10.301,
-          "duration": 4.627,
-          "file": "audio/w2.wav"
-        },
-        {
           "id": "w3",
           "text": "For real deployment, we keep the same AI module, shrink everything around it, and mount it on the ceiling, where one unit sees the whole room, floor included.",
-          "start": 15.428,
+          "start": 10.33,
           "duration": 10.375,
           "file": "audio/w3.wav"
         },
         {
+          "id": "w2",
+          "text": "Forty TOPS and eight gigabytes run a vision-language model, offline.",
+          "start": 21.23,
+          "duration": 4.627,
+          "file": "audio/w2.wav"
+        },
+        {
           "id": "w4",
-          "text": "Images stay on the device. Only text leaves.",
-          "start": 26.203,
-          "duration": 3.241,
+          "text": "No live stream: just reports, and a clip you can open.",
+          "start": 26.26,
+          "duration": 3.543,
           "file": "audio/w4.wav"
         }
       ]
